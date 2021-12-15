@@ -1,0 +1,84 @@
+<div class="border border-1 border-dark-50 my-2 p-3">
+  <h5>Kitap Ara...</h5>  
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Aranacak ifadeyi giriniz."
+      [(ngModel)]="searchText"
+      id="searchText"
+      aria-label="Kitap arama alanı."
+      [disabled]="readedData || unreadedData || hasNote || hasNoNote"
+    />    
+</div>
+<div class="border border-1 border-dark-50 my-2 p-3">
+  <h5 class="text-center">Okunma Durumuna Göre</h5>
+  <div class="row">
+    <div class="col text-center">
+      <input
+      type="radio"
+      name="btnRadio"
+      id="btnRadio1"
+      class="btn-check"
+      autocomplete="off"
+      (click)="readed()"
+      [disabled]="hasNote || hasNoNote || searchText.length>0"
+    />
+    <label for="btnRadio1" class="btn btn-outline-secondary btn-sm">Okundu</label>
+    </div>
+    <div class="col text-center">
+      <input
+      type="radio"
+      name="btnRadio"
+      id="btnRadio2"
+      class="btn-check"
+      autocomplete="off"
+      (click)="unreaded()"
+      [disabled]="hasNote || hasNoNote || searchText.length>0"
+    />
+    <label for="btnRadio2" class="btn btn-outline-secondary btn-sm">Okunmadı</label>
+    </div>
+  </div>  
+</div>
+<div class="border border-1 border-dark-50 my-2 p-3">
+  <h5 class="text-center">Not Durumuna Göre</h5>
+  <div class="row">
+    <div class="col text-center">
+      <input
+        type="radio"
+        name="btnRadio"
+        id="btnRadio3"
+        class="btn-check"
+        autocomplete="off"
+        (click)="note()"
+        [disabled]="readedData || unreadedData || searchText.length>0"
+      />
+      <label for="btnRadio3" class="btn btn-outline-secondary btn-sm">Notu Var</label>
+    </div>
+    <div class="col text-center">
+      <input
+        type="radio"
+        name="btnRadio"
+        id="btnRadio4"
+        class="btn-check"
+        autocomplete="off"
+        (click)="noNote()"
+        [disabled]="readedData || unreadedData || searchText.length>0"
+      />
+      <label for="btnRadio4" class="btn btn-outline-secondary btn-sm">Notu Yok</label>
+    </div>
+  </div>
+</div>
+<div class="border border-1 border-dark-50 my-2 p-3">
+  <h5 class="text-center">Seçimi Temizle</h5>
+  <div class="col text-center">
+    <input
+      type="radio"
+      name="btnRadio"
+      id="btnRadio5"
+      class="btn-check"
+      autocomplete="off"
+      (click)="clear()"
+    />
+    <label for="btnRadio5" class="btn btn-outline-secondary btn-sm">Temizle</label>
+  </div>
+</div>

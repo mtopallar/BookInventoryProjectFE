@@ -1,0 +1,72 @@
+<ul class="nav nav-tabs justify-content-end">
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" routerLink="/login">Giriş Yap</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" routerLink="/register">Kayıt Ol</a>
+  </li>
+</ul>
+
+<body class="text-center">
+  <main class="form-signin">
+    <form>
+      <img
+        class="mb-4"
+        src="assets/images/bookicon-2.png"
+        alt="image"
+        width="92"
+        height="77"
+      />
+      <h1 class="h3 mb-3 fw-normal">Lütfen Kayıt Olun</h1>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          name="firstName"
+          placeholder="Adınız"
+        />
+        <label for="firstName">Ad</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          name="lastName"
+          placeholder="Soyadınız"
+        />
+        <label for="lastName">Soyad</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="name@example.com"
+        />
+        <label for="email">Email</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          placeholder="Password"
+        />
+        <label for="password">Parola</label>
+      </div>
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me" /> Remember me
+        </label>
+      </div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">
+        Kayıt Ol
+      </button>
+      <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+    </form>
+  </main>
+</body>

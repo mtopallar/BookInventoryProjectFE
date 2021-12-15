@@ -1,20 +1,21 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
+
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  selector: 'app-main',
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.css']
 })
-export class AppComponent {
+export class MainComponent implements OnInit {
+
   public getScreenWidth: any;
   //public getScreenHeight: any;
   public classDiv1: string;
   public classDiv2: string;
- 
-  constructor(){}
+
   ngOnInit() {
     this.getScreenWidth = window.innerWidth;
     //this.getScreenHeight = window.innerHeight;
-    this.onWindowResize(); 
+    this.onWindowResize();
   }
 
   classSetter() {
@@ -34,4 +35,5 @@ export class AppComponent {
     this.classSetter();
     console.log(this.getScreenWidth)
   }
+
 }
