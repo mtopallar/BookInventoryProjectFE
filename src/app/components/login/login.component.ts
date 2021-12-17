@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators,FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,16 +10,46 @@ import { FormControl } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  //loginForm:FormGroup;
+  constructor(private formBuilder:FormBuilder, private authService:AuthService, private router:Router) {}
 
   ngOnInit(): void {
+    //this.createLoginForm()   
   }
-
-  email = new FormControl();
-  password = new FormControl();
+  
+  loginForm = new FormGroup({
+    email : new FormControl("",[Validators.required,Validators.email]),
+    password : new FormControl("",[Validators.required])
+  });
+  
 
   login(){
+    if(this.loginForm.valid){
+      // console.log(this.loginForm.value)
+      let loginModel = Object.assign({},this.loginForm.value)      
+      this.authService.login(loginModel).subscribe(response=>{
+        localStorage.setItem("token", response.data.token)
+        localStorage.setItem("expiration", response.data.expiration.toString())
+        //this.router.navigateByUrl("/library")
+        //this.router.navigate(["/library"])
+        window.location.assign("/library")
+        
+      })
+    } else{
+      console.log(this.loginForm.errors)
+    }
     
   }
+
+  get email(){
+    return this.loginForm.get("email")
+  }
+
+  // createLoginForm(){
+  //   this.loginForm = this.formBuilder.group({
+  //     email: [Validators.required],
+  //     password: ["",Validators.required]
+  //   })
+  // }
 
 }

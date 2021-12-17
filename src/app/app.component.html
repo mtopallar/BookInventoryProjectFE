@@ -1,16 +1,10 @@
-<!-- <app-navbar ></app-navbar>
-<div class="mx-auto my-3 px-5">
+<app-navbar *ngIf="loggedIn"></app-navbar>
+<div *ngIf="loggedIn" class="mx-auto my-3 px-5">
   <div class="row">
-    <div [class]="classDiv1">Search<app-searcharea></app-searcharea></div>
-    <div [class]="classDiv2">Router<router-outlet></router-outlet></div>    
+    <div [class]="classDiv1"><app-searcharea></app-searcharea></div>
+    <div [class]="classDiv2"><router-outlet></router-outlet></div>
   </div>
 </div>
-<div class="col-6 mx-auto mx-auto my-5 px-5">
-  <app-login></app-login>
-</div>
-<div class="col-6 mx-auto mx-auto my-5 px-5">
-  <app-register></app-register>
-</div> -->
-<div>
-  
+<div *ngIf="!loggedIn" class="col-6 mx-auto mx-auto my-5 px-5">
+  <router-outlet></router-outlet>
 </div>

@@ -20,17 +20,17 @@ export class SearchareaComponent implements OnInit {
   constructor(private genreService:GenreService) { }
 
   ngOnInit(): void {
-    this.getGenres();
+    //this.getGenres();
   }
 
-  getGenres(){
-    this.genreService.getGenres().subscribe(response=>{
-      this.genres=response.data
-    })
-  }
-  setCurrentGenre(genre:Genre){
-    this.currentGenre = genre
-  }
+  // getGenres(){
+  //   this.genreService.getGenres().subscribe(response=>{
+  //     this.genres=response.data
+  //   })
+  // }
+  // setCurrentGenre(genre:Genre){
+  //   this.currentGenre = genre
+  // }
 
   readed(){
     this.readedData = true;

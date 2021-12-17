@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { AuthService } from './services/auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,12 +10,14 @@ export class AppComponent {
   //public getScreenHeight: any;
   public classDiv1: string;
   public classDiv2: string;
+  public loggedIn:boolean = false
  
-  constructor(){}
+  constructor(private authService:AuthService){}
   ngOnInit() {
     this.getScreenWidth = window.innerWidth;
     //this.getScreenHeight = window.innerHeight;
     this.onWindowResize(); 
+  
   }
 
   classSetter() {
@@ -32,6 +35,7 @@ export class AppComponent {
     this.getScreenWidth = window.innerWidth;
     //this.getScreenHeight = window.innerHeight;
     this.classSetter();
-    console.log(this.getScreenWidth)
   }
+
+ 
 }

@@ -11,7 +11,7 @@
 
 <body class="text-center">
   <main class="form-signin">
-    <form (ngSubmit)="login()">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
       <!-- <i class="bi bi-book-half fs-1 me-1 text-dark"></i> -->
       <img
         class="mb-4"
@@ -23,33 +23,43 @@
       <h1 class="h3 mb-3 fw-normal">Lütfen Giriş Yapın</h1>
 
       <div class="form-floating">
-        <input
+        <input        
           type="email"
           class="form-control"
           id="email"
           name="email"
           placeholder="name@example.com"
-          [formControl]="email"
+          formControlName="email"
         />
         <label for="email">Email</label>
+
+        <div class="text text-danger mt-2" *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">
+          <p *ngIf="email.hasError('required')">*Mail boş bırakılamaz.</p>
+          <p *ngIf="loginForm.get('email').hasError('email')">*Geçerli bir mail adresi yazınız.</p>
+        </div>
       </div>
+      
       <div class="form-floating">
-        <input
+        <input        
           type="password"
           class="form-control"
           id="password"
           placeholder="Password"
           name="password"
-          [formControl]="password"
+          formControlName="password"
         />
         <label for="password">Parola</label>
+
+        <div class="text text-danger mt-2" *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
+          <p *ngIf="loginForm.get('password').hasError('required')">*Parola boş bırakılamaz.</p>          
+        </div>
       </div>
-      <div class="checkbox mb-3">
+      <!-- <div class="checkbox mb-3">
         <label>
           <input type="checkbox" value="remember-me" /> Remember me
         </label>
-      </div>
-      <button class="w-100 btn btn-lg btn-primary" type="submit">
+      </div> -->
+      <button [disabled]="loginForm.invalid" class="w-100 btn btn-lg btn-primary" type="submit">
         Giriş Yap
       </button>
       <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
