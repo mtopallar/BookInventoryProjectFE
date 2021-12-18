@@ -10,14 +10,19 @@ export class AppComponent {
   //public getScreenHeight: any;
   public classDiv1: string;
   public classDiv2: string;
-  public loggedIn:boolean = false
+  public loggedIn:boolean;
  
-  constructor(private authService:AuthService){}
+  constructor(private authService:AuthService){
+    this.authService.isAuthenticated();
+    this.authService.isUserLoggedIn.subscribe(value=>{
+      this.loggedIn = value;
+    })
+  }
   ngOnInit() {
     this.getScreenWidth = window.innerWidth;
     //this.getScreenHeight = window.innerHeight;
-    this.onWindowResize(); 
-  
+    this.onWindowResize();   
+        
   }
 
   classSetter() {
@@ -36,6 +41,10 @@ export class AppComponent {
     //this.getScreenHeight = window.innerHeight;
     this.classSetter();
   }
+  //  getLoggedIn(){
+  //    this.loggedIn = this.authService.isAuthenticated()
+     
+  //  }
 
- 
+   
 }

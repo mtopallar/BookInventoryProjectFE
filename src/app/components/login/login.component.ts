@@ -30,9 +30,11 @@ export class LoginComponent implements OnInit {
       this.authService.login(loginModel).subscribe(response=>{
         localStorage.setItem("token", response.data.token)
         localStorage.setItem("expiration", response.data.expiration.toString())
+        this.authService.isAuthenticated()
+        this.router.navigate(["/library"])
+        //this.authService.isUserLoggedIn.next(true)
+        //window.location.assign("/library")
         //this.router.navigateByUrl("/library")
-        //this.router.navigate(["/library"])
-        window.location.assign("/library")
         
       })
     } else{

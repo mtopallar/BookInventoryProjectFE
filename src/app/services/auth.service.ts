@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { LoginModel } from '../models/loginModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
 import { AccessTokenModel } from '../models/accessTokenModel';
@@ -10,7 +10,7 @@ import { AccessTokenModel } from '../models/accessTokenModel';
 })
 export class AuthService {
 
-  //userAuthenticated = new Subject<Boolean>();
+  public isUserLoggedIn:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
   constructor(private httpClient:HttpClient) { }
 
   apiUrl = "https://localhost:44325/api/auth/";
@@ -19,19 +19,24 @@ export class AuthService {
     return this.httpClient.post<SingleResponseModel<AccessTokenModel>>(this.apiUrl+"login",loginModel)
   }
 
+  logout(){
+    
+  }
+
   isAuthenticated(){
     let expiration:Date = new Date(localStorage.getItem("expiration")) 
     let token:string = localStorage.getItem("token")
     
-    if (token && new Date < expiration) {      
-      return true;
+    if (token && new Date < expiration) {    
+      console.log("true geldi.")  
+      this.isUserLoggedIn.next(true)
     }else{      
       localStorage.removeItem("token")
       localStorage.removeItem("expiration")
-      return false;
+      console.log("false geldi")
+      this.isUserLoggedIn.next(false)
     }
   }
-
 
 }
 
