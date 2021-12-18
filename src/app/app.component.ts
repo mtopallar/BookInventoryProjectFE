@@ -13,7 +13,7 @@ export class AppComponent {
   public loggedIn:boolean;
  
   constructor(private authService:AuthService){
-    this.authService.isAuthenticated();
+    this.authService.isAuthenticatedFlag();
     this.authService.isUserLoggedIn.subscribe(value=>{
       this.loggedIn = value;
     })

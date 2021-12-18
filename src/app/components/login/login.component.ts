@@ -30,28 +30,27 @@ export class LoginComponent implements OnInit {
       this.authService.login(loginModel).subscribe(response=>{
         localStorage.setItem("token", response.data.token)
         localStorage.setItem("expiration", response.data.expiration.toString())
-        this.authService.isAuthenticated()
+        this.authService.isAuthenticatedFlag()
         this.router.navigate(["/library"])
-        //this.authService.isUserLoggedIn.next(true)
-        //window.location.assign("/library")
-        //this.router.navigateByUrl("/library")
-        
       })
-    } else{
-      console.log(this.loginForm.errors)
     }
-    
   }
+
 
   get email(){
     return this.loginForm.get("email")
   }
 
-  // createLoginForm(){
-  //   this.loginForm = this.formBuilder.group({
-  //     email: [Validators.required],
-  //     password: ["",Validators.required]
-  //   })
-  // }
+  
 
 }
+//this.authService.isUserLoggedIn.next(true)
+//window.location.assign("/library")
+//this.router.navigateByUrl("/library")
+//----------------------------------------------------
+// createLoginForm(){
+//   this.loginForm = this.formBuilder.group({
+//     email: [Validators.required],
+//     password: ["",Validators.required]
+//   })
+// }

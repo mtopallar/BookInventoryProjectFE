@@ -17,13 +17,9 @@ export class AuthService {
 
   login(loginModel:LoginModel):Observable<SingleResponseModel<AccessTokenModel>>{
     return this.httpClient.post<SingleResponseModel<AccessTokenModel>>(this.apiUrl+"login",loginModel)
-  }
+  }  
 
-  logout(){
-    
-  }
-
-  isAuthenticated(){
+  isAuthenticatedFlag(){
     let expiration:Date = new Date(localStorage.getItem("expiration")) 
     let token:string = localStorage.getItem("token")
     
