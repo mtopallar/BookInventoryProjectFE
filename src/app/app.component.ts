@@ -41,10 +41,7 @@ export class AppComponent {
     //this.getScreenHeight = window.innerHeight;
     this.classSetter();
   }
-  //  getLoggedIn(){
-  //    this.loggedIn = this.authService.isAuthenticated()
-     
-  //  }
+   
 
    
 }

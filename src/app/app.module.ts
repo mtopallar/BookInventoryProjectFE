@@ -11,7 +11,6 @@ import { SearchareaComponent } from './components/searcharea/searcharea.componen
 import { SearchPipe } from './pipes/search.pipe';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
-import { MainComponent } from './components/main/main.component';
 import { ToastrModule } from 'ngx-toastr';
 import { LibraryComponent } from './components/library/library.component';
 import { UserlibraryComponent } from './components/userlibrary/userlibrary.component';
@@ -25,7 +24,6 @@ import { UserlibraryComponent } from './components/userlibrary/userlibrary.compo
     SearchPipe,
     RegisterComponent,
     LoginComponent,
-    MainComponent,
     LibraryComponent,
     UserlibraryComponent
   ],
