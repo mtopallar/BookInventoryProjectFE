@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, retry } from 'rxjs';
 import { LoginModel } from '../models/loginModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
 import { AccessTokenModel } from '../models/accessTokenModel';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { AccessTokenModel } from '../models/accessTokenModel';
 export class AuthService {
 
   public isUserLoggedIn:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient, private router:Router) { }
 
   apiUrl = "https://localhost:44325/api/auth/";
 
@@ -31,6 +32,28 @@ export class AuthService {
       this.isUserLoggedIn.next(false)
     }
   }
+
+  getTokenOnly(){
+    let token:string = localStorage.getItem("token")
+    if (token) {
+      return token
+    }else{
+      return null
+    }
+  }
+
+  // getTokenWithLoginControl(){
+  //   this.isAuthenticatedFlag()
+  //   this.isUserLoggedIn.subscribe(result =>{
+  //     if (result) {
+  //       let token:string = localStorage.getItem("token")
+  //       return token
+  //     }
+  //     else{
+  //       return null
+  //     }
+  //   })
+  // }
 
 }
 

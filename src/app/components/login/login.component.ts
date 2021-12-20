@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators,FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -9,19 +9,29 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+ 
+  
   //loginForm:FormGroup;
+  public year:number = new Date().getFullYear()
+  public createdYear: number = 2021
   constructor(private formBuilder:FormBuilder, private authService:AuthService, private router:Router) {}
 
   ngOnInit(): void {
     //this.createLoginForm()   
   }
+
+  createLoginForm(){
+    this.loginForm = this.formBuilder.group({
+      email: [Validators.required, Validators.email],
+      password: ["",Validators.required]
+    })
+  }
   
   loginForm = new FormGroup({
-    email : new FormControl("",[Validators.required,Validators.email]),
+    email : new FormControl("",[Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
     password : new FormControl("",[Validators.required])
   });
-  
+    
 
   login(){
     if(this.loginForm.valid){
@@ -48,9 +58,3 @@ export class LoginComponent implements OnInit {
 //window.location.assign("/library")
 //this.router.navigateByUrl("/library")
 //----------------------------------------------------
-// createLoginForm(){
-//   this.loginForm = this.formBuilder.group({
-//     email: [Validators.required],
-//     password: ["",Validators.required]
-//   })
-// }

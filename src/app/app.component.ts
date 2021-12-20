@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 @Component({
   selector: 'app-root',
@@ -12,10 +13,13 @@ export class AppComponent {
   public classDiv2: string;
   public loggedIn:boolean;
  
-  constructor(private authService:AuthService){
+  constructor(private authService:AuthService, private router:Router){
     this.authService.isAuthenticatedFlag();
     this.authService.isUserLoggedIn.subscribe(value=>{
       this.loggedIn = value;
+      if (value) {
+        this.router.navigate(["/library"])
+      }
     })
   }
   ngOnInit() {

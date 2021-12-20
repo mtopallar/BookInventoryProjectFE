@@ -11,8 +11,7 @@
 
 <body class="text-center">
   <main class="form-signin">
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-      <!-- <i class="bi bi-book-half fs-1 me-1 text-dark"></i> -->
+    <form [formGroup]="loginForm" (ngSubmit)="login()">      
       <img
         class="mb-4"
         src="assets/images/bookicon-1.png"
@@ -26,43 +25,43 @@
         <input        
           type="email"
           class="form-control"
+          [class.is-invalid] = "loginForm.get('email').invalid && loginForm.get('email').touched"
+          [class.is-valid] = "loginForm.get('email').valid && loginForm.get('email').touched"
           id="email"
           name="email"
           placeholder="name@example.com"
-          formControlName="email"
+          formControlName="email"          
         />
         <label for="email">Email</label>
 
-        <div class="text text-danger mt-2" *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">
-          <p *ngIf="email.hasError('required')">*Mail boş bırakılamaz.</p>
-          <p *ngIf="loginForm.get('email').hasError('email')">*Geçerli bir mail adresi yazınız.</p>
+        <div *ngIf="email.hasError('required')" class="invalid-feedback position-static text-end my-0">
+          Mail adresi boş bırakılamaz.
+        </div>
+        <div *ngIf="email.hasError('pattern')" class="invalid-feedback position-static text-end my-0">
+          Geçerli bir mail adresi yazınız.
         </div>
       </div>
-      
       <div class="form-floating">
         <input        
           type="password"
-          class="form-control"
+          class="form-control"          
+          [class.is-invalid] = "loginForm.get('password').invalid && loginForm.get('password').touched"
+          [class.is-valid] = "loginForm.get('password').valid && loginForm.get('password').touched"
           id="password"
           placeholder="Password"
           name="password"
           formControlName="password"
         />
-        <label for="password">Parola</label>
+        <label  for="password">Parola</label>   
 
-        <div class="text text-danger mt-2" *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
-          <p *ngIf="loginForm.get('password').hasError('required')">*Parola boş bırakılamaz.</p>          
-        </div>
-      </div>
-      <!-- <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me" /> Remember me
-        </label>
-      </div> -->
-      <button [disabled]="loginForm.invalid" class="w-100 btn btn-lg btn-primary" type="submit">
+        <div *ngIf="loginForm.get('password').hasError('required')" class="invalid-feedback position-static text-end mt-0">
+          Parola boş bırakılamaz.
+        </div>        
+      </div>     
+      <button [disabled]="loginForm.invalid" class="w-100 btn btn-lg btn-primary mt-3" type="submit">
         Giriş Yap
       </button>
-      <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+      <p class="mt-5 mb-3 text-muted">&copy; {{year==createdYear ? year : createdYear +" - "+ year}}</p>
     </form>
   </main>
 </body>
