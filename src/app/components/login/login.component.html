@@ -30,7 +30,7 @@
           id="email"
           name="email"
           placeholder="name@example.com"
-          formControlName="email"          
+          formControlName="email"
         />
         <label for="email">Email</label>
 
@@ -56,7 +56,10 @@
 
         <div *ngIf="loginForm.get('password').hasError('required')" class="invalid-feedback position-static text-end mt-0">
           Parola boş bırakılamaz.
-        </div>        
+        </div> 
+        <div *ngIf="loginForm.get('password').hasError('whiteSpaces')" class="invalid-feedback position-static text-end mt-0">
+          Parola boşluk içeremez.
+        </div>           
       </div>     
       <button [disabled]="loginForm.invalid" class="w-100 btn btn-lg btn-primary mt-3" type="submit">
         Giriş Yap

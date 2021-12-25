@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ProjectRegexes } from 'src/app/projectValidators/regexes/projectRegexes';
+import { WhiteSpacesValidator } from 'src/app/projectValidators/customValidators/removeWhiteSpaces';
+
 
 @Component({
   selector: 'app-login',
@@ -10,16 +13,15 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
  
-  
   //loginForm:FormGroup;
   public year:number = new Date().getFullYear()
   public createdYear: number = 2021
-  constructor(private formBuilder:FormBuilder, private authService:AuthService, private router:Router) {}
-
+  constructor(private formBuilder:FormBuilder, private authService:AuthService, private router:Router) {} 
+  
   ngOnInit(): void {
     //this.createLoginForm()   
   }
-
+  
   createLoginForm(){
     this.loginForm = this.formBuilder.group({
       email: [Validators.required, Validators.email],
@@ -27,22 +29,26 @@ export class LoginComponent implements OnInit {
     })
   }
   
-  loginForm = new FormGroup({
-    email : new FormControl("",[Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
-    password : new FormControl("",[Validators.required])
+  loginForm = new FormGroup({    
+    email : new FormControl("",[Validators.required,Validators.pattern(ProjectRegexes.email)]),
+    password : new FormControl("",[Validators.required, WhiteSpacesValidator.whiteSpaces])
   });
     
 
   login(){
     if(this.loginForm.valid){
       // console.log(this.loginForm.value)
-      let loginModel = Object.assign({},this.loginForm.value)      
-      this.authService.login(loginModel).subscribe(response=>{
-        localStorage.setItem("token", response.data.token)
-        localStorage.setItem("expiration", response.data.expiration.toString())
-        this.authService.isAuthenticatedFlag()
-        this.router.navigate(["/library"])
-      })
+      // console.log(this.loginForm.get("password").value)
+      // console.log(this.loginForm.get("password").value.trim())
+      let loginModel = Object.assign({},this.loginForm.value) 
+      console.log(loginModel.email)  
+      console.log(loginModel.password)   
+      // this.authService.login(loginModel).subscribe(response=>{
+      //   localStorage.setItem("token", response.data.token)
+      //   localStorage.setItem("expiration", response.data.expiration.toString())
+      //   this.authService.isAuthenticatedFlag()
+      //   this.router.navigate(["/library"])
+      // })
     }
   }
 
