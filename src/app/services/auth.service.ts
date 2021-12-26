@@ -34,12 +34,13 @@ export class AuthService {
   }
 
   getTokenOnly(){
-    let token:string = localStorage.getItem("token")
-    if (token) {
-      return token
+    this.isAuthenticatedFlag()
+    if (this.isUserLoggedIn.getValue()) {
+      return localStorage.getItem("token")
     }else{
       return null
-    }
+    }   
+    
   }
 
   // getTokenWithLoginControl(){
@@ -65,5 +66,15 @@ export class AuthService {
   //     return false;
   //   }
   // }
+
+
+   // getTokenOnly(){
+      // let token:string = localStorage.getItem("token")
+      // let expiration:Date = new Date(localStorage.getItem("expiration"))
+      // if (token && new Date < expiration) {
+      //   return token
+      // }else{
+      //   return null
+    // }
 
  

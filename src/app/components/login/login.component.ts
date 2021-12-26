@@ -41,14 +41,14 @@ export class LoginComponent implements OnInit {
       // console.log(this.loginForm.get("password").value)
       // console.log(this.loginForm.get("password").value.trim())
       let loginModel = Object.assign({},this.loginForm.value) 
-      console.log(loginModel.email)  
-      console.log(loginModel.password)   
-      // this.authService.login(loginModel).subscribe(response=>{
-      //   localStorage.setItem("token", response.data.token)
-      //   localStorage.setItem("expiration", response.data.expiration.toString())
-      //   this.authService.isAuthenticatedFlag()
-      //   this.router.navigate(["/library"])
-      // })
+      // console.log(loginModel.email)  
+      // console.log(loginModel.password)   
+      this.authService.login(loginModel).subscribe(response=>{
+        localStorage.setItem("token", response.data.token)
+        localStorage.setItem("expiration", response.data.expiration.toString())
+        this.authService.isAuthenticatedFlag()
+        this.router.navigate(["/library"])
+      })
     }
   }
 

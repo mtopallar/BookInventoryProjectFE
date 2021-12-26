@@ -17,10 +17,11 @@ export class AppComponent {
     this.authService.isAuthenticatedFlag();
     this.authService.isUserLoggedIn.subscribe(value=>{
       this.loggedIn = value;
-      if (value) {
-        this.router.navigate(["/library"])
-      }
     })
+    if (this.loggedIn) {      
+      this.router.navigate(["/library"])
+    }
+    
   }
   ngOnInit() {
     this.getScreenWidth = window.innerWidth;
