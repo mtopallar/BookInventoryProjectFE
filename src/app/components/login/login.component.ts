@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { ProjectRegexes } from 'src/app/projectValidators/regexes/projectRegexes';
-import { WhiteSpacesValidator } from 'src/app/projectValidators/customValidators/removeWhiteSpaces';
+import { ProjectRegexes } from 'src/app/projectValidationTools/regexes/projectRegexes';
+import { WhiteSpacesValidator } from 'src/app/projectValidationTools/customValidators/whiteSpacesValidator';
 
 
 @Component({
@@ -30,11 +30,10 @@ export class LoginComponent implements OnInit {
   }
   
   loginForm = new FormGroup({    
-    email : new FormControl("",[Validators.required,Validators.pattern(ProjectRegexes.email)]),
-    password : new FormControl("",[Validators.required, WhiteSpacesValidator.whiteSpaces])
+    email : new FormControl("",[Validators.required, Validators.pattern(ProjectRegexes.email)]),
+    password : new FormControl("",[Validators.required, WhiteSpacesValidator.noAnyWhiteSpaces])
   });
     
-
   login(){
     if(this.loginForm.valid){
       // console.log(this.loginForm.value)

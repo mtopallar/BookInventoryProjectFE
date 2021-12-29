@@ -39,7 +39,7 @@
         </div>
         <div *ngIf="email.hasError('pattern')" class="invalid-feedback position-static text-end my-0">
           Geçerli bir mail adresi yazınız.
-        </div>
+        </div>                  
       </div>
       <div class="form-floating">
         <input        
@@ -57,7 +57,7 @@
         <div *ngIf="loginForm.get('password').hasError('required')" class="invalid-feedback position-static text-end mt-0">
           Parola boş bırakılamaz.
         </div> 
-        <div *ngIf="loginForm.get('password').hasError('whiteSpaces')" class="invalid-feedback position-static text-end mt-0">
+        <div *ngIf="loginForm.get('password').hasError('noAnyWhiteSpaces')" class="invalid-feedback position-static text-end mt-0">
           Parola boşluk içeremez.
         </div>           
       </div>     
