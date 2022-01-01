@@ -5,6 +5,7 @@ import { LoginModel } from '../models/loginModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
 import { AccessTokenModel } from '../models/accessTokenModel';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,8 @@ export class AuthService {
   public isUserLoggedIn:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
   constructor(private httpClient:HttpClient, private router:Router) { }
 
-  apiUrl = "https://localhost:44325/api/auth/";
-
   login(loginModel:LoginModel):Observable<SingleResponseModel<AccessTokenModel>>{
-    return this.httpClient.post<SingleResponseModel<AccessTokenModel>>(this.apiUrl+"login",loginModel)
+    return this.httpClient.post<SingleResponseModel<AccessTokenModel>>(environment.apiUrl+"auth/login",loginModel)
   }  
 
   isAuthenticatedFlag(){
@@ -42,20 +41,6 @@ export class AuthService {
     }   
     
   }
-
-  // getTokenWithLoginControl(){
-  //   this.isAuthenticatedFlag()
-  //   this.isUserLoggedIn.subscribe(result =>{
-  //     if (result) {
-  //       let token:string = localStorage.getItem("token")
-  //       return token
-  //     }
-  //     else{
-  //       return null
-  //     }
-  //   })
-  // }
-
 }
 
 
@@ -66,15 +51,3 @@ export class AuthService {
   //     return false;
   //   }
   // }
-
-
-   // getTokenOnly(){
-      // let token:string = localStorage.getItem("token")
-      // let expiration:Date = new Date(localStorage.getItem("expiration"))
-      // if (token && new Date < expiration) {
-      //   return token
-      // }else{
-      //   return null
-    // }
-
- 

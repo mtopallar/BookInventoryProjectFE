@@ -11,7 +11,8 @@
 
 <body class="text-center">
   <main class="form-signin">
-    <form [formGroup]="loginForm" (ngSubmit)="login()">      
+    <!-- <form [formGroup]="loginForm" (ngSubmit)="login()"></form>  ts deki loginForm = new FormGroup({}) ile çalışan post kısmı // button type="submit"-->
+    <form [formGroup]="loginForm">      
       <img
         class="mb-4"
         src="assets/images/bookicon-1.png"
@@ -25,8 +26,8 @@
         <input        
           type="email"
           class="form-control"
-          [class.is-invalid] = "loginForm.get('email').invalid && loginForm.get('email').touched"
-          [class.is-valid] = "loginForm.get('email').valid && loginForm.get('email').touched"
+          [class.is-invalid] = "email.invalid && (email.touched || email.dirty)"
+          [class.is-valid] = "email.valid && (email.touched || email.dirty)"
           id="email"
           name="email"
           placeholder="name@example.com"
@@ -45,8 +46,8 @@
         <input        
           type="password"
           class="form-control"          
-          [class.is-invalid] = "loginForm.get('password').invalid && loginForm.get('password').touched"
-          [class.is-valid] = "loginForm.get('password').valid && loginForm.get('password').touched"
+          [class.is-invalid] = "password.invalid && (password.touched || password.dirty)"
+          [class.is-valid] = "password.valid && (password.touched || password.dirty)"
           id="password"
           placeholder="Password"
           name="password"
@@ -54,17 +55,23 @@
         />
         <label  for="password">Parola</label>   
 
-        <div *ngIf="loginForm.get('password').hasError('required')" class="invalid-feedback position-static text-end mt-0">
+        <div *ngIf="password.hasError('required')" class="invalid-feedback position-static text-end mt-0">
           Parola boş bırakılamaz.
         </div> 
-        <div *ngIf="loginForm.get('password').hasError('noAnyWhiteSpaces')" class="invalid-feedback position-static text-end mt-0">
+        <div *ngIf="password.hasError('noAnyWhiteSpaces')" class="invalid-feedback position-static text-end mt-0">
           Parola boşluk içeremez.
         </div>           
       </div>     
-      <button [disabled]="loginForm.invalid" class="w-100 btn btn-lg btn-primary mt-3" type="submit">
+      <button [disabled]="loginForm.invalid" (click)="login()" class="w-100 btn btn-lg btn-primary mt-3" type="button">
         Giriş Yap
       </button>
       <p class="mt-5 mb-3 text-muted">&copy; {{year==createdYear ? year : createdYear +" - "+ year}}</p>
     </form>
   </main>
 </body>
+
+<!-- 
+  Alternatif kullanımlar
+  [class.is-invalid] = "loginForm.get('password').invalid && (loginForm.get('password').touched || loginForm.get('password').dirty)" 
+*ngIf="loginForm.get('password').hasError('noAnyWhiteSpaces')"
+-->

@@ -15,7 +15,7 @@ export class SearchareaComponent implements OnInit {
   unreadedData:boolean = false
   hasNote:boolean = false
   hasNoNote:boolean = false
-  searchText:string;
+  searchText:string= "";
 
   constructor(private genreService:GenreService) { }
 
