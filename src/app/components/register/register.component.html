@@ -9,7 +9,7 @@
 
 <body class="text-center">
   <main class="form-signin">
-    <form>
+    <form [formGroup]="registerForm">
       <img
         class="mb-4"
         src="assets/images/bookicon-2.png"
@@ -22,46 +22,92 @@
         <input
           type="text"
           class="form-control"
+          [class.is-invalid] = "firstName.invalid && (firstName.touched || firstName.dirty)"
+          [class.is-valid] = "firstName.valid && (firstName.touched || firstName.dirty)"
           id="firstName"
           name="firstName"
           placeholder="Adınız"
+          formControlName="firstName"
         />
         <label for="firstName">Ad</label>
+        <div *ngIf="firstName.hasError('required')" class="invalid-feedback position-static text-end mt-0">
+          Ad boş bırakılamaz.
+        </div> 
+        <div *ngIf="firstName.hasError('minlength')" class="invalid-feedback position-static text-end mt-0">
+          En az 3 karakter olmalıdır.
+        </div> 
+        <div *ngIf="firstName.hasError('pattern')" class="invalid-feedback position-static text-end mt-0">
+          Sadece kelimeler arasında tek boşluk olmalıdır.
+        </div>           
       </div>
       <div class="form-floating">
         <input
           type="text"
           class="form-control"
+          [class.is-invalid] = "lastName.invalid && (lastName.touched || lastName.dirty)"
+          [class.is-valid] = "lastName.valid && (lastName.touched || lastName.dirty)"
           id="lastName"
           name="lastName"
           placeholder="Soyadınız"
+          formControlName="lastName"
         />
         <label for="lastName">Soyad</label>
+        <div *ngIf="lastName.hasError('required')" class="invalid-feedback position-static text-end mt-0">
+          Soyad boş bırakılamaz.
+        </div> 
+        <div *ngIf="lastName.hasError('minlength')" class="invalid-feedback position-static text-end mt-0">
+          En az 2 karakter olmalıdır.
+        </div> 
+        <div *ngIf="lastName.hasError('pattern')" class="invalid-feedback position-static text-end mt-0">
+          Sadece kelimeler arasında tek boşluk olmalıdır.
+        </div>           
       </div>
       <div class="form-floating">
         <input
           type="email"
           class="form-control"
+          [class.is-invalid] = "email.invalid && (email.touched || email.dirty)"
+          [class.is-valid] = "email.valid && (email.touched || email.dirty)"
           id="email"
           name="email"
           placeholder="name@example.com"
+          formControlName="email"
         />
         <label for="email">Email</label>
+        <div *ngIf="email.hasError('required')" class="invalid-feedback position-static text-end my-0">
+          Mail adresi boş bırakılamaz.
+        </div>
+        <div *ngIf="email.hasError('pattern')" class="invalid-feedback position-static text-end my-0">
+          Geçerli bir mail adresi yazınız.
+        </div>                  
       </div>
       <div class="form-floating mb-3">
         <input
           type="password"
           class="form-control"
+          [class.is-invalid] = "password.invalid && (password.touched || password.dirty)"
+          [class.is-valid] = "password.valid && (password.touched || password.dirty)"
           id="password"
           name="password"
           placeholder="Password"
+          formControlName="password"
         />
         <label for="password">Parola</label>
+
+        <div *ngIf="password.hasError('required')" class="invalid-feedback position-static text-end mt-0">
+          Parola boş bırakılamaz.
+        </div> 
+        <div *ngIf="password.hasError('noAnyWhiteSpaces')" class="invalid-feedback position-static text-end mt-0">
+          Parola boşluk içeremez.
+        </div>                   
       </div>      
-      <button class="w-100 btn btn-lg btn-primary" type="submit">
+      <button [disabled]="registerForm.invalid || registerError" (click)="register()" [class]= "buttonClass" type="button">
         Kayıt Ol
       </button>
-      <p class="mt-5 mb-3 text-muted">&copy; {{year}}</p>
+      <div *ngIf="registerError" class="small fw-bold text-danger mt-1">
+        <small *ngFor="let item of registerErrorMessages">{{item}}<br></small>
+      </div>     
+      <p class="mt-5 mb-3 text-muted">&copy; {{year==createdYear ? year : createdYear +" - "+ year}}</p>
     </form>
   </main>
 </body>

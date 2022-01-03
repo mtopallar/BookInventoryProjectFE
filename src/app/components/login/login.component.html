@@ -42,7 +42,7 @@
           Geçerli bir mail adresi yazınız.
         </div>                  
       </div>
-      <div class="form-floating">
+      <div class="form-floating mb-3">
         <input        
           type="password"
           class="form-control"          
@@ -62,9 +62,12 @@
           Parola boşluk içeremez.
         </div>           
       </div>     
-      <button [disabled]="loginForm.invalid" (click)="login()" class="w-100 btn btn-lg btn-primary mt-3" type="button">
+      <button [disabled]="loginForm.invalid || loginError" (click)="login()" [class]= "buttonClass" type="button">
         Giriş Yap
       </button>
+      <div *ngIf="loginError" class="small fw-bold text-danger mt-1">
+        <small *ngFor="let item of loginErrorMessages">{{item}}<br></small>
+      </div>      
       <p class="mt-5 mb-3 text-muted">&copy; {{year==createdYear ? year : createdYear +" - "+ year}}</p>
     </form>
   </main>

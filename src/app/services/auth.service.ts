@@ -6,6 +6,7 @@ import { SingleResponseModel } from '../models/singleResponseModel';
 import { AccessTokenModel } from '../models/accessTokenModel';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { RegisterModel } from '../models/registerModel';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,10 @@ export class AuthService {
   login(loginModel:LoginModel):Observable<SingleResponseModel<AccessTokenModel>>{
     return this.httpClient.post<SingleResponseModel<AccessTokenModel>>(environment.apiUrl+"auth/login",loginModel)
   }  
+
+  register(registerModel:RegisterModel):Observable<SingleResponseModel<AccessTokenModel>>{
+    return this.httpClient.post<SingleResponseModel<AccessTokenModel>>(environment.apiUrl+"auth/register",registerModel)
+  }
 
   isAuthenticatedFlag(){
     let expiration:Date = new Date(localStorage.getItem("expiration")) 
