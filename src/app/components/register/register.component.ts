@@ -45,14 +45,13 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(["/library"])
       },errorResponse=>{
         this.registerError = true
-        this.buttonClass = "w-100 btn btn-lg btn-danger"
-        //console.log(errorResponse)        
+        this.buttonClass = "w-100 btn btn-lg btn-danger"                
         if (errorResponse.error.ValidationErrors) {          
           for (let index = 0; index < errorResponse.error.ValidationErrors.length; index++) {
             this.registerErrorMessages.push(errorResponse.error.ValidationErrors[index].ErrorMessage)
           }
-        }else{          
-          this.registerErrorMessages.push(errorResponse.error)
+        }else{ 
+          this.registerErrorMessages.push(errorResponse.error.message)
         }        
       })
     }
@@ -66,10 +65,6 @@ export class RegisterComponent implements OnInit {
     } 
   })
 }
-
-  write(){
-    console.log(this.registerForm.value)
-  }
 
   get email(){
     return this.registerForm.get("email")

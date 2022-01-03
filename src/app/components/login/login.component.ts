@@ -47,14 +47,26 @@ export class LoginComponent implements OnInit {
         this.authService.isAuthenticatedFlag()
         this.router.navigate(["/library"])
       },errorResponse=>{
+        console.log(errorResponse)
         this.loginError = true;        
         this.buttonClass = "w-100 btn btn-lg btn-danger"  
         if (errorResponse.error.ValidationErrors) {          
           for (let index = 0; index < errorResponse.error.ValidationErrors.length; index++) {
             this.loginErrorMessages.push(errorResponse.error.ValidationErrors[index].ErrorMessage)
           }
-        }else{          
-          this.loginErrorMessages.push("Hatalı giriş. Lütfen bilgilerinizi kontrol ediniz.")
+        }else{            
+          switch (errorResponse.error.message) {
+            case "Kullanıcının sistemde aktif rolü bulunmadığı için erişim yetkisi oluşturulamıyor.":
+            this.loginErrorMessages.push("Yetkilendirme problemi. Sistem yöneticinize danışınız.")              
+              break;
+            case "Sistemi kullanabilmeniz için gerekli olan kullanıcı rolü size tanımlı olmadığından erişim yetkisi oluşturulamıyor.Sistem yöneticinizi bilgilendiriniz.":
+            this.loginErrorMessages.push("Yetkilendirme problemi. Sistem yöneticinize danışınız.")
+            break;
+            default:
+              this.loginErrorMessages.push("Bilgilerinizi kontrol edip tekrar deneyiniz.")
+              break;
+          }        
+          
         }        
       })
     }
