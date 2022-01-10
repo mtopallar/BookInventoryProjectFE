@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, retry } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginModel } from '../models/loginModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
 import { AccessTokenModel } from '../models/accessTokenModel';
-import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { RegisterModel } from '../models/registerModel';
 
@@ -14,7 +13,7 @@ import { RegisterModel } from '../models/registerModel';
 export class AuthService {
 
   public isUserLoggedIn:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
-  constructor(private httpClient:HttpClient, private router:Router) { }
+  constructor(private httpClient:HttpClient) { }
 
   login(loginModel:LoginModel):Observable<SingleResponseModel<AccessTokenModel>>{
     return this.httpClient.post<SingleResponseModel<AccessTokenModel>>(environment.apiUrl+"auth/login",loginModel)

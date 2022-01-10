@@ -46,8 +46,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("expiration", response.data.expiration.toString())
         this.authService.isAuthenticatedFlag()
         this.router.navigate(["/library"])
-      },errorResponse=>{
-        console.log(errorResponse)
+      },errorResponse=>{        
         this.loginError = true;        
         this.buttonClass = "w-100 btn btn-lg btn-danger"  
         if (errorResponse.error.ValidationErrors) {          
