@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Author } from 'src/app/models/author';
 
 @Component({
   selector: 'app-library',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LibraryComponent implements OnInit {
 
+  //public author = {} as Author;
+
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
   }
+  
 
 }

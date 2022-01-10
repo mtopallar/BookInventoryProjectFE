@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router, Event } from '@angular/router';
 import { AuthService } from './services/auth.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,22 +13,36 @@ export class AppComponent {
   public classDiv1: string;
   public classDiv2: string;
   public loggedIn:boolean;
+  public navigationEnd:string = ""
  
   constructor(private authService:AuthService, private router:Router){
     this.authService.isAuthenticatedFlag();
     this.authService.isUserLoggedIn.subscribe(value=>{
       this.loggedIn = value;
     })
-    if (this.loggedIn) {      
-      this.router.navigate(["/library"])
-    }
     
   }
   ngOnInit() {
     this.getScreenWidth = window.innerWidth;
     //this.getScreenHeight = window.innerHeight;
     this.onWindowResize();   
+    this.navigationEndSelector()
         
+  }
+
+  navigationEndSelector(){
+    this.router.events.subscribe((event:Event) => {
+      if(event instanceof NavigationEnd ){  
+        this.navigationEnd = event.url
+        if (this.loggedIn && this.navigationEnd == "/") {  
+          this.router.navigate(["/library"])
+          //console.log("if"+this.navigationEnd)
+        }
+        // else{
+        //  console.log("else"+this.navigationEnd)
+        // }
+      }
+    });
   }
 
   classSetter() {

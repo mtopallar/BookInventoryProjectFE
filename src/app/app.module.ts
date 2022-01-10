@@ -15,6 +15,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { LibraryComponent } from './components/library/library.component';
 import { UserlibraryComponent } from './components/userlibrary/userlibrary.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AuthorComponent } from './components/author/author.component';
+import { AuthorCrudComponent } from './components/author-crud/author-crud.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     RegisterComponent,
     LoginComponent,
     LibraryComponent,
-    UserlibraryComponent
+    UserlibraryComponent,
+    AuthorComponent,
+    AuthorCrudComponent
   ],
   imports: [
     BrowserModule,
