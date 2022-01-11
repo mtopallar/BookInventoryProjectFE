@@ -16,7 +16,6 @@ import { LibraryComponent } from './components/library/library.component';
 import { UserlibraryComponent } from './components/userlibrary/userlibrary.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthorComponent } from './components/author/author.component';
-import { AuthorCrudComponent } from './components/author-crud/author-crud.component';
 
 
 @NgModule({
@@ -29,8 +28,7 @@ import { AuthorCrudComponent } from './components/author-crud/author-crud.compon
     LoginComponent,
     LibraryComponent,
     UserlibraryComponent,
-    AuthorComponent,
-    AuthorCrudComponent
+    AuthorComponent
   ],
   imports: [
     BrowserModule,

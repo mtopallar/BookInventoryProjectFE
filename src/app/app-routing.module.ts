@@ -4,6 +4,7 @@ import { AuthorComponent } from './components/author/author.component';
 import { LibraryComponent } from './components/library/library.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { UserlibraryComponent } from './components/userlibrary/userlibrary.component';
 import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
@@ -11,7 +12,8 @@ const routes: Routes = [
   {path: 'login', pathMatch:'full', component: LoginComponent},
   {path: 'register', pathMatch:'full',component: RegisterComponent},
   {path: 'library', pathMatch:'full',component: LibraryComponent, canActivate:[LoginGuard]},
-  {path:'author', pathMatch:'full', component: AuthorComponent, canActivate:[LoginGuard]}
+  {path:'author', pathMatch:'full', component: AuthorComponent, canActivate:[LoginGuard]},
+  {path:'userlibrary', pathMatch:'full', component: UserlibraryComponent, canActivate:[LoginGuard]}
 ];
 
 @NgModule({
