@@ -1,9 +1,8 @@
 <app-navbar *ngIf="loggedIn"></app-navbar>
-<div *ngIf="loggedIn" class="mx-auto my-3 px-5">
-  <div class="row">
-    <div [class]="classDiv1"><app-searcharea></app-searcharea></div>
-    <div [class]="classDiv2"><router-outlet></router-outlet></div>
-  </div>
+<div *ngIf="loggedIn" class="mx-auto my-3 px-5">      
+    <div>
+      <router-outlet></router-outlet>
+    </div>
 </div>
 <div *ngIf="!loggedIn" class="col-6 mx-auto mx-auto my-5 px-5">
   <router-outlet></router-outlet>

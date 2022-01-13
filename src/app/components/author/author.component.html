@@ -1,24 +1,34 @@
-<div>
+<div class="row">
+  <div [class]="classDiv1">
+    <p>Author Search Area</p>
+  </div>
+  <div [class]="classDiv2">
     <p class="display-5 text-center">Yazarlar</p>
     <table class="table table-striped table-hover">
-       <thead>
-           <tr>
-               <th>Adı</th>
-               <th>Soyadı</th>
-               <th>Yerli</th>
-               <th class="text-center" *ngIf="hasAdminRole">Yönetim</th>
-           </tr>
-       </thead>
-       <tbody>
-           <tr *ngFor="let author of authorList">
-               <td>{{author.firstName}}</td>
-               <td>{{author.lastName}}</td>
-               <td>{{author.native?"Evet":"Hayır"}}</td>
-               <td class="text-center" *ngIf="hasAdminRole">
-                   <button class="btn btn-sm btn-secondary me-1">Güncelle</button>
-                   <button class="btn btn-sm btn-danger" (click)="deleteAuthor(author)">Sil</button>
-               </td>
-           </tr>
-       </tbody>
-      </table>
+      <thead>
+        <tr>
+          <th>Adı</th>
+          <th>Soyadı</th>
+          <th>Yerli</th>
+          <th class="text-center" *ngIf="hasAdminRole">Yönetim</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let author of authorList">
+          <td>{{ author.firstName }}</td>
+          <td>{{ author.lastName }}</td>
+          <td>{{ author.native ? "Evet" : "Hayır" }}</td>
+          <td class="text-center" *ngIf="hasAdminRole">
+            <button class="btn btn-sm btn-secondary me-1">Güncelle</button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deleteAuthor(author)"
+            >
+              Sil
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

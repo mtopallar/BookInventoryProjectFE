@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavigationEnd, Router, Event } from '@angular/router';
 import { AuthService } from './services/auth.service';
 
@@ -8,10 +8,7 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  public getScreenWidth: any;
-  //public getScreenHeight: any;
-  public classDiv1: string;
-  public classDiv2: string;
+
   public loggedIn:boolean;
   public navigationEnd:string = ""
  
@@ -23,11 +20,7 @@ export class AppComponent {
     
   }
   ngOnInit() {
-    this.getScreenWidth = window.innerWidth;
-    //this.getScreenHeight = window.innerHeight;
-    this.onWindowResize();   
     this.navigationEndSelector()
-        
   }
 
   navigationEndSelector(){
@@ -44,24 +37,25 @@ export class AppComponent {
       }
     });
   }
-
-  classSetter() {
-    if (this.getScreenWidth < 1500) {
-      this.classDiv1 = 'col-3';
-      this.classDiv2 = 'col-9';
-    } else {
-      this.classDiv1 = 'col-2';
-      this.classDiv2 = 'col-10';
-    }
-  }
-
-  @HostListener('window:resize', ['$event'])  
-  onWindowResize() {
-    this.getScreenWidth = window.innerWidth;
-    //this.getScreenHeight = window.innerHeight;
-    this.classSetter();
-  }
-   
-
    
 }
+
+//public getScreenWidth: any;
+//public getScreenHeight: any;
+
+// classSetter() {
+  //   if (this.getScreenWidth < 1500) {
+  //     this.classDiv1 = 'col-3';
+  //     this.classDiv2 = 'col-9';
+  //   } else {
+  //     this.classDiv1 = 'col-2';
+  //     this.classDiv2 = 'col-10';
+  //   }
+  // }
+
+  // @HostListener('window:resize', ['$event'])  
+  // onWindowResize() {
+  //   this.getScreenWidth = window.innerWidth;
+  //   //this.getScreenHeight = window.innerHeight;
+  //   this.classSetter();
+  // }

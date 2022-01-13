@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { SearchareaComponent } from './components/searcharea/searcharea.component';
 import { SearchPipe } from './pipes/search.pipe';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
@@ -22,7 +21,6 @@ import { AuthorComponent } from './components/author/author.component';
   declarations: [
     AppComponent,
     NavbarComponent,
-    SearchareaComponent,
     SearchPipe,
     RegisterComponent,
     LoginComponent,
