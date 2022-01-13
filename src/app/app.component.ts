@@ -10,7 +10,9 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
 
   public loggedIn:boolean;
-  public navigationEnd:string = ""
+  public isItLogIn:boolean
+  public isItRegister:boolean
+  public navigationEnd:string
  
   constructor(private authService:AuthService, private router:Router){
     this.authService.isAuthenticatedFlag();
@@ -19,21 +21,28 @@ export class AppComponent {
     })
     
   }
-  ngOnInit() {
-    this.navigationEndSelector()
+  ngOnInit() {    
+    this.navigationEndSelector()    
   }
 
   navigationEndSelector(){
     this.router.events.subscribe((event:Event) => {
       if(event instanceof NavigationEnd ){  
-        this.navigationEnd = event.url
+        this.navigationEnd = event.url        
         if (this.loggedIn && this.navigationEnd == "/") {  
           this.router.navigate(["/library"])
-          //console.log("if"+this.navigationEnd)
+          console.log("1 "+ this.navigationEnd)
+        }       
+        else if (!this.loggedIn && this.navigationEnd == "/login" || this.navigationEnd=="/") {          
+          this.isItLogIn = true
+          this.isItRegister = false
+          console.log("3 "+ this.navigationEnd)
         }
-        // else{
-        //  console.log("else"+this.navigationEnd)
-        // }
+        else if (!this.loggedIn && this.navigationEnd == "/register") {
+          this.isItRegister = true
+          this.isItLogIn = false
+          console.log("4 "+ this.navigationEnd)
+        }
       }
     });
   }

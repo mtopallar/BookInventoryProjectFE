@@ -16,11 +16,33 @@ export class AuthorComponent implements OnInit {
   public author = {} as Author
   public hasAdminRole:boolean = true
 
+  public yerliData:boolean = false
+  public yabanciData:boolean = false  
+  public searchText:string= "";
+
   constructor(private authorService:AuthorService, private windowSizeService:WindowSizeService) { }
 
   ngOnInit(): void {
     this.divColSetter()
     this.getAuthors()
+  }
+
+  yerli(){
+    this.yerliData = true;
+    this.yabanciData = false;    
+    this.searchText=""
+  }
+
+  yabanci(){
+    this.yabanciData = true;
+    this.yerliData = false;    
+    this.searchText=""
+  }  
+
+  clear(){
+    this.searchText="";
+    this.yerliData = false;
+    this.yabanciData = false; 
   }
 
   @HostListener('window:resize', ['$event'])

@@ -1,6 +1,66 @@
 <div class="row">
   <div [class]="classDiv1">
-    <p>Author Search Area</p>
+    <div class="border border-1 border-dark-50 my-2 p-3">
+        <h5>Yazar Ara...</h5>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Aranacak ifadeyi giriniz."
+          [(ngModel)]="searchText"
+          id="searchText"
+          aria-label="Yazar arama alanı."
+          [disabled]="yerliData || yabanciData"
+        />
+      </div>
+      <div class="border border-1 border-dark-50 my-2 p-3">
+        <h5 class="text-center">Uyruğa Göre</h5>
+        <div class="row">
+          <div class="col text-center">
+            <input
+              type="radio"
+              name="btnRadio"
+              id="btnRadio1"
+              class="btn-check"
+              autocomplete="off"
+              (click)="yerli()"
+              [disabled]="searchText.length > 0"
+            />
+            <label for="btnRadio1" class="btn btn-outline-secondary btn-sm"
+              >Yerli</label
+            >
+          </div>
+          <div class="col text-center">
+            <input
+              type="radio"
+              name="btnRadio"
+              id="btnRadio2"
+              class="btn-check"
+              autocomplete="off"
+              (click)="yabanci()"
+              [disabled]="searchText.length > 0"
+            />
+            <label for="btnRadio2" class="btn btn-outline-secondary btn-sm"
+              >Yabancı</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="border border-1 border-dark-50 my-2 p-3">
+        <h5 class="text-center">Seçimi Temizle</h5>
+        <div class="col text-center">
+          <input
+            type="radio"
+            name="btnRadio"
+            id="btnRadio5"
+            class="btn-check"
+            autocomplete="off"
+            (click)="clear()"
+          />
+          <label for="btnRadio5" class="btn btn-outline-secondary btn-sm"
+            >Temizle</label
+          >
+        </div>
+      </div>
   </div>
   <div [class]="classDiv2">
     <p class="display-5 text-center">Yazarlar</p>
@@ -10,15 +70,15 @@
           <th>Adı</th>
           <th>Soyadı</th>
           <th>Yerli</th>
-          <th class="text-center" *ngIf="hasAdminRole">Yönetim</th>
+          <th *ngIf="hasAdminRole">Yönetim</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let author of authorList">
-          <td>{{ author.firstName }}</td>
-          <td>{{ author.lastName }}</td>
-          <td>{{ author.native ? "Evet" : "Hayır" }}</td>
-          <td class="text-center" *ngIf="hasAdminRole">
+        <tr *ngFor="let author of authorList | authorSearch:searchText: yerliData: yabanciData">
+          <td class="w-25">{{ author.firstName }}</td>
+          <td class="w-25">{{ author.lastName }}</td>
+          <td class="w-25">{{ author.native ? "Evet" : "Hayır" }}</td>
+          <td class="w-25" *ngIf="hasAdminRole">
             <button class="btn btn-sm btn-secondary me-1">Güncelle</button>
             <button
               class="btn btn-sm btn-danger"
