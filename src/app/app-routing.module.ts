@@ -12,7 +12,7 @@ const routes: Routes = [
   {path: 'login', pathMatch:'full', component: LoginComponent},
   {path: 'register', pathMatch:'full',component: RegisterComponent},
   {path: 'library', pathMatch:'full',component: LibraryComponent, canActivate:[LoginGuard]},
-  {path:'author', pathMatch:'full', component: AuthorComponent, canActivate:[LoginGuard]},
+  {path:'authors', pathMatch:'full', component: AuthorComponent, canActivate:[LoginGuard]},
   {path:'userlibrary', pathMatch:'full', component: UserlibraryComponent, canActivate:[LoginGuard]}
 ];
 
