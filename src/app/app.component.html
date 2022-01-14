@@ -1,12 +1,13 @@
 <app-navbar *ngIf="loggedIn"></app-navbar>
-<div *ngIf="loggedIn" class="mx-auto my-3 px-5">      
+<div *ngIf="routerOutlet" class="mx-auto my-3 px-5"> 
+  <!-- burada if e istenirse && loggedIn de eklenebilir      -->
     <div>
       <router-outlet></router-outlet>
     </div>
 </div>
-<div *ngIf="!loggedIn && isItLogIn" class="col-6 mx-auto mx-auto my-5 px-5">
+<div *ngIf="isItLogIn" class="col-6 mx-auto mx-auto my-5 px-5">
   <app-login></app-login>
 </div>
-<div *ngIf="!loggedIn && isItRegister" class="col-6 mx-auto mx-auto my-5 px-5">
+<div *ngIf="isItRegister" class="col-6 mx-auto mx-auto my-5 px-5">
   <app-register></app-register>
 </div>

@@ -10,38 +10,59 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
 
   public loggedIn:boolean;
-  public isItLogIn:boolean
-  public isItRegister:boolean
+  public isItLogIn:boolean = false
+  public isItRegister:boolean = false
+  public routerOutlet:boolean = false
   public navigationEnd:string
  
   constructor(private authService:AuthService, private router:Router){
     this.authService.isAuthenticatedFlag();
     this.authService.isUserLoggedIn.subscribe(value=>{
-      this.loggedIn = value;
+      this.loggedIn = value;      
     })
-    
   }
   ngOnInit() {    
-    this.navigationEndSelector()    
+    this.navigationEndSelector() 
+    
   }
 
   navigationEndSelector(){
     this.router.events.subscribe((event:Event) => {
-      if(event instanceof NavigationEnd ){  
-        this.navigationEnd = event.url        
+      if(event instanceof NavigationEnd ){             
+        this.navigationEnd = event.url       
         if (this.loggedIn && this.navigationEnd == "/") {  
           this.router.navigate(["/library"])
         }       
-        else if (!this.loggedIn && this.navigationEnd == "/login" || this.navigationEnd=="/") {          
+        else if (this.navigationEnd == "/login" || this.navigationEnd == "/") { 
+          this.routerResetter()        
           this.isItLogIn = true
           this.isItRegister = false
+          this.isItRegister = false                   
         }
-        else if (!this.loggedIn && this.navigationEnd == "/register") {
+        else if (this.navigationEnd == "/register") {
+          this.routerResetter()
           this.isItRegister = true
           this.isItLogIn = false
+          this.routerOutlet = false      
         }
+        else{
+          this.routerResetter()
+          this.isItLogIn = false
+          this.isItRegister = false
+          this.routerOutlet = true
+          console.log("else geldi")
+        }
+                       
+        //console.log(this.isItRegister +" "+this.isItLogIn+" "+this.routerOutlet)
       }
     });
+    
+  }
+  
+  routerResetter(){
+    this.isItLogIn = false
+    this.isItRegister = false
+    this.routerOutlet = false
   }
    
 }
