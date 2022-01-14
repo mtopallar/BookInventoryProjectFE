@@ -31,40 +31,17 @@ export class AppComponent {
         this.navigationEnd = event.url        
         if (this.loggedIn && this.navigationEnd == "/") {  
           this.router.navigate(["/library"])
-          console.log("1 "+ this.navigationEnd)
         }       
         else if (!this.loggedIn && this.navigationEnd == "/login" || this.navigationEnd=="/") {          
           this.isItLogIn = true
           this.isItRegister = false
-          console.log("3 "+ this.navigationEnd)
         }
         else if (!this.loggedIn && this.navigationEnd == "/register") {
           this.isItRegister = true
           this.isItLogIn = false
-          console.log("4 "+ this.navigationEnd)
         }
       }
     });
   }
    
 }
-
-//public getScreenWidth: any;
-//public getScreenHeight: any;
-
-// classSetter() {
-  //   if (this.getScreenWidth < 1500) {
-  //     this.classDiv1 = 'col-3';
-  //     this.classDiv2 = 'col-9';
-  //   } else {
-  //     this.classDiv1 = 'col-2';
-  //     this.classDiv2 = 'col-10';
-  //   }
-  // }
-
-  // @HostListener('window:resize', ['$event'])  
-  // onWindowResize() {
-  //   this.getScreenWidth = window.innerWidth;
-  //   //this.getScreenHeight = window.innerHeight;
-  //   this.classSetter();
-  // }

@@ -4,13 +4,13 @@
       <span class="navbar-brand">Book Inventory Project</span>
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/library">Kitaplar</a>
+          <a [class]="classLibrary" (click)="activeClassChanger()" routerLink="/library">Kitaplar</a>
         </li>
         <li class="nav-item">
-          <a routerLink="/userlibrary" class="nav-link">Kütüphanem</a>
+          <a [class]="classUserLibrary" (click)="activeClassChanger()" routerLink="/userlibrary" class="nav-link">Kütüphanem</a>
         </li>
         <li class="nav-item">
-          <a routerLink="/authors" class="nav-link">Yazarlar</a>
+          <a [class]="classAuthors" (click)="activeClassChanger()" routerLink="/authors" class="nav-link">Yazarlar</a>
         </li>
       </ul>
       <ul class="navbar-nav">

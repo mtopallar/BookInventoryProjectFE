@@ -14,7 +14,6 @@ export class AuthorComponent implements OnInit {
   public classDiv2: string;
   public authorList:Author[] = []
   public author = {} as Author
-  public hasAdminRole:boolean = true
 
   public yerliData:boolean = false
   public yabanciData:boolean = false  
@@ -29,14 +28,12 @@ export class AuthorComponent implements OnInit {
 
   yerli(){
     this.yerliData = true;
-    this.yabanciData = false;    
-    this.searchText=""
+    this.yabanciData = false;
   }
 
   yabanci(){
     this.yabanciData = true;
-    this.yerliData = false;    
-    this.searchText=""
+    this.yerliData = false;
   }  
 
   clear(){
