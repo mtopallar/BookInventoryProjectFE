@@ -19,11 +19,28 @@ export class AuthorComponent implements OnInit {
   public yabanciData:boolean = false  
   public searchText:string= "";
 
+  public isItAdd:boolean = true
+  public isItUpdate:boolean = false
+
   constructor(private authorService:AuthorService, private windowSizeService:WindowSizeService) { }
 
   ngOnInit(): void {
     this.divColSetter()
     this.getAuthors()
+  }
+
+  showAddForm(){
+    this.isItUpdate = false
+    this.isItAdd = true
+  }
+
+  showUpdateForm(){
+    this.isItUpdate = true
+    this.isItAdd = false
+  }
+
+  scrollToTop(){
+    window.scroll(0,0);
   }
 
   yerli(){

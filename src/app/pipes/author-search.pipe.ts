@@ -9,7 +9,7 @@ export class AuthorSearchPipe implements PipeTransform {
   transform(value: Author[], searchText?:string, yerliData?:boolean, yabanciData?:boolean): Author[] {
     
     if (searchText) {
-      return value.filter(a=>(a.firstName).toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase())!==-1 || a.lastName.toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase())!==-1)
+      return value.filter(a=>(a.firstName+" "+a.lastName).toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase())!==-1)
     }
     else if (yerliData) {
       return value.filter(a=>a.native == true)

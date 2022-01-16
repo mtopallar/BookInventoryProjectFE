@@ -1,7 +1,7 @@
-<p class="display-5 text-center fw-normal">Yazarlar</p>
+<p class="display-4 text-center fw-normal">Yazarlar</p>
 <div class="row">
   <div [class]="classDiv1">
-    <div class="border border-1 border-dark-50 my-2 p-3">
+    <div class="border border-1 border-dark-50 p-3">
         <h5>Yazar Ara...</h5>
         <input
           type="text"
@@ -63,9 +63,50 @@
         </div>
       </div>
   </div>
-  <div [class]="classDiv2">
+  <div  [class]="classDiv2">
     <!-- <p class="display-5 text-center fw-normal">Yazarlar</p> -->
-    <table class="table table-striped table-hover text-center">
+    <!-- Yazar ekle aşağıda -->
+    <div *ngIf="isItAdd" class="border border-1 p-1 addClass">
+      <p class="display-6 fw-normal text-center">Yazar Ekle</p>
+      <form>
+        <div class="input-group mb-3">
+          <span class="input-group-text ms-2">Ad:</span>
+          <input type="text" class="form-control" placeholder="Yazar adı yazınız" aria-label="Yazar adı">
+          <span class="input-group-text ms-2">Soyadı:</span>
+          <input type="text" class="form-control" placeholder="Yazar soyadı yazınız" aria-label="Yazar soyadı">
+          <span class="input-group-text ms-2">Yazar Yerli mi?</span>
+          <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+            <option selected value="True">Evet</option>
+            <option value="False">Hayır</option>
+          </select>
+          <button class="btn btn-outline-light mx-2" type="button">Kaydet</button>
+        </div>
+      </form>
+    </div>
+
+     <!-- Yazar güncelle aşağıda -->
+     <div *ngIf="isItUpdate" class="border border-1 p-1 updateClass">
+      <p class="display-6 fw-normal text-center">Yazar Güncelle</p>
+      <form>
+        <div class="input-group mb-3">
+          <span class="input-group-text ms-2">Ad:</span>
+          <input type="text" class="form-control" placeholder="Yazar adı yazınız" aria-label="Yazar adı">
+          <span class="input-group-text ms-2">Soyadı:</span>
+          <input type="text" class="form-control" placeholder="Yazar soyadı yazınız" aria-label="Yazar soyadı">
+          <span class="input-group-text ms-2">Yazar Yerli mi?</span>
+          <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+            <option selected value="True">Evet</option>
+            <option value="False">Hayır</option>
+          </select>
+          <button class="btn btn-outline-light mx-2" (click)="showAddForm()" type="button">Kaydet</button>
+        </div>
+      </form>
+    </div>
+
+
+<!-- Yazarlar listesi aşağıda -->
+    <div class="text text-danger fw-bold border border-1 border-danger my-2 p-2" *ngIf="(authorList | authorSearch:searchText: yerliData: yabanciData).length ===0">Aradığınız kriterde yazar bulunmamaktadır.</div>
+    <table *ngIf="(authorList | authorSearch:searchText: yerliData: yabanciData).length >0" class="table table-striped table-hover text-center">
       <thead>
         <tr>
           <th>Adı</th>
@@ -80,7 +121,7 @@
           <td class="w-25">{{ author.lastName }}</td>
           <td class="w-25">{{ author.native ? "Evet" : "Hayır" }}</td>
           <td class="w-25">
-            <button class="btn btn-sm btn-secondary me-1">Güncelle</button>
+            <button class="btn btn-sm btn-secondary me-1" (click)="showUpdateForm()">Güncelle</button>
             <button
               class="btn btn-sm btn-danger"
               (click)="deleteAuthor(author)"

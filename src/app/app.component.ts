@@ -35,22 +35,15 @@ export class AppComponent {
         }       
         else if (this.navigationEnd == "/login" || this.navigationEnd == "/") { 
           this.routerResetter()        
-          this.isItLogIn = true
-          this.isItRegister = false
-          this.isItRegister = false                   
+          this.isItLogIn = true                            
         }
         else if (this.navigationEnd == "/register") {
           this.routerResetter()
           this.isItRegister = true
-          this.isItLogIn = false
-          this.routerOutlet = false      
         }
         else{
           this.routerResetter()
-          this.isItLogIn = false
-          this.isItRegister = false
           this.routerOutlet = true
-          console.log("else geldi")
         }
                        
         //console.log(this.isItRegister +" "+this.isItLogIn+" "+this.routerOutlet)
