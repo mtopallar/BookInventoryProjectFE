@@ -17,6 +17,7 @@ export class AuthorComponent implements OnInit {
   public authorList: Author[] = [];
   public author = {} as Author;
   public noAnyAuthor:boolean = false;
+  public loaded:boolean = false;
 
   public yerliData: boolean = false;
   public yabanciData: boolean = false;
@@ -170,6 +171,7 @@ export class AuthorComponent implements OnInit {
   getAuthors() {
     this.authorService.getAll().subscribe((response) => {
       this.authorList = response.data;
+      this.loaded = true;
     },responseError=>{
       this.noAnyAuthor=true;
     });

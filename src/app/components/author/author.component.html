@@ -218,7 +218,7 @@
     
 
 <!-- Yazarlar listesi aşağıda -->
-    <div class="text text-danger fw-bold border border-1 border-danger my-2 p-2" *ngIf="(authorList | authorSearch:searchText: yerliData: yabanciData).length ===0 && !noAnyAuthor">Aradığınız kriterde yazar bulunmamaktadır.</div>
+    <div class="text text-danger fw-bold border border-1 border-danger my-2 p-2" *ngIf="(authorList | authorSearch:searchText: yerliData: yabanciData).length ===0 && !noAnyAuthor && loaded">Aradığınız kriterde yazar bulunmamaktadır.</div>
     <div class="text text-danger fw-bold border border-1 border-danger my-2 p-2" *ngIf="noAnyAuthor">Sistemde kullanılabilecek yazar bulunmamaktadır.</div>
     <table *ngIf="(authorList | authorSearch:searchText: yerliData: yabanciData).length >0" class="table table-striped table-hover text-center">
       <thead>
