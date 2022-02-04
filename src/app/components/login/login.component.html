@@ -12,6 +12,7 @@
 <body class="text-center">
   <main class="form-signin">
     <!-- <form [formGroup]="loginForm" (ngSubmit)="login()"></form>  ts deki loginForm = new FormGroup({}) ile çalışan post kısmı // button type="submit"-->
+    <!-- (keyup.enter)="login()" -->
     <form [formGroup]="loginForm">      
       <img
         class="mb-4"
@@ -62,7 +63,7 @@
           Parola boşluk içeremez.
         </div>           
       </div>     
-      <button [disabled]="loginForm.invalid || loginError" (click)="login()" [class]= "buttonClass" type="button">
+      <button [disabled]="loginForm.invalid || loginError" (click)="login()" [class]= "buttonClass" type="submit">
         Giriş Yap
       </button>
       <div *ngIf="loginError" class="small fw-bold text-danger mt-1">

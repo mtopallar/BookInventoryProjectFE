@@ -1,6 +1,7 @@
 <app-navbar *ngIf="loggedIn"></app-navbar>
-<div *ngIf="routerOutlet" class="mx-auto my-3 px-5"> 
-  <!-- burada if e istenirse && loggedIn de eklenebilir      -->
+
+<div *ngIf="routerOutlet" class="mx-5 my-3"> 
+  <!-- burada if e istenirse && loggedIn de eklenebilir class="mx-5 my-3" // class="col-10 offset-1"  -->
     <div>
       <router-outlet></router-outlet>
     </div>

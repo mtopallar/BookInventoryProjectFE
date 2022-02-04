@@ -101,7 +101,7 @@
           Parola boşluk içeremez.
         </div>                   
       </div>      
-      <button [disabled]="registerForm.invalid || registerError" (click)="register()" [class]= "buttonClass" type="button">
+      <button [disabled]="registerForm.invalid || registerError" (click)="register()" [class]= "buttonClass" type="submit">
         Kayıt Ol
       </button>
       <div *ngIf="registerError" class="small fw-bold text-danger mt-1">
