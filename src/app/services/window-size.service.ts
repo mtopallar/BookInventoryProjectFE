@@ -21,4 +21,18 @@ export class WindowSizeService {
       return colByWindowSize
     }
   }
+
+  divColDeciderForGenreAndPublisher(currentSize:number):ColByWindowSize{
+    let colByWindowSize = {} as ColByWindowSize
+    if (currentSize<1500) {
+      colByWindowSize.class1 = "col-4"
+      colByWindowSize.class2 = "col-8"
+      return colByWindowSize
+    }else{
+      colByWindowSize.class1 = "col-3"
+      colByWindowSize.class2 = "col-9"
+      return colByWindowSize
+    }
+  }
+  
 }

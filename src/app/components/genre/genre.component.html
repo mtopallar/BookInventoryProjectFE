@@ -1,0 +1,120 @@
+<p class="display-4 text-center">Tür Yönetim Sayfası</p>
+<p class="border-bottom border-1"></p>
+<div class="row">
+  <div [class]="classDiv1">
+    <h3 class="text text-center">Tür Ara</h3>
+    <div class="border border-1 border-dark-50 p-3">        
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Aranacak ifadeyi giriniz."
+          [(ngModel)]="searchText"
+          id="searchText"
+          aria-label="Yazar arama alanı." 
+          [disabled]="noAnyGenre"         
+        />
+      </div>
+      <!-- tür ekleme formu aşağıda -->
+
+      <div *ngIf="isItAdd" class="border border-1 p-1 addClass my-2">
+        <p class="display-6 fw-normal text-center">Tür Ekle</p>
+        <form [formGroup]="addGenreForm">
+            <div class="input-group mb-3">
+                <span class="input-group-text ms-2">Ad:</span>
+                <input 
+                type="text" 
+                class="form-control"            
+                aria-label="Tür adı"
+                placeholder="Tür adı yazınız"
+                id="name"
+                name="name"
+                formControlName="name"
+                [class.is-invalid] ="addGenreName.invalid && (addGenreName.touched || addGenreName.dirty)"
+                [class.is-valid] ="addGenreName.valid && (addGenreName.touched || addGenreName.dirty)"
+                >                 
+            </div>
+            <div class="text-center mb-1">
+                <button [disabled]="addGenreForm.invalid" class="btn btn-outline-light ms-2" (click)="addGenre()" type="button">Kaydet</button>
+              <button [disabled]="addGenreName.untouched" class="btn btn-outline-light mx-2" (click)="resetAddGenreForm()" type="button">İptal</button>    
+            </div>
+        </form>        
+      </div>
+      <div *ngIf="isItAdd && addGenreName.invalid && addGenreName.touched || addGenreName.dirty" class="row">
+        <div *ngIf="addGenreName.hasError('required')" class="text small text-danger">
+            *Tür adı boş bırakılamaz.
+          </div>    
+          <div *ngIf="addGenreName.hasError('minlength')" class="text small text-danger">
+            *Tür adı en az 4 karakterden oluşmalıdır.
+          </div>
+          <div *ngIf="addGenreName.hasError('pattern')" class="text small text-danger">
+            *Ad boşlukla başlayamaz veya bitemez. İzin verilenler dışında özel karakter içeremez.
+          </div>
+    </div>
+
+    <!-- tür güncelleme formu aşağıda -->
+    <div *ngIf="isItUpdate" class="border border-1 p-1 updateClass my-2">
+        <p class="display-6 fw-normal text-center">Tür Güncelle</p>
+        <form [formGroup]="updateGenreForm">
+            <div class="input-group mb-3">
+                <span class="input-group-text ms-2">Ad:</span>
+                <input 
+                type="text" 
+                class="form-control"            
+                aria-label="Tür adı"
+                placeholder="Tür adı yazınız"
+                id="name"
+                name="name"
+                formControlName="name"
+                [class.is-invalid] ="updateGenreName.invalid && (updateGenreName.touched || updateGenreName.dirty)"
+                [class.is-valid] ="updateGenreName.valid && (updateGenreName.touched || updateGenreName.dirty)"
+                >                 
+            </div>
+            <div class="text-center mb-1">
+                <button [disabled]="updateGenreForm.invalid" class="btn btn-outline-light ms-2" (click)="updateGenre()" type="button">Kaydet</button>
+              <button class="btn btn-outline-light mx-2" (click)="showAddForm()" type="button">İptal</button>    
+            </div>
+        </form>        
+      </div>
+      <div *ngIf="isItUpdate && updateGenreName.invalid && updateGenreName.touched || updateGenreName.dirty" class="row">
+        <div *ngIf="updateGenreName.hasError('required')" class="text small text-danger">
+            *Tür adı boş bırakılamaz.
+          </div>    
+          <div *ngIf="updateGenreName.hasError('minlength')" class="text small text-danger">
+            *Tür adı en az 4 karakterden oluşmalıdır.
+          </div>
+          <div *ngIf="updateGenreName.hasError('pattern')" class="text small text-danger">
+            *Ad boşlukla başlayamaz veya bitemez. İzin verilenler dışında özel karakter içeremez.
+          </div>
+    </div>
+  </div>
+    <div [class]="classDiv2">
+    
+
+        <div class="text text-danger fw-bold border border-1 border-danger my-2 p-2" *ngIf="(genreList | genreSearch:searchText).length ===0 && !noAnyGenre && loaded">Aradığınız kriterde tür bulunmamaktadır.</div>
+    <div class="text text-danger text-center fw-bold border border-1 border-danger my-2 p-2" *ngIf="noAnyGenre">Sistemde kullanılabilecek tür bulunmamaktadır.</div>
+    <table *ngIf="(genreList | genreSearch:searchText).length >0" class="table table-striped table-hover text-center">
+      <thead>
+        <tr>
+          <th>Adı</th>          
+          <th>Yönetim</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let genre of genreList | genreSearch:searchText">
+          <td class="w-50">{{ genre.name }}</td>          
+          <td class="w-50">
+            <button class="btn btn-sm btn-secondary me-1" (click)="setCurrentGenre(genre)">Güncelle</button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deleteGenre(genre)"
+            >
+              Sil
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+

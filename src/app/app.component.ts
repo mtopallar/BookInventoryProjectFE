@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { NavigationEnd, Router, Event } from '@angular/router';
 import { AuthService } from './services/auth.service';
 
@@ -14,6 +14,7 @@ export class AppComponent {
   public isItRegister:boolean = false
   public routerOutlet:boolean = false
   public navigationEnd:string
+  public divCol:string
  
   constructor(private authService:AuthService, private router:Router){
     this.authService.isAuthenticatedFlag();
@@ -23,7 +24,7 @@ export class AppComponent {
   }
   ngOnInit() {    
     this.navigationEndSelector() 
-    
+    this.divColSetter()
   }
 
   navigationEndSelector(){
@@ -58,4 +59,12 @@ export class AppComponent {
     this.routerOutlet = false
   }
    
+  @HostListener('window:resize', ['$event'])
+  divColSetter() {
+    if (window.innerWidth<1500) {
+      this.divCol = "mx-5 my-3"
+    }else{
+      this.divCol = "col-10 offset-1"
+    }    
+  }
 }

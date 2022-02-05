@@ -39,6 +39,7 @@ export class AuthorComponent implements OnInit {
     this.divColSetter();
     this.getAuthors();
     this.createAddAuthorForm();
+    //this.createUpdateAuthorForm()
   }
 
   updateAuthor() {
@@ -52,8 +53,8 @@ export class AuthorComponent implements OnInit {
           this.showAddForm();
           this.getAuthors()
         },
-        (errorRespone) => {
-          this.toastrService.error(errorRespone.error.message,"Hata");
+        (errorResponse) => {
+          this.toastrService.error(errorResponse.error.message,"Hata");
           //istenirse backend validasyon hataları burada ayrıca kontrol edilebilir. zaten html arayüzünde validasyon bazlı kontrol yapıldı.           
         }
       );
@@ -67,8 +68,9 @@ export class AuthorComponent implements OnInit {
         this.toastrService.success(response.message,"Başarılı")
         this.resetAddForm();
         this.getAuthors()
-      },errorRespone=>{
-        this.toastrService.error(errorRespone.error.message,"Hata")
+        this.noAnyAuthor = false;
+      },errorResponse=>{
+        this.toastrService.error(errorResponse.error.message,"Hata")
       })
             
     }
@@ -83,6 +85,7 @@ export class AuthorComponent implements OnInit {
     // tablodaki gri güncelle butonu
     this.author = author;
     this.createUpdateAuthorForm();
+    this.resetAddForm();
     this.showUpdateForm();
     this.scrollToTop();
   }

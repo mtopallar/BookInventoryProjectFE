@@ -16,6 +16,8 @@ import { UserlibraryComponent } from './components/userlibrary/userlibrary.compo
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthorComponent } from './components/author/author.component';
 import { AuthorSearchPipe } from './pipes/author-search.pipe';
+import { GenreComponent } from './components/genre/genre.component';
+import { GenreSearchPipe } from './pipes/genre-search.pipe';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { AuthorSearchPipe } from './pipes/author-search.pipe';
     LibraryComponent,
     UserlibraryComponent,
     AuthorComponent,
-    AuthorSearchPipe
+    AuthorSearchPipe,
+    GenreComponent,
+    GenreSearchPipe
   ],
   imports: [
     BrowserModule,
