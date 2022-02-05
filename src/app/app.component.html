@@ -1,7 +1,9 @@
-<app-navbar *ngIf="loggedIn"></app-navbar>
-
+<div *ngIf="loggedIn">  
+    <app-navbar></app-navbar>
+    <img [src]="imageSrc" alt="image" [height]="imageHeight" [width]="imageWidth" class="imageClass"/>
+</div>
 <div *ngIf="routerOutlet" [class]="divCol"> 
-  <!-- burada if e istenirse && loggedIn de eklenebilir class="mx-5 my-3" // class="col-10 offset-1"  -->
+  <!-- burada if e istenirse && loggedIn de eklenebilir -->
     <div>
       <router-outlet></router-outlet>
     </div>

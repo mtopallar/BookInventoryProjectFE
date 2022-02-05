@@ -15,6 +15,9 @@ export class AppComponent {
   public routerOutlet:boolean = false
   public navigationEnd:string
   public divCol:string
+  public imageWidth:string;
+  public imageHeight:string
+  public imageSrc:string
  
   constructor(private authService:AuthService, private router:Router){
     this.authService.isAuthenticatedFlag();
@@ -61,10 +64,15 @@ export class AppComponent {
    
   @HostListener('window:resize', ['$event'])
   divColSetter() {
+    this.imageWidth=window.innerWidth.toString()
     if (window.innerWidth<1500) {
       this.divCol = "mx-5 my-3"
+      this.imageSrc="assets/images/banner.png"
+      this.imageHeight="210"
     }else{
       this.divCol = "col-10 offset-1"
+      this.imageSrc="assets/images/banner-long.png"
+      this.imageHeight="190"
     }    
   }
 }
