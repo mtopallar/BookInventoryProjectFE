@@ -18,6 +18,8 @@ import { AuthorComponent } from './components/author/author.component';
 import { AuthorSearchPipe } from './pipes/author-search.pipe';
 import { GenreComponent } from './components/genre/genre.component';
 import { GenreSearchPipe } from './pipes/genre-search.pipe';
+import { PublisherSearchPipe } from './pipes/publisher-search.pipe';
+import { PublisherComponent } from './components/publisher/publisher.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { GenreSearchPipe } from './pipes/genre-search.pipe';
     AuthorComponent,
     AuthorSearchPipe,
     GenreComponent,
-    GenreSearchPipe
+    GenreSearchPipe,
+    PublisherSearchPipe,
+    PublisherComponent
   ],
   imports: [
     BrowserModule,

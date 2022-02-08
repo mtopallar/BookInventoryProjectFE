@@ -112,6 +112,7 @@ export class GenreComponent implements OnInit {
   }
 
   showAddForm() {
+    this.updateGenreForm.reset();
     this.isItUpdate = false;
     this.isItAdd = true;
   }
