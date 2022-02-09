@@ -66,6 +66,7 @@ export class PublisherComponent implements OnInit {
     this.resetAddPublisherForm()
     this.showUpdateForm()
     this.createUpdatePublisherForm()
+    this.scrollToTop()
   }
 
   deletePublisher(publisher:Publisher){
@@ -104,6 +105,10 @@ export class PublisherComponent implements OnInit {
         this.toastrService.error(errorResponse.error.message,"Hata")
       })
     }
+  }
+
+  scrollToTop() {
+    window.scroll(0, 0);
   }
 
   @HostListener('window:resize', ['$event'])

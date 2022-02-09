@@ -20,6 +20,8 @@ import { GenreComponent } from './components/genre/genre.component';
 import { GenreSearchPipe } from './pipes/genre-search.pipe';
 import { PublisherSearchPipe } from './pipes/publisher-search.pipe';
 import { PublisherComponent } from './components/publisher/publisher.component';
+import { BookDtoSearchPipe } from './pipes/bookDto-search.pipe';
+import { BookComponent } from './components/book/book.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { PublisherComponent } from './components/publisher/publisher.component';
     GenreComponent,
     GenreSearchPipe,
     PublisherSearchPipe,
-    PublisherComponent
+    PublisherComponent,
+    BookDtoSearchPipe,
+    BookComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthorComponent } from './components/author/author.component';
+import { BookComponent } from './components/book/book.component';
 import { GenreComponent } from './components/genre/genre.component';
 import { LibraryComponent } from './components/library/library.component';
 import { LoginComponent } from './components/login/login.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path:'authors', pathMatch:'full', component: AuthorComponent, canActivate:[LoginGuard]},
   {path:'genres', pathMatch:'full', component: GenreComponent, canActivate:[LoginGuard]},
   {path:'publishers', pathMatch:'full', component: PublisherComponent, canActivate:[LoginGuard]},
+  {path:'books', pathMatch:'full', component: BookComponent, canActivate:[LoginGuard]},
   {path:'userlibrary', pathMatch:'full', component: UserlibraryComponent, canActivate:[LoginGuard]}
 ];
 

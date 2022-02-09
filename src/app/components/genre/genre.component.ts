@@ -67,10 +67,15 @@ export class GenreComponent implements OnInit {
     this.resetAddGenreForm()
     this.showUpdateForm()
     this.createUpdateGenreForm()
+    this.scrollToTop()
   }
 
   resetAddGenreForm(){
     this.addGenreForm.reset()
+  }
+
+  scrollToTop() {
+    window.scroll(0, 0);
   }
 
   deleteGenre(genre:Genre){
