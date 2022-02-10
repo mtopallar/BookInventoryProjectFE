@@ -7,28 +7,32 @@ import { BookDto } from '../models/bookDto';
 export class BookDtoSearchPipe implements PipeTransform {
 
   transform(value: BookDto[], isbnText?:string, name?:string, publisherName?:string, authorFullName?:string, genreName?:string, native?:boolean, notNative?:boolean): BookDto[] {
+    
     if (isbnText) {
       return value.filter(b=>b.isbn.toLocaleLowerCase().indexOf(isbnText.toLocaleLowerCase())!==-1)
     }
-    if (name) {
+    else if (name) {
       return value.filter(b=>b.name.toLocaleLowerCase().indexOf(name.toLocaleLowerCase())!==-1)
     }
-    if (publisherName) {
+    else if (publisherName && publisherName !== "Seçiniz...") {
       return value.filter(b=>b.publisherName.toLocaleLowerCase().indexOf(publisherName.toLocaleLowerCase())!==-1)
     }
-    if (authorFullName) {
+    else if (authorFullName && authorFullName !== "Seçiniz...") {
       return value.filter(b=>b.authorFullName.toLocaleLowerCase().indexOf(authorFullName.toLocaleLowerCase())!==-1)
     }
-    if (genreName) {
+    else if (genreName && genreName !== "Seçiniz...") {
       return value.filter(b=>b.genreName.toLocaleLowerCase().indexOf(genreName.toLocaleLowerCase())!==-1)
     }
-    if (native) {
+    else if (native) {
+      console.log(native +"metoddan geldi")
       return value.filter(b=>b.native==true)
     }
-    if (notNative) {
+    else if (notNative) {
       return value.filter(b=>b.native==false)
     }
-    return value
+    else {
+      return value
+    } 
   }
 
 }

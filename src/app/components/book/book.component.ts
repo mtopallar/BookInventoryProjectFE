@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Author } from 'src/app/models/author';
+import { BookDto } from 'src/app/models/bookDto';
 import { Genre } from 'src/app/models/genre';
 import { Publisher } from 'src/app/models/publisher';
 import { ProjectRegexes } from 'src/app/projectValidationTools/regexes/projectRegexes';
@@ -41,6 +42,10 @@ export class BookComponent implements OnInit {
   public publisherList:Publisher[] = [];
   public noAnyPublisher:boolean = false;
 
+  public bookDtosList:BookDto[] = [];
+  public noAnyBookDto:boolean = false;
+  public loaded:boolean = false;
+
   constructor(
     private windowSizeService:WindowSizeService,
     private bookandDtoService:BookAndDtoService,
@@ -55,6 +60,17 @@ export class BookComponent implements OnInit {
     this.getAuthors()
     this.getGenres()
     this.getPublishers()
+    this.getAllBookDtos()
+  }
+
+  getAllBookDtos(){
+    this.bookandDtoService.getallBookDtos().subscribe(response=>{
+      this.bookDtosList = response.data;
+      this.loaded = true;
+    }, responseError=>{
+      this.noAnyBookDto = true;
+      //div oluşturup hata mesajını yaz
+    })
   }
 
   getAuthors(){

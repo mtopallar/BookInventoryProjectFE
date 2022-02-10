@@ -1,3 +1,5 @@
+<p class="display-4 text-center">Kitap Yönetim Sayfası</p>
+<p class="border-bottom border-1"></p>
 <div class="row">
     <div [class]="classDiv1">      
         <h4 class="text text-center">Kitap Ara</h4>
@@ -76,7 +78,7 @@
           class="form-select"
           id="genreName"
           name="genreName"
-           [(ngModel)]="genreName"
+          [(ngModel)]="genreName"
           aria-label="Türe göre ara"
           >
             <option *ngIf="genreName == 'Seçiniz...'" selected >{{genreName}}</option>
@@ -114,6 +116,179 @@
           </div>       
     </div>
     <div [class]="classDiv2">
-        <p>Books Works!</p>
+
+      <!-- kitap ekle formu aşada -->
+
+    <div *ngIf="isItAdd" class="border border-1 p-3 addClass my-2"> 
+        <p class="display-6 fw-normal text-center">Kitap Ekle</p>
+      <form>
+      <div class="row">
+        <div class="col input-group mb-3">
+          <label class="input-group-text">Kitap Adı</label>
+          <input 
+          class="form-control"
+          type="text"
+          placeholder="Kitap adı"
+          >
+        </div>
+        <div class="col input-group mb-3">
+          <label class="input-group-text">ISBN No</label>
+          <input 
+          class="form-control"
+          type="text"
+          placeholder="ISBN No"
+          >
+        </div>
+        <div class="col input-group mb-3">
+          <label class="input-group-text">Yazar</label>
+          <select class="form-select" id="inputGroupSelect01">
+            <option selected>Choose...</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <div class="input-group mb-3">
+            <label class="input-group-text">Yayınevi</label>
+            <select class="form-select" id="inputGroupSelect01">
+              <option selected>Choose...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>  
+        </div>        
+        <div class="col-4">
+          <div class="input-group mb-3">
+            <label class="input-group-text">Tür</label>
+            <select class="form-select" id="inputGroupSelect01">
+              <option selected>Choose...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+        
+      </div>
+
+        <div class="row">
+          <div class="text-end">
+            <button class="btn btn-outline-light" type="button">Kaydet</button>
+          <button class="btn btn-outline-light ms-2" type="button">İptal</button>    
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- update formu aşağıda -->
+
+    <div *ngIf="isItUpdate" class="border border-1 p-3 updateClass my-2"> 
+      <p class="display-6 fw-normal text-center">Kitap Güncelle</p>
+      <form>
+        <div class="row">
+          <div class="col input-group mb-3">
+            <label class="input-group-text">Kitap Adı</label>
+            <input 
+            class="form-control"
+            type="text"
+            placeholder="Kitap adı"
+            >
+          </div>
+          <div class="col input-group mb-3">
+            <label class="input-group-text">ISBN No</label>
+            <input 
+            class="form-control"
+            type="text"
+            placeholder="ISBN No"
+            >
+          </div>
+          <div class="col input-group mb-3">
+            <label class="input-group-text">Yazar</label>
+            <select class="form-select" id="inputGroupSelect01">
+              <option selected>Choose...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <label class="input-group-text">Yayınevi</label>
+              <select class="form-select" id="inputGroupSelect01">
+                <option selected>Choose...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>  
+          </div>        
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <label class="input-group-text">Tür</label>
+              <select class="form-select" id="inputGroupSelect01">
+                <option selected>Choose...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+          
+        </div>
+  
+          <div class="row">
+            <div class="text-end">
+              <button class="btn btn-outline-light" type="button">Kaydet</button>
+            <button class="btn btn-outline-light ms-2" type="button">İptal</button>    
+            </div>
+          </div>
+        </form>
+  </div>
+
+  <!-- kitap listeleme tablosu aşağıda -->
+
+    <table *ngIf="(bookDtosList | bookDtoSearch:isbnText :name :publisherName :authorFullName :genreName :native :notNative).length>0" class="table table-striped table-hover text-center">
+      <thead>
+        <tr >
+          <th>Ad</th>
+          <th>ISBN</th>
+          <th>Yayınevi</th>
+          <th>Yazar</th>
+          <th>Tür</th>
+          <th>Yönetim</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let bookDto of bookDtosList | bookDtoSearch:isbnText :name :publisherName :authorFullName :genreName :native :notNative">
+          <td class="w-20">{{bookDto.name}}</td>
+          <td class="w-10">{{bookDto.isbn}}</td>
+          <td class="w-15">{{bookDto.publisherName}}</td>
+          <td class="w-15">{{bookDto.authorFullName}}</td>
+          <td class="w-10">{{bookDto.genreName}}</td>
+          <td class="w-10">
+            <button class="btn btn-sm btn-secondary me-1">Güncelle</button>
+            <button class="btn btn-sm btn-danger">Sil</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+        
     </div>
 </div>
