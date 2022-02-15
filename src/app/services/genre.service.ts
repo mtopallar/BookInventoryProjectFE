@@ -19,6 +19,10 @@ export class GenreService {
     return this.httpClient.get<ListResponseModel<Genre>>(environment.apiUrl+"genres/getall");
   }
 
+  getAllForSearchArea():Observable<ListResponseModel<Genre>>{
+    return this.httpClient.get<ListResponseModel<Genre>>(environment.apiUrl+"genres/getallregardlessofactivestatue")
+  }
+
   add(genre:Genre):Observable<BaseResponseModel>{
     return this.httpClient.post<BaseResponseModel>(environment.apiUrl+"genres/add",genre)
   }

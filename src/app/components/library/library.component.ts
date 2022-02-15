@@ -21,6 +21,8 @@ export class LibraryComponent implements OnInit {
   public native:boolean = false;
   public notNative:boolean = false;
 
+  public noAnyBook:boolean = false;
+
   public authorList:Author[] = [];
   public noAnyAuthor:boolean = false;
   public genreList:Genre[] = [];

@@ -11,21 +11,25 @@ import { Publisher } from '../models/publisher';
 })
 export class PublisherService {
 
-  constructor(private httpCLient:HttpClient) { }
+  constructor(private httpClient:HttpClient) { }
 
   getAll():Observable<ListResponseModel<Publisher>>{
-    return this.httpCLient.get<ListResponseModel<Publisher>>(environment.apiUrl+"publishers/getall")
+    return this.httpClient.get<ListResponseModel<Publisher>>(environment.apiUrl+"publishers/getall")
+  }
+
+  getAllForSearchArea():Observable<ListResponseModel<Publisher>>{
+    return this.httpClient.get<ListResponseModel<Publisher>>(environment.apiUrl+"publishers/getallregardlessofactivestatue")
   }
 
   add(publisher:Publisher):Observable<BaseResponseModel>{
-    return this.httpCLient.post<BaseResponseModel>(environment.apiUrl+"publishers/add",publisher)
+    return this.httpClient.post<BaseResponseModel>(environment.apiUrl+"publishers/add",publisher)
   }
 
   update(publisher:Publisher):Observable<BaseResponseModel>{
-    return this.httpCLient.post<BaseResponseModel>(environment.apiUrl+"publishers/update",publisher)
+    return this.httpClient.post<BaseResponseModel>(environment.apiUrl+"publishers/update",publisher)
   }
 
   delete(publisher:Publisher):Observable<BaseResponseModel>{
-    return this.httpCLient.post<BaseResponseModel>(environment.apiUrl+"publishers/delete",publisher)
+    return this.httpClient.post<BaseResponseModel>(environment.apiUrl+"publishers/delete",publisher)
   }
 }

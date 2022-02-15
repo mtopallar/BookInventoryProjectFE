@@ -5,7 +5,6 @@ import { Author } from 'src/app/models/author';
 import { BookDto } from 'src/app/models/bookDto';
 import { Genre } from 'src/app/models/genre';
 import { Publisher } from 'src/app/models/publisher';
-import { ProjectRegexes } from 'src/app/projectValidationTools/regexes/projectRegexes';
 import { AuthorService } from 'src/app/services/author.service';
 import { BookAndDtoService } from 'src/app/services/book-and-dto.service';
 import { GenreService } from 'src/app/services/genre.service';
@@ -21,17 +20,8 @@ export class BookComponent implements OnInit {
 
   public classDiv1:string;
   public classDiv2:string;
-  public isbnText:string;
-  public name:string;
-  public publisherName:string = "Seçiniz..."
-  public authorFullName:string = "Seçiniz...";
-  public genreName:string = "Seçiniz..."
-  public native:boolean = false;
-  public notNative:boolean = false;
-
   public isItAdd:boolean = true;
   public isItUpdate:boolean = false;
-  public noAnyBook:boolean = false;
   public addBookForm:FormGroup;
   public updateBookForm:FormGroup;
 
@@ -41,6 +31,20 @@ export class BookComponent implements OnInit {
   public noAnyGenre:boolean = false;
   public publisherList:Publisher[] = [];
   public noAnyPublisher:boolean = false;
+
+  public authorListForSearchArea: Author[] = []
+  public noAnyAuthorForSearchArea:boolean = false;
+  public genreListForSearchArea:Genre[] = [];
+  public noAnyGenreForSearchArea:boolean = false;
+  public publisherListForSearchArea:Publisher[] = [];
+  public noAnyPublisherForSearchArea:boolean = false;
+  public isbnTextForSearch:string;
+  public bookNameForSearch:string;
+  public publisherNameForSearch:string = "Seçiniz..."
+  public authorFullNameForSearch:string = "Seçiniz...";
+  public genreNameForSearch:string = "Seçiniz..."
+  public nativeForSearch:boolean = false;
+  public notNativeForSearch:boolean = false;
 
   public bookDtosList:BookDto[] = [];
   public noAnyBookDto:boolean = false;
@@ -61,6 +65,9 @@ export class BookComponent implements OnInit {
     this.getGenres()
     this.getPublishers()
     this.getAllBookDtos()
+    this.getAuthorsForSearchArea()
+    this.getGenresForSearchArea()
+    this.getPublishersForSearchArea()
   }
 
   getAllBookDtos(){
@@ -68,8 +75,7 @@ export class BookComponent implements OnInit {
       this.bookDtosList = response.data;
       this.loaded = true;
     }, responseError=>{
-      this.noAnyBookDto = true;
-      //div oluşturup hata mesajını yaz
+      this.noAnyBookDto = true;      
     })
   }
 
@@ -83,6 +89,15 @@ export class BookComponent implements OnInit {
     })
   }
 
+  getAuthorsForSearchArea(){
+    this.authorService.getAllForSearchArea().subscribe(response=>{
+      let sortedList = response.data.sort((a,b)=>a.firstName.localeCompare(b.firstName))      
+      this.authorListForSearchArea = sortedList
+    },responseError=>{
+      this.noAnyAuthorForSearchArea = true;
+    })
+  }
+
   getGenres(){
     this.genreService.getAll().subscribe(response=>{
       let sortedList = response.data.sort((a,b)=>a.name.localeCompare(b.name))
@@ -93,6 +108,15 @@ export class BookComponent implements OnInit {
     })
   }
 
+  getGenresForSearchArea(){
+    this.genreService.getAllForSearchArea().subscribe(response=>{
+      let sortedList = response.data.sort((a,b)=>a.name.localeCompare(b.name))
+      this.genreListForSearchArea = sortedList
+    },responseError=>{
+      this.noAnyGenreForSearchArea = true;
+    })
+  }
+
   getPublishers(){
     this.publisherService.getAll().subscribe(response=>{
       let sortedList = response.data.sort((a,b) => a.name.localeCompare(b.name))
@@ -100,6 +124,15 @@ export class BookComponent implements OnInit {
     },responseError=>{
       this.noAnyPublisher = true
       // div yaz içine hata mesajını koy
+    })
+  }
+
+  getPublishersForSearchArea(){
+    this.publisherService.getAllForSearchArea().subscribe(response=>{
+      let sortedList = response.data.sort((a,b) => a.name.localeCompare(b.name))
+      this.publisherListForSearchArea = sortedList
+    },responseError=>{
+      this.noAnyPublisherForSearchArea = true;
     })
   }
 
@@ -120,13 +153,13 @@ export class BookComponent implements OnInit {
   }
 
   clearSelections(){
-    this.publisherName = "Seçiniz..."
-    this.authorFullName = "Seçiniz..."
-    this.genreName = "Seçiniz..."
-    this.isbnText = ""
-    this.name = ""
-    this.native = false;
-    this.notNative = false;
+    this.publisherNameForSearch = "Seçiniz..."
+    this.authorFullNameForSearch = "Seçiniz..."
+    this.genreNameForSearch = "Seçiniz..."
+    this.isbnTextForSearch = ""
+    this.bookNameForSearch = ""
+    this.nativeForSearch = false;
+    this.notNativeForSearch = false;
   }
 
   // update de kullan
@@ -135,13 +168,13 @@ export class BookComponent implements OnInit {
   }
 
   setNative(){
-    this.native = true;
-    this. notNative = false
+    this.nativeForSearch = true;
+    this. notNativeForSearch = false
   }
 
   setNotNative(){
-    this.notNative = true;
-    this.native = false;
+    this.notNativeForSearch = true;
+    this.nativeForSearch = false;
   }
   
 

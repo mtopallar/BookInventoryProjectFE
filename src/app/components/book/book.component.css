@@ -4,3 +4,26 @@
 .updateClass{
     background-color: rgb(161, 124, 124);
 }
+
+.bookName{
+    width: 35%;
+}
+.bookIsbn{
+    width: 10%;
+}
+
+.bookPublisher{
+    width: 20%;
+}
+
+.bookAuthor{
+    width: 15%;
+}
+
+.bookGenre{
+    width: 10%;
+}
+
+.bookAdmin{
+    width: 10%;
+}

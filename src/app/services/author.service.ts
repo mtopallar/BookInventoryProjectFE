@@ -18,6 +18,10 @@ export class AuthorService {
     return this.httpClient.get<ListResponseModel<Author>>(environment.apiUrl+"authors/getall")
   }
 
+  getAllForSearchArea():Observable<ListResponseModel<Author>>{
+    return this.httpClient.get<ListResponseModel<Author>>(environment.apiUrl+"authors/getallregardlessofactivestatue")
+  }
+
   //kullanmadım.
   getById(id:number):Observable<SingleResponseModel<Author>>{
     return this.httpClient.get<SingleResponseModel<Author>>(environment.apiUrl+"authors/getbyid",{params: new HttpParams().set("id",id)})

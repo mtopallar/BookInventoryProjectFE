@@ -1,118 +1,137 @@
 <div class="row">
-    <div [class]="classDiv1">      
-        <h4 class="text text-center">Kitap Ara</h4>
-        <div class="border border-1 border-dark-50 my-2 p-3">
-            <h5>Kitap Adıyla Ara</h5>
+  <div [class]="classDiv1">      
+    <h4 class="text text-center">Kitap Ara</h4>
+    <div class="border border-1 border-dark-50 my-2 p-3">
+        <h5>Kitap Adıyla Ara</h5>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Kitap adını giriniz."
+          [(ngModel)]="name"
+          id="name"
+          aria-label="İsim ile ara"
+          [disabled]="isbnText || native || notNative || authorFullName!=='Seçiniz...' || genreName!=='Seçiniz...' || publisherName !== 'Seçiniz...' || noAnyBook"              
+        />
+      </div>
+      <div class="border border-1 border-dark-50 my-2 p-3">
+        <h5>ISBN Numarasıyla Ara</h5>
+        <input
+          type="text"
+          (keypress)="numberOnly($event)"              
+          maxlength="13"             
+          class="form-control"
+          placeholder="978_ _ _ _ _ _ _ _ _ _"
+          [(ngModel)]="isbnText"
+          id="isbnText"
+          aria-label="ISBN ile ara"
+          [disabled]="name || native || notNative || authorFullName!=='Seçiniz...' || genreName!=='Seçiniz...' || publisherName !== 'Seçiniz...' || noAnyBook"              
+        />
+      </div>
+      <div class="border border-1 border-dark-50 my-2 p-3">
+        <h5 class="text-center">Yazar Yerli / Yabancı</h5>
+        <div class="row">
+          <div class="col text-center">
             <input
-              type="text"
-              class="form-control"
-              placeholder="Kitap adını giriniz."
-              [(ngModel)]="name"
-              id="name"
-              aria-label="İsim ile ara"              
+              type="radio"
+              name="btnRadio"
+              id="btnRadio1"
+              class="btn-check"
+              autocomplete="off"
+              (click)="setNative()"
+              [disabled]="name || isbnText || authorFullName!=='Seçiniz...' || genreName!=='Seçiniz...' || publisherName !== 'Seçiniz...' || noAnyBook"                                    
             />
+            <label for="btnRadio1" class="btn btn-outline-secondary btn-sm"
+              >Yerli</label
+            >
           </div>
-          <div class="border border-1 border-dark-50 my-2 p-3">
-            <h5>ISBN Numarasıyla Ara</h5>
+          <div class="col text-center">
             <input
-              type="text"
-              (keypress)="numberOnly($event)"              
-              maxlength="13"             
-              class="form-control"
-              placeholder="978_ _ _ _ _ _ _ _ _ _"
-              [(ngModel)]="isbnText"
-              id="isbnText"
-              aria-label="ISBN ile ara"              
+              type="radio"
+              name="btnRadio"
+              id="btnRadio2"
+              class="btn-check"
+              autocomplete="off"
+              (click)="setNotNative()"
+              [disabled]="name || isbnText || authorFullName!=='Seçiniz...' || genreName!=='Seçiniz...' || publisherName !== 'Seçiniz...'|| noAnyBook"                  
             />
+            <label for="btnRadio2" class="btn btn-outline-secondary btn-sm"
+              >Yabancı</label
+            >
           </div>
-          <div class="border border-1 border-dark-50 my-2 p-3">
-            <h5 class="text-center">Yazar Yerli / Yabancı</h5>
-            <div class="row">
-              <div class="col text-center">
-                <input
-                  type="radio"
-                  name="btnRadio"
-                  id="btnRadio1"
-                  class="btn-check"
-                  autocomplete="off"
-                  (click)="setNative()"                                    
-                />
-                <label for="btnRadio1" class="btn btn-outline-secondary btn-sm"
-                  >Yerli</label
-                >
-              </div>
-              <div class="col text-center">
-                <input
-                  type="radio"
-                  name="btnRadio"
-                  id="btnRadio2"
-                  class="btn-check"
-                  autocomplete="off"
-                  (click)="setNotNative()"                  
-                />
-                <label for="btnRadio2" class="btn btn-outline-secondary btn-sm"
-                  >Yabancı</label
-                >
-              </div>
-            </div>
-          </div>
-          <div class="border border-1 border-dark-50 my-2 p-3">
-            <h5>Yazar Adıyla Ara</h5>
-            <select 
-          class="form-select"
-          id="authorFullName"
-          name="authorFullName"           
-          aria-label="Yazar adına göre ara"
-          [(ngModel)]="authorFullName"
-          >
-            <option *ngIf="authorFullName=='Seçiniz...'" selected >{{authorFullName}}</option>
-            <option *ngFor="let author of authorList" value="{{author.firstName +' '+author.lastName}}">{{author.firstName +' '+author.lastName}}</option>            
-          </select>
-          </div>
+        </div>
+      </div>
+      <div class="border border-1 border-dark-50 my-2 p-3">
+        <h5>Yazar Adıyla Ara</h5>
+        <select 
+      class="form-select"
+      id="authorFullName"
+      name="authorFullName"           
+      aria-label="Yazar adına göre ara"
+      [(ngModel)]="authorFullName"
+      [disabled]="name || isbnText || native || notNative || genreName!=='Seçiniz...' || publisherName !== 'Seçiniz...'|| noAnyBook|| noAnyAuthor"
+      [class.is-invalid] = "noAnyAuthor"
+      >
+        <option *ngIf="authorFullName=='Seçiniz...'" selected >{{authorFullName}}</option>
+        <option *ngFor="let author of authorList" value="{{author.firstName +' '+author.lastName}}">{{author.firstName +' '+author.lastName}}</option>            
+      </select>
+      <div *ngIf="noAnyAuthor" class="text small text-danger mt-2">
+        *Sistemde kullanılabilir yazar bulunmamaktadır.
+      </div> 
+      </div>
 
-          <div class="border border-1 border-dark-50 my-2 p-3">
-            <h5>Türe Göre Ara</h5>
-            <select 
-          class="form-select"
-          id="genreName"
-          name="genreName"
-           [(ngModel)]="genreName"
-          aria-label="Türe göre ara"
-          >
-            <option *ngIf="genreName == 'Seçiniz...'" selected >{{genreName}}</option>
-            <option *ngFor="let genre of genreList" value="{{genre.name}}">{{genre.name}}</option>            
-          </select>
-          </div>
+      <div class="border border-1 border-dark-50 my-2 p-3">
+        <h5>Türe Göre Ara</h5>
+        <select 
+      class="form-select"
+      id="genreName"
+      name="genreName"
+      [(ngModel)]="genreName"
+      aria-label="Türe göre ara"
+      [disabled]="name || isbnText || native || notNative || authorFullName!=='Seçiniz...' || publisherName !== 'Seçiniz...'|| noAnyBook || noAnyGenre"
+      [class.is-invalid] ="noAnyGenre"
+      >
+        <option *ngIf="genreName == 'Seçiniz...'" selected >{{genreName}}</option>
+        <option *ngFor="let genre of genreList" value="{{genre.name}}">{{genre.name}}</option>            
+      </select>
+        <div *ngIf="noAnyGenre" class="text small text-danger mt-2">
+          *Sistemde kullanılabilir tür bulunmamaktadır.
+        </div>    
+      </div>
 
-          <div class="border border-1 border-dark-50 my-2 p-3">
-            <h5>Yayıneviyle Ara</h5>
-            <select 
-          class="form-select"
-          id="publisherName"
-          name="publisherName"
-          [(ngModel)]="publisherName" 
-          aria-label="Yayınevine göre ara"
+      <div class="border border-1 border-dark-50 my-2 p-3">
+        <h5>Yayıneviyle Ara</h5>
+        <select 
+      class="form-select"
+      id="publisherName"
+      name="publisherName"
+      [(ngModel)]="publisherName" 
+      aria-label="Yayınevine göre ara"
+      [disabled]="name || isbnText || native || notNative || authorFullName !=='Seçiniz...' || genreName !== 'Seçiniz...'|| noAnyBook || noAnyPublisher"
+      [class.is-invalid] = "noAnyPublisher"
+      >
+        <option *ngIf="publisherName == 'Seçiniz...'" selected>{{publisherName}}</option>
+        <option *ngFor="let publisher of publisherList" value="{{publisher.name}}">{{publisher.name}}</option>            
+      </select>
+        <div *ngIf="noAnyPublisher" class="text small text-danger mt-2">
+          *Sistemde kullanılabilir yayınevi bulunmamaktadır.
+        </div> 
+      </div>
+      <div class="border border-1 border-dark-50 my-2 p-3">
+        <h5 class="text-center">Seçimi Temizle</h5>
+        <div class="col text-center">
+          <input
+            type="radio"
+            name="btnRadio"
+            id="btnRadio3"
+            class="btn-check"
+            autocomplete="off"                
+          />
+          <label for="btnRadio3" (click)="clearSelections()" class="btn btn-outline-secondary btn-sm"
+            >Temizle</label
           >
-            <option *ngIf="publisherName == 'Seçiniz...'" selected>{{publisherName}}</option>
-            <option *ngFor="let publisher of publisherList" value="{{publisher.name}}">{{publisher.name}}</option>            
-          </select>
-          </div>
-          <div class="border border-1 border-dark-50 my-2 p-3">
-            <h5 class="text-center">Seçimi Temizle</h5>
-            <div class="col text-center">
-              <input
-                type="radio"
-                name="btnRadio"
-                id="btnRadio3"
-                class="btn-check"
-                autocomplete="off"                
-              />
-              <label for="btnRadio3" (click)="clearSelections()" class="btn btn-outline-secondary btn-sm"
-                >Temizle</label
-              >
-            </div>
-          </div>       
-    </div>
+        </div>
+      </div>       
+</div>
     <div [class]="classDiv2">
         <p>Library Works!</p>
     </div>

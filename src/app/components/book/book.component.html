@@ -9,9 +9,10 @@
               type="text"
               class="form-control"
               placeholder="Kitap adını giriniz."
-              [(ngModel)]="name"
+              [(ngModel)]="bookNameForSearch"
               id="name"
-              aria-label="İsim ile ara"              
+              aria-label="İsim ile ara"
+              [disabled]="isbnTextForSearch || nativeForSearch || notNativeForSearch || authorFullNameForSearch!=='Seçiniz...' || genreNameForSearch!=='Seçiniz...' || publisherNameForSearch !== 'Seçiniz...' || noAnyBookDto"              
             />
           </div>
           <div class="border border-1 border-dark-50 my-2 p-3">
@@ -22,9 +23,10 @@
               maxlength="13"             
               class="form-control"
               placeholder="978_ _ _ _ _ _ _ _ _ _"
-              [(ngModel)]="isbnText"
+              [(ngModel)]="isbnTextForSearch"
               id="isbnText"
-              aria-label="ISBN ile ara"              
+              aria-label="ISBN ile ara"
+              [disabled]="bookNameForSearch || nativeForSearch || notNativeForSearch || authorFullNameForSearch !=='Seçiniz...' || genreNameForSearch!=='Seçiniz...' || publisherNameForSearch !== 'Seçiniz...' || noAnyBookDto"              
             />
           </div>
           <div class="border border-1 border-dark-50 my-2 p-3">
@@ -37,7 +39,8 @@
                   id="btnRadio1"
                   class="btn-check"
                   autocomplete="off"
-                  (click)="setNative()"                                    
+                  (click)="setNative()"
+                  [disabled]="bookNameForSearch || isbnTextForSearch || authorFullNameForSearch !=='Seçiniz...' || genreNameForSearch !=='Seçiniz...' || publisherNameForSearch !== 'Seçiniz...' || noAnyBookDto"                                    
                 />
                 <label for="btnRadio1" class="btn btn-outline-secondary btn-sm"
                   >Yerli</label
@@ -50,7 +53,8 @@
                   id="btnRadio2"
                   class="btn-check"
                   autocomplete="off"
-                  (click)="setNotNative()"                  
+                  (click)="setNotNative()"
+                  [disabled]="bookNameForSearch || isbnTextForSearch || authorFullNameForSearch !=='Seçiniz...' || genreNameForSearch !=='Seçiniz...' || publisherNameForSearch !== 'Seçiniz...'|| noAnyBookDto"                  
                 />
                 <label for="btnRadio2" class="btn btn-outline-secondary btn-sm"
                   >Yabancı</label
@@ -65,11 +69,16 @@
           id="authorFullName"
           name="authorFullName"           
           aria-label="Yazar adına göre ara"
-          [(ngModel)]="authorFullName"
+          [(ngModel)]="authorFullNameForSearch"
+          [disabled]="bookNameForSearch || isbnTextForSearch || nativeForSearch || notNativeForSearch || genreNameForSearch!=='Seçiniz...' || publisherNameForSearch !== 'Seçiniz...'|| noAnyBookDto|| noAnyAuthorForSearchArea"
+          [class.is-invalid] = "noAnyAuthorForSearchArea"
           >
-            <option *ngIf="authorFullName=='Seçiniz...'" selected >{{authorFullName}}</option>
-            <option *ngFor="let author of authorList" value="{{author.firstName +' '+author.lastName}}">{{author.firstName +' '+author.lastName}}</option>            
+            <option *ngIf="authorFullNameForSearch=='Seçiniz...'" selected >{{authorFullNameForSearch}}</option>
+            <option *ngFor="let author of authorListForSearchArea" value="{{author.firstName +' '+author.lastName}}">{{author.firstName +' '+author.lastName}}</option>            
           </select>
+          <div *ngIf="noAnyAuthorForSearchArea" class="text small text-danger mt-2">
+            *Sisteme yazar eklenmesi gerekmektedir.
+          </div> 
           </div>
 
           <div class="border border-1 border-dark-50 my-2 p-3">
@@ -78,12 +87,17 @@
           class="form-select"
           id="genreName"
           name="genreName"
-          [(ngModel)]="genreName"
+          [(ngModel)]="genreNameForSearch"
           aria-label="Türe göre ara"
+          [disabled]="bookNameForSearch || isbnTextForSearch || nativeForSearch || notNativeForSearch || authorFullNameForSearch !=='Seçiniz...' || publisherNameForSearch !== 'Seçiniz...'|| noAnyBookDto || noAnyGenreForSearchArea"
+          [class.is-invalid] ="noAnyGenreForSearchArea"
           >
-            <option *ngIf="genreName == 'Seçiniz...'" selected >{{genreName}}</option>
-            <option *ngFor="let genre of genreList" value="{{genre.name}}">{{genre.name}}</option>            
+            <option *ngIf="genreNameForSearch == 'Seçiniz...'" selected >{{genreNameForSearch}}</option>
+            <option *ngFor="let genre of genreListForSearchArea" value="{{genre.name}}">{{genre.name}}</option>            
           </select>
+            <div *ngIf="noAnyGenreForSearchArea" class="text small text-danger mt-2">
+              *Sisteme tür eklenmesi gerekmektedir.
+            </div>    
           </div>
 
           <div class="border border-1 border-dark-50 my-2 p-3">
@@ -92,12 +106,17 @@
           class="form-select"
           id="publisherName"
           name="publisherName"
-          [(ngModel)]="publisherName" 
+          [(ngModel)]="publisherNameForSearch" 
           aria-label="Yayınevine göre ara"
+          [disabled]="bookNameForSearch || isbnTextForSearch || nativeForSearch || notNativeForSearch || authorFullNameForSearch !=='Seçiniz...' || genreNameForSearch !== 'Seçiniz...'|| noAnyBookDto || noAnyPublisherForSearchArea"
+          [class.is-invalid] = "noAnyPublisherForSearchArea"
           >
-            <option *ngIf="publisherName == 'Seçiniz...'" selected>{{publisherName}}</option>
-            <option *ngFor="let publisher of publisherList" value="{{publisher.name}}">{{publisher.name}}</option>            
+            <option *ngIf="publisherNameForSearch == 'Seçiniz...'" selected>{{publisherNameForSearch}}</option>
+            <option *ngFor="let publisher of publisherListForSearchArea" value="{{publisher.name}}">{{publisher.name}}</option>            
           </select>
+            <div *ngIf="noAnyPublisherForSearchArea" class="text small text-danger mt-2">
+              *Sisteme yayınevi eklenmesi gerekmektedir.
+            </div> 
           </div>
           <div class="border border-1 border-dark-50 my-2 p-3">
             <h5 class="text-center">Seçimi Temizle</h5>
@@ -253,9 +272,13 @@
         </form>
   </div>
 
+  <!-- kitap ekleme ve güncelleme validasyon hataları aşağıda -->
+
+  
+
   <!-- kitap listeleme tablosu aşağıda -->
 
-    <table *ngIf="(bookDtosList | bookDtoSearch:isbnText :name :publisherName :authorFullName :genreName :native :notNative).length>0" class="table table-striped table-hover text-center">
+    <table *ngIf="(bookDtosList | bookDtoSearch:isbnTextForSearch :bookNameForSearch :publisherNameForSearch :authorFullNameForSearch :genreNameForSearch :nativeForSearch :notNativeForSearch).length>0" class="table table-striped table-hover text-center">
       <thead>
         <tr >
           <th>Ad</th>
@@ -267,19 +290,26 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let bookDto of bookDtosList | bookDtoSearch:isbnText :name :publisherName :authorFullName :genreName :native :notNative">
-          <td class="w-20">{{bookDto.name}}</td>
-          <td class="w-10">{{bookDto.isbn}}</td>
-          <td class="w-15">{{bookDto.publisherName}}</td>
-          <td class="w-15">{{bookDto.authorFullName}}</td>
-          <td class="w-10">{{bookDto.genreName}}</td>
-          <td class="w-10">
+        <tr *ngFor="let bookDto of bookDtosList | bookDtoSearch:isbnTextForSearch :bookNameForSearch :publisherNameForSearch :authorFullNameForSearch :genreNameForSearch :nativeForSearch :notNativeForSearch">
+          <td class="bookName">{{bookDto.name}}</td>
+          <td class="bookIsbn">{{bookDto.isbn}}</td>
+          <td class="bookPublisher">{{bookDto.publisherName}}</td>
+          <td class="bookAuthor">{{bookDto.authorFullName}}</td>
+          <td class="bookGenre">{{bookDto.genreName}}</td>
+          <td class="bookAdmin">
             <button class="btn btn-sm btn-secondary me-1">Güncelle</button>
             <button class="btn btn-sm btn-danger">Sil</button>
           </td>
         </tr>
       </tbody>
     </table>
+    
+      <!-- arama ve hiç kitap olmaması hataları aşağıda -->
+    <div class="text text-danger fw-bold border border-1 border-danger my-2 p-2" *ngIf="(bookDtosList | bookDtoSearch:isbnTextForSearch :bookNameForSearch :publisherNameForSearch :authorFullNameForSearch :genreNameForSearch :nativeForSearch :notNativeForSearch).length === 0 && loaded">
+      Aradığınız kriterde kitap bulunmamaktadır.
+    </div>
+    <div class="text text-danger text-center fw-bold border border-1 border-danger my-2 p-2" *ngIf="noAnyBookDto">Sistemde kullanılabilecek kitap bulunmamaktadır.
+    </div>
 
 
 
