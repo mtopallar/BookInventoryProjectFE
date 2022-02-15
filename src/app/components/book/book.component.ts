@@ -1,10 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Author } from 'src/app/models/author';
 import { BookDto } from 'src/app/models/bookDto';
+import { Book } from 'src/app/models/book'
 import { Genre } from 'src/app/models/genre';
 import { Publisher } from 'src/app/models/publisher';
+import { ProjectRegexes } from 'src/app/projectValidationTools/regexes/projectRegexes';
 import { AuthorService } from 'src/app/services/author.service';
 import { BookAndDtoService } from 'src/app/services/book-and-dto.service';
 import { GenreService } from 'src/app/services/genre.service';
@@ -56,6 +58,7 @@ export class BookComponent implements OnInit {
     private authorService:AuthorService,
     private genreService:GenreService,
     private publisherService:PublisherService,
+    private formBuilder:FormBuilder,
     private toastrService:ToastrService
   ) { }
 
@@ -68,6 +71,43 @@ export class BookComponent implements OnInit {
     this.getAuthorsForSearchArea()
     this.getGenresForSearchArea()
     this.getPublishersForSearchArea()
+    this.createAddBookForm()
+  }
+
+  createAddBookForm(){
+    this.addBookForm = this.formBuilder.group({
+      name:["",[Validators.required,Validators.pattern(ProjectRegexes.onlyOneWhiteSpaceBetweenWords)]],
+      isbn:["",[Validators.required,Validators.pattern(ProjectRegexes.isbn)]],
+      publisherName:["Seçiniz...",[]],
+      authorFullName:["Seçiniz...",[]],
+      genreName:["Seçiniz...",[]]
+    })
+  }
+
+  addBook(){
+    if (this.addBookForm.valid) {
+      let convertDtoToBookEntity:Book = {} as Book;
+      convertDtoToBookEntity.name = this.addBookForm.get('name').value;
+      convertDtoToBookEntity.isbn = this.addBookForm.get('isbn').value;
+      convertDtoToBookEntity.authorId = parseInt(this.addBookForm.get('authorFullName').value);
+      convertDtoToBookEntity.genreId =  parseInt(this.addBookForm.get('genreName').value);
+      convertDtoToBookEntity.publisherId = parseInt(this.addBookForm.get('publisherName').value);
+      this.bookandDtoService.addBook(convertDtoToBookEntity).subscribe(response=>{
+        this.toastrService.success(response.message,"Başarılı")
+        this.getAllBookDtos()
+        this.resetAddForm()
+      },responseError=>{
+        this.toastrService.error(responseError.error.message,"Hata")
+      })
+    }
+  }
+
+  resetAddForm(){
+    this.addBookForm.get('name').reset()
+    this.addBookForm.get('isbn').reset()
+    this.addBookForm.get('authorFullName').setValue("Seçiniz...")
+    this.addBookForm.get('publisherName').setValue("Seçiniz...")
+    this.addBookForm.get('genreName').setValue("Seçiniz...")
   }
 
   getAllBookDtos(){
@@ -177,5 +217,24 @@ export class BookComponent implements OnInit {
     this.nativeForSearch = false;
   }
   
+  get addName(){
+    return this.addBookForm.get('name');
+  }
+
+  get addIsbn(){
+    return this.addBookForm.get('isbn')
+  }
+
+  get addPublisherName(){
+    return this.addBookForm.get('publisherName')
+  }
+
+  get addAuthorFullName(){
+    return this.addBookForm.get('authorFullName')
+  }
+
+  get addGenreName(){
+    return this.addBookForm.get('genreName')
+  }
 
 }

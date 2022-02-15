@@ -22,7 +22,7 @@
               (keypress)="numberOnly($event)"              
               maxlength="13"             
               class="form-control"
-              placeholder="978_ _ _ _ _ _ _ _ _ _"
+              placeholder="97(8/9) _ _ _ _ _ _ _ _ _ _"
               [(ngModel)]="isbnTextForSearch"
               id="isbnText"
               aria-label="ISBN ile ara"
@@ -140,7 +140,7 @@
 
     <div *ngIf="isItAdd" class="border border-1 p-3 addClass my-2"> 
         <p class="display-6 fw-normal text-center">Kitap Ekle</p>
-      <form>
+      <form [formGroup]="addBookForm">
       <div class="row">
         <div class="col input-group mb-3">
           <label class="input-group-text">Kitap Adı</label>
@@ -148,6 +148,9 @@
           class="form-control"
           type="text"
           placeholder="Kitap adı"
+          formControlName="name"
+          [class.is-invalid] ="addName.invalid && (addName.touched || addName.dirty)"
+          [class.is-valid] ="addName.valid && (addName.touched || addName.dirty)"
           >
         </div>
         <div class="col input-group mb-3">
@@ -155,16 +158,21 @@
           <input 
           class="form-control"
           type="text"
+          (keypress)="numberOnly($event)"
+          maxlength="13"
           placeholder="ISBN No"
+          formControlName="isbn"
+          [class.is-invalid] ="addIsbn.invalid && (addIsbn.touched || addIsbn.dirty)"
+          [class.is-valid] ="addIsbn.valid && (addIsbn.touched || addIsbn.dirty)"
           >
         </div>
         <div class="col input-group mb-3">
-          <label class="input-group-text">Yazar</label>
-          <select class="form-select" id="inputGroupSelect01">
-            <option selected>Choose...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <label class="input-group-text">Yazar</label>          
+          <select class="form-select" id="inputGroupSelect01"
+          formControlName="authorFullName"
+          >                   
+            <option selected>Seçiniz...</option>
+            <option *ngFor="let author of authorList" value="{{author.id}}">{{author.firstName +' '+ author.lastName}}</option>            
           </select>
         </div>
       </div>
@@ -173,22 +181,26 @@
         <div class="col-4">
           <div class="input-group mb-3">
             <label class="input-group-text">Yayınevi</label>
-            <select class="form-select" id="inputGroupSelect01">
-              <option selected>Choose...</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select class="form-select" id="inputGroupSelect01"
+            formControlName="publisherName"
+            >
+              
+              <option selected>Seçiniz...</option>
+              <option *ngFor="let publisher of publisherList" value="{{publisher.id}}">{{publisher.name}}</option>
+              
             </select>
           </div>  
         </div>        
         <div class="col-4">
           <div class="input-group mb-3">
             <label class="input-group-text">Tür</label>
-            <select class="form-select" id="inputGroupSelect01">
-              <option selected>Choose...</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select class="form-select" id="inputGroupSelect01"
+            formControlName="genreName"
+            >
+                                         
+              <option selected>Seçiniz...</option>
+              <option *ngFor="let genre of genreList" value="{{genre.id}}">{{genre.name}}</option>
+              
             </select>
           </div>
         </div>
@@ -197,8 +209,10 @@
 
         <div class="row">
           <div class="text-end">
-            <button class="btn btn-outline-light" type="button">Kaydet</button>
-          <button class="btn btn-outline-light ms-2" type="button">İptal</button>    
+            <button class="btn btn-outline-light" type="button" (click)="addBook()" 
+            [disabled]="addAuthorFullName.value==='Seçiniz...' || addPublisherName.value==='Seçiniz...' || addGenreName.value === 'Seçiniz...' || addName.invalid || addIsbn.invalid"           
+            >Kaydet</button>
+          <button class="btn btn-outline-light ms-2" type="button" (click)="resetAddForm()">İptal</button>    
           </div>
         </div>
       </form>
@@ -272,9 +286,32 @@
         </form>
   </div>
 
-  <!-- kitap ekleme ve güncelleme validasyon hataları aşağıda -->
-
-  
+  <!-- kitap ekleme ve güncelleme validasyon ve noAuthor vs hataları aşağıda -->
+  <div *ngIf="noAnyAuthor" class="text small text-danger">
+    *Sistemde kullanılabilir yazar mevcut değil. Kitap eklemeden önce yazar eklemelisiniz.
+  </div>
+  <div *ngIf="noAnyGenre" class="text small text-danger">
+    *Sistemde kullanılabilir tür mevcut değil. Kitap eklemeden önce tür eklemelisiniz.
+  </div>
+  <div *ngIf="noAnyPublisher" class="text small text-danger">
+    *Sistemde kullanılabilir yayınevi mevcut değil. Kitap eklemeden önce yayınevi eklemelisiniz.
+  </div>
+  <div *ngIf="isItAdd && addName.touched || addName.dirty">
+    <div *ngIf="addName.hasError('required')" class="text small text-danger">
+      *Kitap adı boş bırakılamaz.
+    </div>
+    <div *ngIf="addName.hasError('pattern')" class="text small text-danger">
+      *Kitap adı boşlukla başlayamaz veya bitemez. İzin verilenler dışında özel karakter içeremez.
+    </div>
+  </div>
+  <div *ngIf="isItAdd && addIsbn.touched || addIsbn.dirty">
+    <div *ngIf="addIsbn.hasError('required')" class="text small text-danger">
+      *ISBN numarası boş bırakılamaz.
+    </div>
+    <div *ngIf="addIsbn.hasError('pattern')" class="text small text-danger">
+      *ISBN numarası 978 veya 979 ile başlar ve 13 rakamdan oluşur.
+    </div>
+  </div>
 
   <!-- kitap listeleme tablosu aşağıda -->
 
@@ -297,8 +334,7 @@
           <td class="bookAuthor">{{bookDto.authorFullName}}</td>
           <td class="bookGenre">{{bookDto.genreName}}</td>
           <td class="bookAdmin">
-            <button class="btn btn-sm btn-secondary me-1">Güncelle</button>
-            <button class="btn btn-sm btn-danger">Sil</button>
+            <button class="btn btn-sm btn-secondary">Güncelle</button>
           </td>
         </tr>
       </tbody>
