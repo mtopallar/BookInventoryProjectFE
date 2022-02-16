@@ -1,7 +1,14 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Author } from 'src/app/models/author';
+import { BookDto } from 'src/app/models/bookDto';
 import { Genre } from 'src/app/models/genre';
 import { Publisher } from 'src/app/models/publisher';
+import { AuthorService } from 'src/app/services/author.service';
+import { BookAndDtoService } from 'src/app/services/book-and-dto.service';
+import { GenreService } from 'src/app/services/genre.service';
+import { PublisherService } from 'src/app/services/publisher.service';
 import { WindowSizeService } from 'src/app/services/window-size.service';
 
 @Component({
@@ -13,27 +20,102 @@ export class LibraryComponent implements OnInit {
 
   public classDiv1:string;
   public classDiv2:string;
-  public isbnText:string;
-  public name:string;
-  public publisherName:string = "Seçiniz..."
-  public authorFullName:string = "Seçiniz...";
-  public genreName:string = "Seçiniz..."
-  public native:boolean = false;
-  public notNative:boolean = false;
+  public isbnTextForSearch:string;
+  public bookNameForSearch:string;
+  public publisherNameForSearch:string = "Seçiniz..."
+  public authorFullNameForSearch:string = "Seçiniz...";
+  public genreNameForSearch:string = "Seçiniz..."
+  public nativeForSearch:boolean = false;
+  public notNativeForSearch:boolean = false;
 
-  public noAnyBook:boolean = false;
+  public noAnyBookDto:boolean = false;
+  public bookDtosList:BookDto[] = [];
+  public loaded:boolean = false;
 
-  public authorList:Author[] = [];
-  public noAnyAuthor:boolean = false;
-  public genreList:Genre[] = [];
-  public noAnyGenre:boolean = false;
-  public publisherList:Publisher[] = [];
-  public noAnyPublisher:boolean = false;
+  public authorListForSearchArea:Author[] = [];
+  public noAnyAuthorForSearchArea:boolean = false;
+  public genreListForSearchArea:Genre[] = [];
+  public noAnyGenreForSearchArea:boolean = false;
+  public publisherListForSearchArea:Publisher[] = [];
+  public noAnyPublisherForSearchArea:boolean = false;
 
-  constructor(private windowSizeService:WindowSizeService) { }
+  public addToLibraryForm:FormGroup;
+  public currentBookDto:BookDto = {} as BookDto
+  public isItAdd:boolean = false;
+  
+
+  constructor(
+      private windowSizeService:WindowSizeService,
+      private bookAndDtoService:BookAndDtoService,
+      private authorService:AuthorService,
+      private genreService:GenreService,
+      private publisherService:PublisherService,
+      private formBuilder:FormBuilder,
+      private toastrService:ToastrService
+    ) { }
 
   ngOnInit(): void {  
-    this.divColSetter()  
+    this.divColSetter()
+    this.getAllBookDtos()
+    this.getAuthorsForSearchArea()
+    this.getGenresForSearchArea()
+    this.getPublishersForSearchArea() 
+    this.createAddToLibraryForm() 
+  }
+
+  setCurrentBookDto(currentDto:BookDto){
+    // gri ekle butonu
+    this.currentBookDto = currentDto
+    this.isItAdd = true;
+    this.addToLibraryForm.get('readStatue').setValue(false)
+    this.scrollToTop()
+  }
+
+  cancelAdding(){
+    this.isItAdd = false
+  }
+
+  createAddToLibraryForm(){
+    this.addToLibraryForm = this.formBuilder.group({
+      readStatue:[false,[]],
+      note:['',[]]
+    })
+  }
+
+  getAuthorsForSearchArea(){
+    this.authorService.getAllForSearchArea().subscribe(response=>{
+      let sortedList = response.data.sort((a,b)=>a.firstName.localeCompare(b.firstName))      
+      this.authorListForSearchArea = sortedList
+    },responseError=>{
+      this.noAnyAuthorForSearchArea = true;
+    })
+  }
+
+  getGenresForSearchArea(){
+    this.genreService.getAllForSearchArea().subscribe(response=>{
+      let sortedList = response.data.sort((a,b)=>a.name.localeCompare(b.name))
+      this.genreListForSearchArea = sortedList
+    },responseError=>{
+      this.noAnyGenreForSearchArea = true;
+    })
+  }
+
+  getPublishersForSearchArea(){
+    this.publisherService.getAllForSearchArea().subscribe(response=>{
+      let sortedList = response.data.sort((a,b) => a.name.localeCompare(b.name))
+      this.publisherListForSearchArea = sortedList
+    },responseError=>{
+      this.noAnyPublisherForSearchArea = true;
+    })
+  }
+
+  getAllBookDtos(){
+    this.bookAndDtoService.getallBookDtos().subscribe(response=>{
+      this.bookDtosList = response.data;
+      this.loaded = true;
+    }, responseError=>{
+      this.noAnyBookDto = true;      
+    })
   }
   
   @HostListener('window:resize', ['$event'])
@@ -49,27 +131,30 @@ export class LibraryComponent implements OnInit {
       return false;
     }
     return true;
-
   }
 
   clearSelections(){
-    this.publisherName = "Seçiniz..."
-    this.authorFullName = "Seçiniz..."
-    this.genreName = "Seçiniz..."
-    this.isbnText = ""
-    this.name = ""
-    this.native = false;
-    this.notNative = false;
+    this.publisherNameForSearch = "Seçiniz..."
+    this.authorFullNameForSearch = "Seçiniz..."
+    this.genreNameForSearch = "Seçiniz..."
+    this.isbnTextForSearch = ""
+    this.bookNameForSearch = ""
+    this.nativeForSearch = false;
+    this.notNativeForSearch = false;
   }
 
   setNative(){
-    this.native = true;
-    this. notNative = false
+    this.nativeForSearch = true;
+    this. notNativeForSearch = false
   }
 
   setNotNative(){
-    this.notNative = true;
-    this.native = false;
+    this.notNativeForSearch = true;
+    this.nativeForSearch = false;
+  }
+
+  scrollToTop() {
+    window.scroll(0, 0);
   }
 
 }

@@ -198,7 +198,6 @@ export class BookComponent implements OnInit {
       this.authorList = sortedList
     },responseError=>{
       this.noAnyAuthor = true;
-      //div oluşturup hata mesajı yaz.
     })
   }
 

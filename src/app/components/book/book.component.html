@@ -183,11 +183,9 @@
             <label class="input-group-text">Yayınevi</label>
             <select class="form-select" id="inputGroupSelect01"
             formControlName="publisherName"
-            >
-              
+            > 
               <option selected>Seçiniz...</option>
               <option *ngFor="let publisher of publisherList" value="{{publisher.id}}">{{publisher.name}}</option>
-              
             </select>
           </div>  
         </div>        
@@ -196,15 +194,12 @@
             <label class="input-group-text">Tür</label>
             <select class="form-select" id="inputGroupSelect01"
             formControlName="genreName"
-            >
-                                         
+            >                            
               <option selected>Seçiniz...</option>
               <option *ngFor="let genre of genreList" value="{{genre.id}}">{{genre.name}}</option>
-              
             </select>
           </div>
         </div>
-        
       </div>
 
         <div class="row">
@@ -255,7 +250,6 @@
             >
               <option selected>{{currentBookDto.authorFullName}}</option>
               <option *ngFor="let author of authorList" value="{{author.id}}">{{author.firstName + ' ' + author.lastName}}</option>
-              
             </select>
           </div>
         </div>
@@ -269,7 +263,6 @@
               >
                 <option selected>{{currentBookDto.publisherName}}</option>
                 <option *ngFor="let publisher of publisherList" value="{{publisher.id}}">{{publisher.name}}</option>
-                
               </select>
             </div>  
           </div>        
@@ -281,11 +274,9 @@
               >
                 <option selected>{{currentBookDto.genreName}}</option>
                 <option *ngFor="let genre of genreList" value="{{genre.id}}">{{genre.name}}</option>
-                
               </select>
             </div>
           </div>
-          
         </div>
   
           <div class="row">
@@ -375,15 +366,5 @@
     </div>
     <div class="text text-danger text-center fw-bold border border-1 border-danger my-2 p-2" *ngIf="noAnyBookDto">Sistemde kullanılabilecek kitap bulunmamaktadır.
     </div>
-
-
-
-
-
-
-
-
-
-        
-    </div>
+  </div>
 </div>
