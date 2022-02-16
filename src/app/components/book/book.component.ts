@@ -51,6 +51,8 @@ export class BookComponent implements OnInit {
   public bookDtosList:BookDto[] = [];
   public noAnyBookDto:boolean = false;
   public loaded:boolean = false;
+  public currentBookDto:BookDto = {} as BookDto
+  public currentBook:Book = {} as Book
 
   constructor(
     private windowSizeService:WindowSizeService,
@@ -72,6 +74,7 @@ export class BookComponent implements OnInit {
     this.getGenresForSearchArea()
     this.getPublishersForSearchArea()
     this.createAddBookForm()
+    this.createUpdateBookForm()
   }
 
   createAddBookForm(){
@@ -81,6 +84,16 @@ export class BookComponent implements OnInit {
       publisherName:["Seçiniz...",[]],
       authorFullName:["Seçiniz...",[]],
       genreName:["Seçiniz...",[]]
+    })
+  }
+
+  createUpdateBookForm(){
+    this.updateBookForm = this.formBuilder.group({
+      name:[this.currentBookDto ? this.currentBookDto.name : '',[Validators.required,Validators.pattern(ProjectRegexes.onlyOneWhiteSpaceBetweenWords)]],
+      isbn:[this.currentBookDto ? this.currentBookDto.isbn : '',[Validators.required,Validators.pattern(ProjectRegexes.isbn)]],
+      publisherName:[this.currentBookDto ? this.currentBookDto.publisherName : '',[]],
+      authorFullName:[this.currentBookDto ? this.currentBookDto.authorFullName : '',[]],
+      genreName:[this.currentBookDto ? this.currentBookDto.genreName : '',[]]
     })
   }
 
@@ -100,6 +113,53 @@ export class BookComponent implements OnInit {
         this.toastrService.error(responseError.error.message,"Hata")
       })
     }
+  }  
+
+  setCurrentBookDto(bookDto:BookDto){
+    // gri güncelle butonu    
+    this.currentBookDto = bookDto
+    this.bookandDtoService.getBookById(bookDto.bookId).subscribe(response=>{
+      this.currentBook = response.data     
+      this.createUpdateBookForm()
+      this.getUpdateForm()
+      this.scrollToTop()
+    })  
+  }
+  updateBook(){    
+    if (this.updateBookForm.valid) {
+      let bookToUpdate:Book = {} as Book
+      bookToUpdate.id = this.currentBookDto.bookId;
+      bookToUpdate.name = this.updateBookForm.get('name').value;
+      bookToUpdate.isbn = this.updateBookForm.get('isbn').value;
+
+     let tryParseAuthorFullNameValueToNumber:number = parseInt(this.updateBookForm.get('authorFullName').value)
+     let tryParsePublisherNameValueToNumber:number = parseInt(this.updateBookForm.get('publisherName').value)
+     let tryParseGenreNameValueToNumber:number = parseInt(this.updateBookForm.get('genreName').value)    
+
+     if (Number.isNaN(tryParseAuthorFullNameValueToNumber)) {
+        bookToUpdate.authorId = this.authorList.find(a=>a.id == this.currentBook.authorId).id      
+     }else{
+      bookToUpdate.authorId = parseInt(this.updateBookForm.get('authorFullName').value);
+     }
+     if (Number.isNaN(tryParsePublisherNameValueToNumber)) {
+       bookToUpdate.publisherId = this.publisherList.find(p=>p.id ==  this.currentBook.publisherId).id
+     }else {
+      bookToUpdate.publisherId = parseInt(this.updateBookForm.get('publisherName').value); 
+     }
+     if (Number.isNaN(tryParseGenreNameValueToNumber)) {
+       bookToUpdate.genreId = this.genreList.find(g=>g.id == this.currentBook.genreId).id
+     }else{
+      bookToUpdate.genreId = parseInt(this.updateBookForm.get('genreName').value);
+     }
+      this.bookandDtoService.updateBook(bookToUpdate).subscribe(response=>{
+        this.toastrService.success(response.message,"Başarılı")
+        this.getAllBookDtos()
+        this.resetUpdateForm()
+        this.getAddForm()
+      },responseError=>{
+        this.toastrService.error(responseError.error.message,"Hata")
+      })
+    }
   }
 
   resetAddForm(){
@@ -108,6 +168,19 @@ export class BookComponent implements OnInit {
     this.addBookForm.get('authorFullName').setValue("Seçiniz...")
     this.addBookForm.get('publisherName').setValue("Seçiniz...")
     this.addBookForm.get('genreName').setValue("Seçiniz...")
+  }
+
+  resetUpdateForm(){
+    this.updateBookForm.get('name').reset()
+    this.updateBookForm.get('isbn').reset()
+    this.updateBookForm.get('authorFullName').setValue("Seçiniz...")
+    this.updateBookForm.get('publisherName').setValue("Seçiniz...")
+    this.updateBookForm.get('genreName').setValue("Seçiniz...")
+  }
+
+  cancelUpdate(){
+    this.resetUpdateForm()
+    this.getAddForm()
   }
 
   getAllBookDtos(){
@@ -144,7 +217,6 @@ export class BookComponent implements OnInit {
       this.genreList = sortedList
     },responseError=>{
       this.noAnyGenre = true
-      //div oluşturup içine hata yaz
     })
   }
 
@@ -163,7 +235,6 @@ export class BookComponent implements OnInit {
       this.publisherList = sortedList
     },responseError=>{
       this.noAnyPublisher = true
-      // div yaz içine hata mesajını koy
     })
   }
 
@@ -189,7 +260,6 @@ export class BookComponent implements OnInit {
       return false;
     }
     return true;
-
   }
 
   clearSelections(){
@@ -202,7 +272,6 @@ export class BookComponent implements OnInit {
     this.notNativeForSearch = false;
   }
 
-  // update de kullan
   scrollToTop() {
     window.scroll(0, 0);
   }
@@ -215,6 +284,16 @@ export class BookComponent implements OnInit {
   setNotNative(){
     this.notNativeForSearch = true;
     this.nativeForSearch = false;
+  }
+
+  getAddForm(){
+    this.isItAdd = true;
+    this.isItUpdate = false;
+  }
+
+  getUpdateForm(){
+    this.isItAdd = false;
+    this.isItUpdate = true;
   }
   
   get addName(){
@@ -235,6 +314,13 @@ export class BookComponent implements OnInit {
 
   get addGenreName(){
     return this.addBookForm.get('genreName')
+  }
+
+  get updateName(){
+    return this.updateBookForm.get('name')
+  }
+  get updateIsbn(){
+    return this.updateBookForm.get('isbn')
   }
 
 }

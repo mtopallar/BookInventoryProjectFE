@@ -222,7 +222,7 @@
 
     <div *ngIf="isItUpdate" class="border border-1 p-3 updateClass my-2"> 
       <p class="display-6 fw-normal text-center">Kitap Güncelle</p>
-      <form>
+      <form [formGroup]="updateBookForm">
         <div class="row">
           <div class="col input-group mb-3">
             <label class="input-group-text">Kitap Adı</label>
@@ -230,6 +230,9 @@
             class="form-control"
             type="text"
             placeholder="Kitap adı"
+            formControlName="name"
+            [class.is-invalid] ="updateName.invalid && (updateName.touched || updateName.dirty)"
+          [class.is-valid] ="updateName.valid && (updateName.touched || updateName.dirty)"
             >
           </div>
           <div class="col input-group mb-3">
@@ -238,15 +241,21 @@
             class="form-control"
             type="text"
             placeholder="ISBN No"
+            formControlName="isbn"
+            (keypress)="numberOnly($event)"
+            maxlength="13"
+            [class.is-invalid] ="updateIsbn.invalid && (updateIsbn.touched || updateIsbn.dirty)"
+          [class.is-valid] ="updateIsbn.valid && (updateIsbn.touched || updateIsbn.dirty)"
             >
           </div>
           <div class="col input-group mb-3">
             <label class="input-group-text">Yazar</label>
-            <select class="form-select" id="inputGroupSelect01">
-              <option selected>Choose...</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select class="form-select" id="inputGroupSelect01"
+            formControlName="authorFullName"
+            >
+              <option selected>{{currentBookDto.authorFullName}}</option>
+              <option *ngFor="let author of authorList" value="{{author.id}}">{{author.firstName + ' ' + author.lastName}}</option>
+              
             </select>
           </div>
         </div>
@@ -255,22 +264,24 @@
           <div class="col-4">
             <div class="input-group mb-3">
               <label class="input-group-text">Yayınevi</label>
-              <select class="form-select" id="inputGroupSelect01">
-                <option selected>Choose...</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+              <select class="form-select" id="inputGroupSelect01"
+              formControlName="publisherName"
+              >
+                <option selected>{{currentBookDto.publisherName}}</option>
+                <option *ngFor="let publisher of publisherList" value="{{publisher.id}}">{{publisher.name}}</option>
+                
               </select>
             </div>  
           </div>        
           <div class="col-4">
             <div class="input-group mb-3">
               <label class="input-group-text">Tür</label>
-              <select class="form-select" id="inputGroupSelect01">
-                <option selected>Choose...</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+              <select class="form-select" id="inputGroupSelect01"
+              formControlName="genreName"
+              >
+                <option selected>{{currentBookDto.genreName}}</option>
+                <option *ngFor="let genre of genreList" value="{{genre.id}}">{{genre.name}}</option>
+                
               </select>
             </div>
           </div>
@@ -279,8 +290,10 @@
   
           <div class="row">
             <div class="text-end">
-              <button class="btn btn-outline-light" type="button">Kaydet</button>
-            <button class="btn btn-outline-light ms-2" type="button">İptal</button>    
+              <button class="btn btn-outline-light" type="button" (click)="updateBook()"
+              [disabled]="updateName.invalid || updateIsbn.invalid"
+              >Kaydet</button>
+            <button class="btn btn-outline-light ms-2" type="button" (click)="cancelUpdate()">İptal</button>    
             </div>
           </div>
         </form>
@@ -312,6 +325,22 @@
       *ISBN numarası 978 veya 979 ile başlar ve 13 rakamdan oluşur.
     </div>
   </div>
+  <div *ngIf="isItUpdate && updateName.touched || updateName.dirty">
+    <div *ngIf="updateName.hasError('required')" class="text small text-danger">
+      *Kitap adı boş bırakılamaz.
+    </div>
+    <div *ngIf="updateName.hasError('pattern')" class="text small text-danger">
+      *Kitap adı boşlukla başlayamaz veya bitemez. İzin verilenler dışında özel karakter içeremez.
+    </div>
+  </div>
+  <div *ngIf="isItUpdate && updateIsbn.touched || updateIsbn.dirty">
+    <div *ngIf="updateIsbn.hasError('required')" class="text small text-danger">
+      *ISBN numarası boş bırakılamaz.
+    </div>
+    <div *ngIf="updateIsbn.hasError('pattern')" class="text small text-danger">
+      *ISBN numarası 978 veya 979 ile başlar ve 13 rakamdan oluşur.
+    </div>
+  </div>
 
   <!-- kitap listeleme tablosu aşağıda -->
 
@@ -334,7 +363,7 @@
           <td class="bookAuthor">{{bookDto.authorFullName}}</td>
           <td class="bookGenre">{{bookDto.genreName}}</td>
           <td class="bookAdmin">
-            <button class="btn btn-sm btn-secondary">Güncelle</button>
+            <button class="btn btn-sm btn-secondary" (click)="setCurrentBookDto(bookDto)">Güncelle</button>
           </td>
         </tr>
       </tbody>
