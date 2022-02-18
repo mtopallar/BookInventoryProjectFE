@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginModel } from 'src/app/models/loginModel';
 import { WhiteSpacesValidator } from 'src/app/projectValidationTools/customValidators/whiteSpacesValidator';
 import { ProjectRegexes } from 'src/app/projectValidationTools/regexes/projectRegexes';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +21,7 @@ export class RegisterComponent implements OnInit {
   public buttonClass:string = "w-100 btn btn-lg btn-primary"
   public registerErrorMessages:string[] = []
 
-  constructor(private formBuilder:FormBuilder, private authService:AuthService, private router:Router) { }
+  constructor(private formBuilder:FormBuilder, private authService:AuthService, private userService:UserService, private router:Router) { }
 
   ngOnInit(): void {
     this.createRegisterForm()
@@ -42,6 +44,8 @@ export class RegisterComponent implements OnInit {
         localStorage.setItem("token", response.data.token)
         localStorage.setItem("expiration", response.data.expiration.toString())
         this.authService.isAuthenticatedFlag()
+        let loginModel:LoginModel = {email:registerModel.email,password:registerModel.password}
+        this.userService.getUserDetailsIfLoginOrRegisterationSuccessfull(loginModel);
         this.router.navigate(["/library"])
       },errorResponse=>{
         this.registerError = true

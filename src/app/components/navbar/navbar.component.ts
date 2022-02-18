@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Event, NavigationEnd, Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +13,7 @@ export class NavbarComponent implements OnInit {
   classUserLibrary: string = 'nav-link';
   classDropdown: string = 'nav-link dropdown-toggle';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private userService:UserService) {}
 
   ngOnInit(): void {
     this.activeClassChanger()
@@ -22,6 +23,7 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
     this.authService.isAuthenticatedFlag();
+    this.userService.userDetails.next(null)
     this.router.navigate(['/login']);
   }
   activeClassChanger() {

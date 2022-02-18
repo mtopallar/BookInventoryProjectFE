@@ -4,11 +4,13 @@ import { ToastrService } from 'ngx-toastr';
 import { Author } from 'src/app/models/author';
 import { BookDto } from 'src/app/models/bookDto';
 import { Genre } from 'src/app/models/genre';
+import { LoginModel } from 'src/app/models/loginModel';
 import { Publisher } from 'src/app/models/publisher';
 import { AuthorService } from 'src/app/services/author.service';
 import { BookAndDtoService } from 'src/app/services/book-and-dto.service';
 import { GenreService } from 'src/app/services/genre.service';
 import { PublisherService } from 'src/app/services/publisher.service';
+import { UserService } from 'src/app/services/user.service';
 import { WindowSizeService } from 'src/app/services/window-size.service';
 
 @Component({
@@ -51,7 +53,8 @@ export class LibraryComponent implements OnInit {
       private genreService:GenreService,
       private publisherService:PublisherService,
       private formBuilder:FormBuilder,
-      private toastrService:ToastrService
+      private toastrService:ToastrService,
+      private userService:UserService
     ) { }
 
   ngOnInit(): void {  
@@ -69,6 +72,13 @@ export class LibraryComponent implements OnInit {
     this.isItAdd = true;
     this.addToLibraryForm.get('readStatue').setValue(false)
     this.scrollToTop()
+  }
+
+  test(){
+    
+    this.userService.userDetails.subscribe(response=>{
+      console.log(response)
+    })
   }
 
   cancelAdding(){

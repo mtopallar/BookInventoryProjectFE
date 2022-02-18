@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { NavigationEnd, Router, Event } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ export class AppComponent {
   public imageHeight:string
   public imageSrc:string
  
-  constructor(private authService:AuthService, private router:Router){
+  constructor(private authService:AuthService, private router:Router, private userService:UserService){
     this.authService.isAuthenticatedFlag();
     this.authService.isUserLoggedIn.subscribe(value=>{
       this.loggedIn = value;      
@@ -28,6 +29,13 @@ export class AppComponent {
   ngOnInit() {    
     this.navigationEndSelector() 
     this.divColSetter()
+    this.clearLoggedInUserDataIfTokenExpires()
+  }
+
+  clearLoggedInUserDataIfTokenExpires(){
+    if (!this.loggedIn) {
+      this.userService.userDetails.next(null)
+    }
   }
 
   navigationEndSelector(){

@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ProjectRegexes } from 'src/app/projectValidationTools/regexes/projectRegexes';
 import { WhiteSpacesValidator } from 'src/app/projectValidationTools/customValidators/whiteSpacesValidator';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
   
   
 
-  constructor(private formBuilder:FormBuilder, private authService:AuthService, private router:Router, private toastrService:ToastrService) {} 
+  constructor(private formBuilder:FormBuilder, private authService:AuthService, private router:Router, private userService:UserService) {} 
   
   ngOnInit(): void {
     this.createLoginForm()
@@ -45,6 +46,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("token", response.data.token)
         localStorage.setItem("expiration", response.data.expiration.toString())
         this.authService.isAuthenticatedFlag()
+        this.userService.getUserDetailsIfLoginOrRegisterationSuccessfull(loginModel)
         this.router.navigate(["/library"])
       },errorResponse=>{        
         this.loginError = true;        

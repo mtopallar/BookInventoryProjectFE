@@ -27,7 +27,7 @@ export class AuthService {
     let expiration:Date = new Date(localStorage.getItem("expiration")) 
     let token:string = localStorage.getItem("token")
     
-    if (token && new Date < expiration) {   
+    if (token && new Date() < expiration) {   
       this.isUserLoggedIn.next(true)
     }else{      
       localStorage.removeItem("token")
