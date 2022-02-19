@@ -34,10 +34,12 @@ export class UserService {
     })
     if (result) {
       this.getUserDetails(loginModel).subscribe(response=>{
-      this.userDetails.next(response.data)
+        this.userDetails.next(response.data)
+        localStorage.setItem('authenticatedUser', JSON.stringify(response.data)) 
     })
     }else{
       this.userDetails.next(null)
+      localStorage.removeItem("authenticatedUser")
     }    
   }
 }

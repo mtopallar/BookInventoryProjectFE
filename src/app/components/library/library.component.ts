@@ -74,8 +74,7 @@ export class LibraryComponent implements OnInit {
     this.scrollToTop()
   }
 
-  test(){
-    
+  test(){    
     this.userService.userDetails.subscribe(response=>{
       console.log(response)
     })

@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { NavigationEnd, Router, Event } from '@angular/router';
+import { UserDetailsDto } from './models/userDetailsDto';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 
@@ -35,6 +36,10 @@ export class AppComponent {
   clearLoggedInUserDataIfTokenExpires(){
     if (!this.loggedIn) {
       this.userService.userDetails.next(null)
+      localStorage.removeItem("authenticatedUser")
+    }else{
+      let userModel:UserDetailsDto = JSON.parse(localStorage.getItem("authenticatedUser"))
+      this.userService.userDetails.next(userModel)
     }
   }
 
