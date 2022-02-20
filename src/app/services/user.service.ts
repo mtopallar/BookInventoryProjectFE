@@ -6,6 +6,7 @@ import { LoginModel } from '../models/loginModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
 import { UserDetailsDto } from '../models/userDetailsDto';
 import { AuthService } from './auth.service';
+import { LocalStorageEncryptDecryptHelperService } from './localStorage-hashing-helper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class UserService {
 
   public userDetails:BehaviorSubject<UserDetailsDto> = new BehaviorSubject<UserDetailsDto>(null)
 
-  constructor(private httpClient:HttpClient, private authService:AuthService) { }
+  constructor(private httpClient:HttpClient, private authService:AuthService, private localStorageEncryptDecryptHelperService:LocalStorageEncryptDecryptHelperService) { }
 
   getUserDetails(loginModel:LoginModel)
   :Observable<SingleResponseModel<UserDetailsDto>>{
@@ -35,7 +36,7 @@ export class UserService {
     if (result) {
       this.getUserDetails(loginModel).subscribe(response=>{
         this.userDetails.next(response.data)
-        localStorage.setItem('authenticatedUser', JSON.stringify(response.data)) 
+        this.localStorageEncryptDecryptHelperService.hashAndSetAuthenticatedUserToLocalStorage('authenticatedUser', response.data) 
     })
     }else{
       this.userDetails.next(null)
