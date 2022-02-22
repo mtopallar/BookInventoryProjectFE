@@ -1,8 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { NavigationEnd, Router, Event } from '@angular/router';
-import { UserDetailsDto } from './models/userDetailsDto';
 import { AuthService } from './services/auth.service';
-import { LocalStorageEncryptDecryptHelperService } from './services/localStorage-hashing-helper.service';
 import { UserService } from './services/user.service';
 
 @Component({
@@ -22,7 +20,7 @@ export class AppComponent {
   public imageHeight:string
   public imageSrc:string
  
-  constructor(private authService:AuthService, private router:Router, private userService:UserService, private localStorageEncryptDecryptHelperService:LocalStorageEncryptDecryptHelperService){
+  constructor(private authService:AuthService, private router:Router, private userService:UserService){
     this.authService.isAuthenticatedFlag();
     this.authService.isUserLoggedIn.subscribe(value=>{
       this.loggedIn = value;      
@@ -30,20 +28,13 @@ export class AppComponent {
   }
   ngOnInit() {    
     this.navigationEndSelector() 
-    this.divColSetter()
-    this.clearLoggedInUserDataIfTokenExpires()
+    this.divColSetter()  
+    this.getAuthenticatedUser()  
   }
 
-  clearLoggedInUserDataIfTokenExpires(){  
-    let userModel:UserDetailsDto = this.localStorageEncryptDecryptHelperService.getAuthenticatedUserAndDehashFromLocalStorage("authenticatedUser")
-      
-    if (!this.loggedIn || !userModel) {      
-      this.userService.userDetails.next(null)
-      localStorage.removeItem("token");
-      localStorage.removeItem("expiration")
-      localStorage.removeItem("authenticatedUser")
-    }else{      
-      this.userService.userDetails.next(userModel)
+  getAuthenticatedUser(){
+    if (this.loggedIn) {
+      this.userService.getAuthenticatedUserFromToken()
     }
   }
 

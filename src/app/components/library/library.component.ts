@@ -9,6 +9,7 @@ import { Publisher } from 'src/app/models/publisher';
 import { AuthorService } from 'src/app/services/author.service';
 import { BookAndDtoService } from 'src/app/services/book-and-dto.service';
 import { GenreService } from 'src/app/services/genre.service';
+import { LocalStorageHelperService } from 'src/app/services/local-storage-helper.service';
 import { PublisherService } from 'src/app/services/publisher.service';
 import { UserService } from 'src/app/services/user.service';
 import { WindowSizeService } from 'src/app/services/window-size.service';
@@ -54,7 +55,8 @@ export class LibraryComponent implements OnInit {
       private publisherService:PublisherService,
       private formBuilder:FormBuilder,
       private toastrService:ToastrService,
-      private userService:UserService
+      private userService:UserService,
+      private localStorageHelperService:LocalStorageHelperService
     ) { }
 
   ngOnInit(): void {  
@@ -76,9 +78,11 @@ export class LibraryComponent implements OnInit {
 
   test(){    
     
-    this.userService.userDetails.subscribe(response=>{
-      console.log(response)
-    })
+    console.log(this.userService.authenticatedUserDetails.getValue()) 
+    // let deneme = this.localStorageHelperService.getFromLocalStorageWithDecryption<Author>("asd")
+    // this.userService.userDetails.subscribe(response=>{
+    //   console.log(response)
+    // })
   }
 
   cancelAdding(){

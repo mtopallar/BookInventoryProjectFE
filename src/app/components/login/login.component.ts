@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProjectRegexes } from 'src/app/projectValidationTools/regexes/projectRegexes';
 import { WhiteSpacesValidator } from 'src/app/projectValidationTools/customValidators/whiteSpacesValidator';
-import { ToastrService } from 'ngx-toastr';
+import { LocalStorageHelperService } from 'src/app/services/local-storage-helper.service';
 import { UserService } from 'src/app/services/user.service';
 
 
@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
   
   
 
-  constructor(private formBuilder:FormBuilder, private authService:AuthService, private router:Router, private userService:UserService) {} 
+  constructor(
+    private formBuilder:FormBuilder, private authService:AuthService, private router:Router, private localStorageHelperService:LocalStorageHelperService, private userService:UserService) {} 
   
   ngOnInit(): void {
     this.createLoginForm()
@@ -43,10 +44,10 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.valid){   
       let loginModel = Object.assign({},this.loginForm.value)        
       this.authService.login(loginModel).subscribe(response=>{
-        localStorage.setItem("token", response.data.token)
-        localStorage.setItem("expiration", response.data.expiration.toString())
+        this.localStorageHelperService.setToLocalStorageWithEncryption("token", response.data.token)    
+        this.localStorageHelperService.setToLocalStorageWithEncryption("expiration", new Date(response.data.expiration).toString())
         this.authService.isAuthenticatedFlag()
-        this.userService.getUserDetailsIfLoginOrRegisterationSuccessfull(loginModel)
+        this.userService.getAuthenticatedUserFromToken()
         this.router.navigate(["/library"])
       },errorResponse=>{        
         this.loginError = true;        

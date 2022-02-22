@@ -6,6 +6,7 @@ import { SingleResponseModel } from '../models/singleResponseModel';
 import { AccessTokenModel } from '../models/accessTokenModel';
 import { environment } from 'src/environments/environment';
 import { RegisterModel } from '../models/registerModel';
+import { LocalStorageHelperService } from './local-storage-helper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ import { RegisterModel } from '../models/registerModel';
 export class AuthService {
 
   public isUserLoggedIn:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient, private localStorageHelperService:LocalStorageHelperService) { }
 
   login(loginModel:LoginModel):Observable<SingleResponseModel<AccessTokenModel>>{
     return this.httpClient.post<SingleResponseModel<AccessTokenModel>>(environment.apiUrl+"auth/login",loginModel)
@@ -23,11 +24,11 @@ export class AuthService {
     return this.httpClient.post<SingleResponseModel<AccessTokenModel>>(environment.apiUrl+"auth/register",registerModel)
   }
 
-  isAuthenticatedFlag(){
-    let expiration:Date = new Date(localStorage.getItem("expiration")) 
-    let token:string = localStorage.getItem("token")
+  isAuthenticatedFlag(){    
+    let expiration:Date = new Date(this.localStorageHelperService.getFromLocalStorageWithDecryption("expiration"))   
+    let token:string = this.localStorageHelperService.getFromLocalStorageWithDecryption("token")
     
-    if (token && new Date() < expiration) {   
+    if (token && expiration && expiration > new Date()) { 
       this.isUserLoggedIn.next(true)
     }else{      
       localStorage.removeItem("token")
@@ -38,8 +39,8 @@ export class AuthService {
 
   getTokenOnly(){
     this.isAuthenticatedFlag()
-    if (this.isUserLoggedIn.getValue()) {
-      return localStorage.getItem("token")
+    if (this.isUserLoggedIn.getValue()) {      
+      return this.localStorageHelperService.getFromLocalStorageWithDecryption("token")
     }else{
       return null
     }   

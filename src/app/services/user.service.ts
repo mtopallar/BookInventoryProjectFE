@@ -1,46 +1,48 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { LoginModel } from '../models/loginModel';
-import { SingleResponseModel } from '../models/singleResponseModel';
+import { BehaviorSubject } from 'rxjs';
 import { UserDetailsDto } from '../models/userDetailsDto';
-import { AuthService } from './auth.service';
-import { LocalStorageEncryptDecryptHelperService } from './localStorage-hashing-helper.service';
+import { LocalStorageHelperService } from './local-storage-helper.service';
+import jwt_decode from "jwt-decode";
+import { TokenPayloadModel } from '../models/tokenPayloadModel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  public userDetails:BehaviorSubject<UserDetailsDto> = new BehaviorSubject<UserDetailsDto>(null)
+  public authenticatedUserDetails:BehaviorSubject<UserDetailsDto> = new BehaviorSubject<UserDetailsDto>(null)
 
-  constructor(private httpClient:HttpClient, private authService:AuthService, private localStorageEncryptDecryptHelperService:LocalStorageEncryptDecryptHelperService) { }
+  constructor(private httpClient:HttpClient, private localStorageHelperService:LocalStorageHelperService) { }
 
-  getUserDetails(loginModel:LoginModel)
-  :Observable<SingleResponseModel<UserDetailsDto>>{
-    const params = new HttpParams({
-      fromObject: {
-        email: loginModel.email,  
-        password:loginModel.password      
+  getAuthenticatedUserFromToken(){
+    let token = this.localStorageHelperService.getFromLocalStorageWithDecryption("token")
+        
+    if (token) {
+      let readUserFromToken:TokenPayloadModel = jwt_decode(token)
+      let authenticatedUser:UserDetailsDto = {
+        email : readUserFromToken.email,
+        userFullName:readUserFromToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+        userId:readUserFromToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
+        userRoleNames:readUserFromToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
       }
-    });
-    return this.httpClient.get<SingleResponseModel<UserDetailsDto>>(environment.apiUrl+"users/getuserdetailsifregistrationorloginsuccess",{params: params})
-  }
-
-  getUserDetailsIfLoginOrRegisterationSuccessfull(loginModel:LoginModel){    
-    let result:boolean = false;
-    this.authService.isUserLoggedIn.subscribe(response=>{
-      result = response;      
-    })
-    if (result) {
-      this.getUserDetails(loginModel).subscribe(response=>{
-        this.userDetails.next(response.data)
-        this.localStorageEncryptDecryptHelperService.hashAndSetAuthenticatedUserToLocalStorage('authenticatedUser', response.data) 
-    })
-    }else{
-      this.userDetails.next(null)
-      localStorage.removeItem("authenticatedUser")
+      this.authenticatedUserDetails.next(authenticatedUser)
+    }
+    else{
+      this.authenticatedUserDetails.next(null)
     }    
+    
   }
 }
+//params from object örnek kullanımı
+
+ // getUserDetails(loginModel:LoginModel)
+  // :Observable<SingleResponseModel<UserDetailsDto>>{
+  //   const params = new HttpParams({
+  //     fromObject: {
+  //       email: loginModel.email,  
+  //       password:loginModel.password      
+  //     }
+  //   });
+  //   return this.httpClient.get<SingleResponseModel<UserDetailsDto>>(environment.apiUrl+"users/getuserdetailsifregistrationorloginsuccess",{params: params})
+  // }

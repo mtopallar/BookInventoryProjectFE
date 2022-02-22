@@ -33,8 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(newRequest);
     } else {
       this.router.navigate(['/login']);
-      this.userService.userDetails.next(null)
-      localStorage.removeItem("authenticatedUser")
+      this.userService.authenticatedUserDetails.next(null)
       return EMPTY;
     }
   }
