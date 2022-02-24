@@ -207,7 +207,7 @@
           </select>
         </div>
         <div class="col-2 text-end">
-          <button class="btn btn-outline-light" type="button" (click)="test()"
+          <button class="btn btn-outline-light" type="button" (click)="addToAuthenticatedUsersLibrary()"
           >Kaydet</button>
           <button class="btn btn-outline-light ms-2" type="button" (click)="cancelAdding()">İptal</button>
         </div>
@@ -232,7 +232,7 @@
             <td class="bookPublisher">{{bookDto.publisherName}}</td>
             <td class="bookAuthor">{{bookDto.authorFullName}}</td>
             <td class="bookGenre">{{bookDto.genreName}}</td>
-            <td class="bookAdmin">
+            <td class="bookButton">
               <button class="btn btn-sm btn-secondary" (click)="setCurrentBookDto(bookDto)">Ekle</button>
             </td>
           </tr>

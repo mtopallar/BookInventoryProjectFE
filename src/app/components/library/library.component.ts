@@ -4,13 +4,14 @@ import { ToastrService } from 'ngx-toastr';
 import { Author } from 'src/app/models/author';
 import { BookDto } from 'src/app/models/bookDto';
 import { Genre } from 'src/app/models/genre';
-import { LoginModel } from 'src/app/models/loginModel';
 import { Publisher } from 'src/app/models/publisher';
+import { UserBook } from 'src/app/models/userBook';
+import { UserDetailsDto } from 'src/app/models/userDetailsDto';
 import { AuthorService } from 'src/app/services/author.service';
 import { BookAndDtoService } from 'src/app/services/book-and-dto.service';
 import { GenreService } from 'src/app/services/genre.service';
-import { LocalStorageHelperService } from 'src/app/services/local-storage-helper.service';
 import { PublisherService } from 'src/app/services/publisher.service';
+import { UserBookService } from 'src/app/services/user-book.service';
 import { UserService } from 'src/app/services/user.service';
 import { WindowSizeService } from 'src/app/services/window-size.service';
 
@@ -45,6 +46,8 @@ export class LibraryComponent implements OnInit {
   public addToLibraryForm:FormGroup;
   public currentBookDto:BookDto = {} as BookDto
   public isItAdd:boolean = false;
+
+  public authenticatedUser:UserDetailsDto = {} as UserDetailsDto;
   
 
   constructor(
@@ -56,7 +59,7 @@ export class LibraryComponent implements OnInit {
       private formBuilder:FormBuilder,
       private toastrService:ToastrService,
       private userService:UserService,
-      private localStorageHelperService:LocalStorageHelperService
+      private userBookService:UserBookService
     ) { }
 
   ngOnInit(): void {  
@@ -65,7 +68,14 @@ export class LibraryComponent implements OnInit {
     this.getAuthorsForSearchArea()
     this.getGenresForSearchArea()
     this.getPublishersForSearchArea() 
-    this.createAddToLibraryForm() 
+    this.createAddToLibraryForm()
+    this.getAuthenticatedUser() 
+  }
+
+  getAuthenticatedUser(){
+    this.userService.authenticatedUserDetails.subscribe(response=>{
+      this.authenticatedUser = response;
+    })
   }
 
   setCurrentBookDto(currentDto:BookDto){
@@ -76,17 +86,33 @@ export class LibraryComponent implements OnInit {
     this.scrollToTop()
   }
 
-  test(){    
-    
-    console.log(this.userService.authenticatedUserDetails.getValue()) 
-    // let deneme = this.localStorageHelperService.getFromLocalStorageWithDecryption<Author>("asd")
-    // this.userService.userDetails.subscribe(response=>{
-    //   console.log(response)
-    // })
+  addToAuthenticatedUsersLibrary(){    
+    // ekleme formundaki kaydet butonu
+    if (this.addToLibraryForm.valid) {
+      let bookToAdd:UserBook = {} as UserBook
+      bookToAdd.userId = this.authenticatedUser.userId;
+      bookToAdd.bookId = this.currentBookDto.bookId;
+      bookToAdd.readStatue = this.addToLibraryForm.get('readStatue').value;
+      bookToAdd.note = this.addToLibraryForm.get('note').value.trim() == '' ? null : this.addToLibraryForm.get('note').value.trim();
+      
+      this.userBookService.addToUserLibrary(bookToAdd).subscribe(response=>{
+        this.toastrService.success(response.message,"Başarılı")
+        this.clearNoteAndReadStatue()
+        this.isItAdd = false;
+      },responseError=>{
+        this.toastrService.error(responseError.error.message,"Hata")
+      })       
+    }    
   }
 
   cancelAdding(){
     this.isItAdd = false
+    this.clearNoteAndReadStatue()
+  }
+
+  clearNoteAndReadStatue(){
+    this.addToLibraryForm.get('note').setValue('');
+    this.addToLibraryForm.get('readStatue').setValue(false)
   }
 
   createAddToLibraryForm(){
