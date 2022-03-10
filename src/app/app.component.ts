@@ -72,7 +72,7 @@ export class AppComponent {
    
   @HostListener('window:resize', ['$event'])
   divColSetter() {
-    this.imageWidth=window.innerWidth.toString()
+    this.imageWidth=(window.innerWidth-20).toString()
     if (window.innerWidth<1500) {
       this.divCol = "mx-5 my-3"
       this.imageSrc="assets/images/banner.png"

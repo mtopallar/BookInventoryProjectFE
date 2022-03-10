@@ -1,101 +1,240 @@
+<p class="display-4 text-center">Kütüphanem</p>
+<p class="border-bottom border-1"></p>
 <div class="row">
-    <div [class]="classDiv1">
+    <div [class]="classDiv1" class="searchBar">
+      <h4 class="text text-center">Kitap Ara</h4>
+      <div class="border border-1 border-dark-50 my-2 p-3">
+          <h5>Kitap Adıyla Ara</h5>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Kitap adını giriniz."
+            [(ngModel)]="bookNameForSearch"
+            id="name"
+            aria-label="İsim ile ara"
+            [disabled]="noAnyUserBook || isbnTextForSearch !== '' || readedData ||unReadedData || hasNote || hasNoNote || nativeForSearch || notNativeForSearch || authorFullNameForSearch !== 'Seçiniz...' || genreNameForSearch !== 'Seçiniz...' || publisherNameForSearch !== 'Seçiniz...'"              
+          />
+        </div>
         <div class="border border-1 border-dark-50 my-2 p-3">
-            <h5>Kitap Ara...</h5>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Aranacak ifadeyi giriniz."
-              [(ngModel)]="searchText"
-              id="searchText"
-              aria-label="Kitap arama alanı."
-              [disabled]="readedData || unreadedData || hasNote || hasNoNote"
-            />
-          </div>
-          <div class="border border-1 border-dark-50 my-2 p-3">
-            <h5 class="text-center">Okunma Durumuna Göre</h5>
-            <div class="row">
-              <div class="col text-center">
-                <input
-                  type="radio"
-                  name="btnRadio"
-                  id="btnRadio1"
-                  class="btn-check"
-                  autocomplete="off"
-                  (click)="readed()"
-                  [disabled]="hasNote || hasNoNote || searchText.length > 0"
-                />
-                <label for="btnRadio1" class="btn btn-outline-secondary btn-sm"
-                  >Okundu</label
-                >
-              </div>
-              <div class="col text-center">
-                <input
-                  type="radio"
-                  name="btnRadio"
-                  id="btnRadio2"
-                  class="btn-check"
-                  autocomplete="off"
-                  (click)="unreaded()"
-                  [disabled]="hasNote || hasNoNote || searchText.length > 0"
-                />
-                <label for="btnRadio2" class="btn btn-outline-secondary btn-sm"
-                  >Okunmadı</label
-                >
-              </div>
-            </div>
-          </div>
-          <div class="border border-1 border-dark-50 my-2 p-3">
-            <h5 class="text-center">Not Durumuna Göre</h5>
-            <div class="row">
-              <div class="col text-center">
-                <input
-                  type="radio"
-                  name="btnRadio"
-                  id="btnRadio3"
-                  class="btn-check"
-                  autocomplete="off"
-                  (click)="note()"
-                  [disabled]="readedData || unreadedData || searchText.length > 0"
-                />
-                <label for="btnRadio3" class="btn btn-outline-secondary btn-sm"
-                  >Notu Var</label
-                >
-              </div>
-              <div class="col text-center">
-                <input
-                  type="radio"
-                  name="btnRadio"
-                  id="btnRadio4"
-                  class="btn-check"
-                  autocomplete="off"
-                  (click)="noNote()"
-                  [disabled]="readedData || unreadedData || searchText.length > 0"
-                />
-                <label for="btnRadio4" class="btn btn-outline-secondary btn-sm"
-                  >Notu Yok</label
-                >
-              </div>
-            </div>
-          </div>
-          <div class="border border-1 border-dark-50 my-2 p-3">
-            <h5 class="text-center">Seçimi Temizle</h5>
+          <h5>ISBN Numarasıyla Ara</h5>
+          <input
+            type="text"
+            (keypress)="numberOnly($event)"              
+            maxlength="13"             
+            class="form-control"
+            placeholder="97(8/9) _ _ _ _ _ _ _ _ _ _"
+            [(ngModel)]="isbnTextForSearch"
+            id="isbnText"
+            aria-label="ISBN ile ara"
+            [disabled]="noAnyUserBook || bookNameForSearch !== '' || readedData ||unReadedData || hasNote || hasNoNote || nativeForSearch || notNativeForSearch || authorFullNameForSearch !== 'Seçiniz...' || genreNameForSearch !== 'Seçiniz...' || publisherNameForSearch !== 'Seçiniz...'"                      
+          />
+        </div>
+        <div class="border border-1 border-dark-50 my-2 p-3">
+          <h5 class="text-center">Okunmaya Göre</h5>
+          <div class="row">
             <div class="col text-center">
               <input
                 type="radio"
-                name="btnRadio"
-                id="btnRadio5"
+                name="radioButton"
+                id="btnRadio1"
                 class="btn-check"
                 autocomplete="off"
-                (click)="clear()"
+                (click)="readed()"
+                [disabled]="noAnyUserBook || bookNameForSearch !== '' || isbnTextForSearch !== ''|| authorFullNameForSearch !== 'Seçiniz...' || genreNameForSearch !== 'Seçiniz...' || publisherNameForSearch !== 'Seçiniz...' "
               />
-              <label for="btnRadio5" class="btn btn-outline-secondary btn-sm"
-                >Temizle</label
+              <label for="btnRadio1" class="btn btn-outline-secondary btn-sm"
+                >Okundu</label
+              >
+            </div>
+            <div class="col text-center">
+              <input
+                type="radio"
+                name="radioButton"
+                id="btnRadio2"
+                class="btn-check"
+                autocomplete="off"
+                (click)="unReaded()"
+                [disabled]="noAnyUserBook || bookNameForSearch !== '' || isbnTextForSearch !== ''|| authorFullNameForSearch !== 'Seçiniz...' || genreNameForSearch !== 'Seçiniz...' || publisherNameForSearch !== 'Seçiniz...' "
+              />
+              <label for="btnRadio2" class="btn btn-outline-secondary btn-sm"
+                >Okunmadı</label
               >
             </div>
           </div>
+        </div>
+      <div class="border border-1 border-dark-50 my-2 p-3">
+        <h5 class="text-center">Not Durumuna Göre</h5>
+        <div class="row">
+          <div class="col text-center">
+            <input
+              type="radio"
+              name="radioButton"
+              id="btnRadio3"
+              class="btn-check"
+              autocomplete="off"
+              (click)="note()"
+              [disabled]="noAnyUserBook || bookNameForSearch !== '' || isbnTextForSearch !== ''|| authorFullNameForSearch !== 'Seçiniz...' || genreNameForSearch !== 'Seçiniz...' || publisherNameForSearch !== 'Seçiniz...' "
+            />
+            <label for="btnRadio3" class="btn btn-outline-secondary btn-sm"
+              >Notu Var</label
+            >
+          </div>
+          <div class="col text-center">
+            <input
+              type="radio"
+              name="radioButton"
+              id="btnRadio4"
+              class="btn-check"
+              autocomplete="off"
+              (click)="noNote()"
+              [disabled]="noAnyUserBook || bookNameForSearch !== '' || isbnTextForSearch !== ''|| authorFullNameForSearch !== 'Seçiniz...' || genreNameForSearch !== 'Seçiniz...' || publisherNameForSearch !== 'Seçiniz...' "
+            />
+            <label for="btnRadio4" class="btn btn-outline-secondary btn-sm"
+              >Notu Yok</label
+            >
+          </div>
+        </div>
+      </div>
+        <div class="border border-1 border-dark-50 my-2 p-3">
+          <h5 class="text-center">Yazar Yerli / Yabancı</h5>
+          <div class="row">
+            <div class="col text-center">
+              <input
+                type="radio"
+                name="radioButton"
+                id="btnRadio5"
+                class="btn-check"
+                autocomplete="off"
+                (click)="setNative()"
+                [disabled]="noAnyUserBook || bookNameForSearch !== '' || isbnTextForSearch !== ''|| authorFullNameForSearch !== 'Seçiniz...' || genreNameForSearch !== 'Seçiniz...' || publisherNameForSearch !== 'Seçiniz...' "                                   
+              />
+              <label for="btnRadio5" class="btn btn-outline-secondary btn-sm"
+                >Yerli</label
+              >
+            </div>
+            <div class="col text-center">
+              <input
+                type="radio"
+                name="radioButton"
+                id="btnRadio6"
+                class="btn-check"
+                autocomplete="off"
+                (click)="setNotNative()"
+                [disabled]="noAnyUserBook || bookNameForSearch !== '' || isbnTextForSearch !== ''|| authorFullNameForSearch !== 'Seçiniz...' || genreNameForSearch !== 'Seçiniz...' || publisherNameForSearch !== 'Seçiniz...' "                  
+              />
+              <label for="btnRadio6" class="btn btn-outline-secondary btn-sm"
+                >Yabancı</label
+              >
+            </div>
+          </div>
+        </div>
+        <div class="border border-1 border-dark-50 my-2 p-3">
+          <h5>Yazar Adıyla Ara</h5>
+          <select 
+        class="form-select"
+        id="authorFullName"
+        name="authorFullName"           
+        aria-label="Yazar adına göre ara"
+        [(ngModel)]="authorFullNameForSearch"
+        [disabled]="noAnyUserBook|| noAnyAuthorForSearchArea || bookNameForSearch !== '' || isbnTextForSearch !== ''|| genreNameForSearch !== 'Seçiniz...' || publisherNameForSearch !== 'Seçiniz...' || readedData ||unReadedData || hasNote || hasNoNote || nativeForSearch || notNativeForSearch" 
+        [class.is-invalid] = "noAnyAuthorForSearchArea"
+        >
+          <option *ngIf="authorFullNameForSearch=='Seçiniz...'" selected >{{authorFullNameForSearch}}</option>
+          <option *ngFor="let author of authorListForSearchArea" value="{{author.firstName +' '+author.lastName}}">{{author.firstName +' '+author.lastName}}</option>            
+        </select>
+        <div *ngIf="noAnyAuthorForSearchArea" class="text small text-danger mt-2">
+          *Önce kütüphanenize kitap eklemelisiniz.
+        </div> 
+        </div>
+  
+        <div class="border border-1 border-dark-50 my-2 p-3">
+          <h5>Türe Göre Ara</h5>
+          <select 
+        class="form-select"
+        id="genreName"
+        name="genreName"
+        [(ngModel)]="genreNameForSearch"
+        aria-label="Türe göre ara"
+        [disabled]="noAnyUserBook || noAnyGenreForSearchArea || bookNameForSearch !== '' || isbnTextForSearch !== ''|| authorFullNameForSearch !== 'Seçiniz...' || publisherNameForSearch !== 'Seçiniz...' || readedData ||unReadedData || hasNote || hasNoNote || nativeForSearch || notNativeForSearch"
+        [class.is-invalid] ="noAnyGenreForSearchArea"
+        >
+          <option *ngIf="genreNameForSearch == 'Seçiniz...'" selected >{{genreNameForSearch}}</option>
+          <option *ngFor="let genre of genreListForSearchArea" value="{{genre.name}}">{{genre.name}}</option>            
+        </select>
+          <div *ngIf="noAnyGenreForSearchArea" class="text small text-danger mt-2">
+            *Önce kütüphanenize kitap eklemelisiniz.
+          </div>    
+        </div>
+  
+        <div class="border border-1 border-dark-50 my-2 p-3">
+          <h5>Yayıneviyle Ara</h5>
+          <select 
+        class="form-select"
+        id="publisherName"
+        name="publisherName"
+        [(ngModel)]="publisherNameForSearch" 
+        aria-label="Yayınevine göre ara"
+        [disabled]="noAnyUserBook || noAnyPublisherForSearchArea || bookNameForSearch !== '' || isbnTextForSearch !== ''|| authorFullNameForSearch !== 'Seçiniz...' || genreNameForSearch !== 'Seçiniz...' || readedData ||unReadedData || hasNote || hasNoNote || nativeForSearch || notNativeForSearch"
+        [class.is-invalid] = "noAnyPublisherForSearchArea"
+        >
+          <option *ngIf="publisherNameForSearch == 'Seçiniz...'" selected>{{publisherNameForSearch}}</option>
+          <option *ngFor="let publisher of publisherListForSearchArea" value="{{publisher.name}}">{{publisher.name}}</option>            
+        </select>
+          <div *ngIf="noAnyPublisherForSearchArea" class="text small text-danger mt-2">
+            *Önce kütüphanenize kitap eklemelisiniz.
+          </div> 
+        </div>
+        <div class="border border-1 border-dark-50 my-2 p-3">
+          <h5 class="text-center">Seçimi Temizle</h5>
+          <div class="col text-center">
+            <input
+              type="radio"
+              name="radioButton"
+              id="btnRadio7"
+              class="btn-check"
+              autocomplete="off"
+              [disabled]="noAnyUserBook"                
+            />
+            <label for="btnRadio7" (click)="clear()" class="btn btn-outline-secondary btn-sm"
+              >Temizle</label
+            >           
+          </div>
+        </div> 
     </div>
     <div [class]="classDiv2">
-        <p>User Library Works!</p>
-    </div>
+        <table *ngIf="(userBookDtoList | userBookSearch:bookNameForSearch :isbnTextForSearch :readedData :unReadedData :hasNote :hasNoNote :nativeForSearch :notNativeForSearch :publisherNameForSearch :authorFullNameForSearch :genreNameForSearch).length>0" class="table table-striped table-hover text-center">
+          <thead>
+            <tr >
+              <th>Ad</th>
+              <th>ISBN</th>
+              <th>Yayınevi</th>
+              <th>Yazar</th>
+              <th>Tür</th>
+              <th>Okunma</th>
+              <th>Not</th>
+              <th>Düzenle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let userBookDto of userBookDtoList | userBookSearch:bookNameForSearch :isbnTextForSearch :readedData :unReadedData :hasNote :hasNoNote :nativeForSearch :notNativeForSearch :publisherNameForSearch :authorFullNameForSearch :genreNameForSearch">
+              <td class="nameClass">{{userBookDto.name}}</td>
+              <td class="isbnClass">{{userBookDto.isbn}}</td>
+              <td class="publisherClass">{{userBookDto.publisherName}}</td>
+              <td class="authorClass" >{{userBookDto.authorFullName}}</td>
+              <td class="genreClass" >{{userBookDto.genreName}}</td>
+              <td class="readStatueClass">{{userBookDto.readStatue ? 'Okundu' : 'Okunmadı'}}</td>
+              <td class="noteClass">{{userBookDto.noteDetail==null ? '-' : userBookDto.noteDetail}}</td>
+              <td class="buttonClass">
+                <button class="btn btn-sm btn-secondary me-1" >Güncelle</button>
+                <button class="btn btn-sm btn-danger" >Sil</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text text-danger fw-bold border border-1 border-danger my-2 p-2" *ngIf="(userBookDtoList | userBookSearch:bookNameForSearch :isbnTextForSearch :readedData :unReadedData :hasNote :hasNoNote :nativeForSearch :notNativeForSearch :publisherNameForSearch :authorFullNameForSearch :genreNameForSearch).length === 0 && loaded">
+          Aradığınız kriterde kitap bulunmamaktadır.
+        </div>
+        <div class="text text-danger text-center fw-bold border border-1 border-danger my-2 p-2" *ngIf="noAnyUserBook">Önce kütüphanenize kitap eklemelisiniz.
+        </div>
+    </div>  
 </div>

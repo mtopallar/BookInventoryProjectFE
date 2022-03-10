@@ -1,0 +1,53 @@
+.nameClass{
+ width: 30%;
+}
+
+.isbnClass{
+ width: 10%;
+}
+
+.publisherClass{
+ width: 15%;
+}
+
+.authorClass{
+ width: 15%;
+}
+
+.genreClass{
+ width: 5%;
+}
+
+.readStatueClass{
+ width: 5%;
+}
+
+.buttonClass{
+    width: 10%;
+   }
+
+@media (width <= 1080px){
+    .noteClass{
+        overflow-x: auto;
+        white-space: nowrap;
+        max-width: 70px;
+    }
+    
+}
+
+@media (width > 1080px){
+    .noteClass{
+        overflow-x: auto;
+        white-space: nowrap;
+        max-width: 170px;
+    }
+    
+}
+
+@media(height <= 1920px)
+{
+    .searchBar{
+        overflow-y: auto;
+        max-height: 60vh;
+    }
+}
