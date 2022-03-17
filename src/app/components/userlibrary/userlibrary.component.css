@@ -1,3 +1,16 @@
+
+.labelDisabled{
+    background-color: darkgrey
+}
+
+.updateClass input:disabled {
+    background-color: darkgrey
+ }
+
+ .updateClass{
+    background-color: rgb(161, 124, 124);
+}
+
 .nameClass{
  width: 30%;
 }

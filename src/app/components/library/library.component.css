@@ -5,7 +5,7 @@
 .labelDisabled{
     background-color: darkgrey
 }
-input:disabled {
+.addClass input:disabled {
     background-color: darkgrey
  }
 .bookName{

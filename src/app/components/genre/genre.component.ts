@@ -27,10 +27,10 @@ export class GenreComponent implements OnInit {
   public updateGenreForm:FormGroup
 
   constructor(
-    private genreService:GenreService,
-    private windowSizeService:WindowSizeService,
-    private formBuilder:FormBuilder,
-    private toastrService:ToastrService
+      private genreService:GenreService,
+      private windowSizeService:WindowSizeService,
+      private formBuilder:FormBuilder,
+      private toastrService:ToastrService
     ) { }
 
   ngOnInit(): void {

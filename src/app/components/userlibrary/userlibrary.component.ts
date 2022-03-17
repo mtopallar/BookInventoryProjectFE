@@ -1,8 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Author } from 'src/app/models/author';
 import { Genre } from 'src/app/models/genre';
 import { Publisher } from 'src/app/models/publisher';
+import { UserBook } from 'src/app/models/userBook';
 import { UserBookDto } from 'src/app/models/userBookDto';
 import { UserDetailsDto } from 'src/app/models/userDetailsDto';
 import { UserBookService } from 'src/app/services/user-book.service';
@@ -41,13 +43,19 @@ export class UserlibraryComponent implements OnInit {
   public publisherListForSearchArea:Publisher[] = [];
   public noAnyPublisherForSearchArea:boolean = false;
 
+  public isItUpdate:boolean = false;
+  public currentUserBookDto:UserBookDto = {} as UserBookDto;
+
   public authenticatedUser:UserDetailsDto = {} as UserDetailsDto;
 
+  public updateUserBookForm:FormGroup
+
   constructor(
-    private windowSizeService:WindowSizeService, 
-    private userService:UserService, 
-    private toastrSrvice:ToastrService,
-    private userBookService:UserBookService
+      private windowSizeService:WindowSizeService, 
+      private formBuilder:FormBuilder,
+      private userService:UserService, 
+      private toastrService:ToastrService,
+      private userBookService:UserBookService
     ) { }
 
   ngOnInit(): void {
@@ -57,6 +65,55 @@ export class UserlibraryComponent implements OnInit {
     this.getAllAuthorsInUserLibrary(this.authenticatedUser.userId)
     this.getAllGenresInUserLibrary(this.authenticatedUser.userId)
     this.getAllPublishersInUserLibrary(this.authenticatedUser.userId)
+  }
+
+  setCurrentUserBookDto(currentUserBookDto:UserBookDto){
+    // gri güncelle butonu
+    this.currentUserBookDto = currentUserBookDto
+    this.isItUpdate = true;
+    this.createUpdateUserBookForm()
+    //console.log(currentUserBookDto)
+  }
+
+  cancelUpdate(){
+    this.isItUpdate = false;
+  }
+
+  updateUserBook(){
+    if (this.updateUserBookForm.valid) {
+      let userBookEntityToUpdate:UserBook = {} as UserBook
+      userBookEntityToUpdate.id = this.currentUserBookDto.id;
+      userBookEntityToUpdate.bookId = this.currentUserBookDto.bookId;
+      userBookEntityToUpdate.userId = this.authenticatedUser.userId;
+      userBookEntityToUpdate.note = this.updateUserBookForm.get('note').value.trim() == '' ? null : this.updateUserBookForm.get('note').value.trim();
+      userBookEntityToUpdate.readStatue = this.updateUserBookForm.get('readStatue').value
+
+      this.userBookService.updateUserBook(userBookEntityToUpdate).subscribe(response=>{
+        this.toastrService.success(response.message,"Başarılı")
+        this.isItUpdate = false;
+        this.getAuthenticatedUsersBooks()
+      },responseError=>{
+        this.toastrService.error(responseError.error.message,"Hata")
+      })
+    }
+  }
+
+  deleteUserBook(userBookDto:UserBookDto){
+    let userBookEntityToDelete:UserBook = {} as UserBook
+    userBookEntityToDelete.id = userBookDto.id;
+    this.userBookService.deleteUserBook(userBookEntityToDelete).subscribe(response=>{
+      this.toastrService.success(response.message,"Başarılı")
+      this.getAuthenticatedUsersBooks()
+    },responseError=>{
+      this.toastrService.error(responseError.error.message,"Hata")
+    })
+  }
+
+  createUpdateUserBookForm(){
+    this.updateUserBookForm = this.formBuilder.group({
+      readStatue:[this.currentUserBookDto.readStatue,[]],
+      note:[this.currentUserBookDto.noteDetail,[]]
+    })
   }
 
   getAuthenticatedUser(){
@@ -159,27 +216,31 @@ export class UserlibraryComponent implements OnInit {
     this.notNativeForSearch=false;
     this.publisherNameForSearch = "Seçiniz..."
     this.authorFullNameForSearch = "Seçiniz..."
-    this.genreNameForSearch = "Seçiniz..."
-    //this.clearRadioButtons()
+    this.genreNameForSearch = "Seçiniz..."    
     //this.getAuthenticatedUsersBooks()
   }
 
-  // clearRadioButtons(){
-  //   let readedButton = document.getElementById('btnRadio1') as HTMLInputElement
-  //   readedButton.checked = false;
-  //   let notReadedButton = document.getElementById('btnRadio2') as HTMLInputElement
-  //   notReadedButton.checked = false;
-  //   let hasNoteButton = document.getElementById('btnRadio3') as HTMLInputElement
-  //   hasNoteButton.checked = false;
-  //   let hasNoNoteButton = document.getElementById('btnRadio4') as HTMLInputElement
-  //   hasNoNoteButton.checked = false;
-  //   let authorNativeButton = document.getElementById('btnRadio5') as HTMLInputElement
-  //   authorNativeButton.checked = false;
-  //   let authorNotNativeButton = document.getElementById('btnRadio6') as HTMLInputElement
-  //   authorNotNativeButton.checked = false;
-  //   // let clearButton = document.getElementById('btnRadio7') as HTMLFormElement
-  //   // clearButton.reset()     
-  // }
+  clearWithButtons(){
+    this.clear()
+    this.clearRadioButtons()
+  }
 
- 
+  clearRadioButtons(){
+    let readedButton = document.getElementById('btnRadio1') as HTMLInputElement
+    readedButton.checked = false;
+    let notReadedButton = document.getElementById('btnRadio2') as HTMLInputElement
+    notReadedButton.checked = false;
+    let hasNoteButton = document.getElementById('btnRadio3') as HTMLInputElement
+    hasNoteButton.checked = false;
+    let hasNoNoteButton = document.getElementById('btnRadio4') as HTMLInputElement
+    hasNoNoteButton.checked = false;
+    let authorNativeButton = document.getElementById('btnRadio5') as HTMLInputElement
+    authorNativeButton.checked = false;
+    let authorNotNativeButton = document.getElementById('btnRadio6') as HTMLInputElement
+    authorNotNativeButton.checked = false;
+    // let clearButton = document.getElementById('btnRadio7') as HTMLFormElement
+    // clearButton.reset()     
+  }
+
+
 }
