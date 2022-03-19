@@ -278,7 +278,7 @@
     </form>      
     </div>
 
-        <table *ngIf="(userBookDtoList | userBookSearch:bookNameForSearch :isbnTextForSearch :readedData :unReadedData :hasNote :hasNoNote :nativeForSearch :notNativeForSearch :publisherNameForSearch :authorFullNameForSearch :genreNameForSearch).length>0" class="table table-striped table-hover text-center">
+        <table *ngIf="(userBookDtoList | userBookSearch:bookNameForSearch :isbnTextForSearch :readedData :unReadedData :hasNote :hasNoNote :nativeForSearch :notNativeForSearch :publisherNameForSearch :authorFullNameForSearch :genreNameForSearch).length>0 && loaded && !noAnyUserBook" class="table table-striped table-hover text-center">
           <thead>
             <tr >
               <th>Ad</th>

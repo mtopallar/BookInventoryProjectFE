@@ -13,10 +13,19 @@ export class NavbarComponent implements OnInit {
   classUserLibrary: string = 'nav-link';
   classDropdown: string = 'nav-link dropdown-toggle';
 
+  public userName:string = "";
+
   constructor(private authService: AuthService, private router: Router, private userService:UserService) {}
 
   ngOnInit(): void {
     this.activeClassChanger()
+    this.getUserName()
+  }
+
+  getUserName(){
+    if (this.userService.authenticatedUserDetails.getValue()!=null) {
+      this.userName = this.userService.authenticatedUserDetails.getValue().userFullName
+    } 
   }
 
   logOut() {

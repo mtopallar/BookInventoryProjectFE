@@ -23,6 +23,7 @@ import { PublisherComponent } from './components/publisher/publisher.component';
 import { BookDtoSearchPipe } from './pipes/bookDto-search.pipe';
 import { BookComponent } from './components/book/book.component';
 import { UserBookSearchPipe } from './pipes/user-book-search.pipe';
+import { OperationclaimsComponent } from './components/operationclaims/operationclaims.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { UserBookSearchPipe } from './pipes/user-book-search.pipe';
     PublisherComponent,
     BookDtoSearchPipe,
     BookComponent,
-    UserBookSearchPipe
+    UserBookSearchPipe,
+    OperationclaimsComponent
   ],
   imports: [
     BrowserModule,

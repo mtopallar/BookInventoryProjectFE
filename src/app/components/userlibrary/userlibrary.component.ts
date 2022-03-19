@@ -85,7 +85,11 @@ export class UserlibraryComponent implements OnInit {
       userBookEntityToUpdate.id = this.currentUserBookDto.id;
       userBookEntityToUpdate.bookId = this.currentUserBookDto.bookId;
       userBookEntityToUpdate.userId = this.authenticatedUser.userId;
-      userBookEntityToUpdate.note = this.updateUserBookForm.get('note').value.trim() == '' ? null : this.updateUserBookForm.get('note').value.trim();
+      if (this.updateUserBookForm.get('note').value == null) {
+        userBookEntityToUpdate.note = null
+      }else{
+        userBookEntityToUpdate.note = this.updateUserBookForm.get('note').value.trim()
+      }
       userBookEntityToUpdate.readStatue = this.updateUserBookForm.get('readStatue').value
 
       this.userBookService.updateUserBook(userBookEntityToUpdate).subscribe(response=>{
