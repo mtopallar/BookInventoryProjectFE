@@ -9,6 +9,7 @@ import { OperationclaimsComponent } from './components/operationclaims/operation
 import { PublisherComponent } from './components/publisher/publisher.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserAdminComponent } from './components/user-admin/user-admin.component';
+import { UserMyProfileComponent } from './components/user-my-profile/user-my-profile.component';
 import { UserlibraryComponent } from './components/userlibrary/userlibrary.component';
 import { LoginGuard } from './guards/login.guard';
 
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path:'books', pathMatch:'full', component: BookComponent, canActivate:[LoginGuard]},
   {path:'userlibrary', pathMatch:'full', component: UserlibraryComponent, canActivate:[LoginGuard]},
   {path:'useradmin', pathMatch:'full', component: UserAdminComponent, canActivate:[LoginGuard]},
+  {path:'myprofile', pathMatch:'full', component: UserMyProfileComponent, canActivate:[LoginGuard]},
   {path:'operationclaims', pathMatch:'full', component: OperationclaimsComponent, canActivate:[LoginGuard]}
 ];
 

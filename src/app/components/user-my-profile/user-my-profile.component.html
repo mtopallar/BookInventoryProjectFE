@@ -1,0 +1,106 @@
+<div class="col-4 mx-auto text-center mt-2">
+    <p class="display-4 text-center">Profil Yönetimi</p>
+    <p class="border-bottom border-1"></p>
+    <div class="border border-1 p-1 updateClass">
+        <p class="display-6 fw-normal text-center">Profilimi Güncelle</p>
+        <form [formGroup]="updateUserForm">
+            <div class="input-group mb-3 pe-2">
+                <span class="input-group-text ms-2">Ad:</span>
+                <input 
+                type="text" 
+                class="form-control"            
+                aria-label="Kullanıcı Adı"                
+                id="firstName"
+                name="firstName"
+                placeholder="Gerekli, en az 3 karakter."
+                formControlName="firstName"
+                [class.is-invalid] ="updateUserFirstName.invalid && (updateUserFirstName.touched || updateUserFirstName.dirty)"
+                [class.is-valid] ="updateUserFirstName.valid && (updateUserFirstName.touched || updateUserFirstName.dirty)"
+                >                
+            </div>                        
+            <div class="input-group mb-3 pe-2">
+                <span class="input-group-text ms-2">Soyad:</span>
+                <input 
+                type="text" 
+                class="form-control"            
+                aria-label="Kullanıcı Soyadı"                
+                id="lastName"
+                name="lastName"
+                placeholder="Gerekli, en az 2 karakter."
+                formControlName="lastName"
+                [class.is-invalid] ="updateUserLastName.invalid && (updateUserLastName.touched || updateUserLastName.dirty)"
+                [class.is-valid] ="updateUserLastName.valid && (updateUserLastName.touched || updateUserLastName.dirty)"
+                >    
+            </div>               
+            <div class="input-group mb-3 pe-2">
+                <span class="input-group-text ms-2">Mail:</span>
+                <input 
+                type="text" 
+                class="form-control"            
+                aria-label="Yeni Email"                
+                id="newEmail"
+                name="newEmail"
+                placeholder="Gerekli, mail formatında veri."
+                formControlName="newEmail"
+                [class.is-invalid] ="updateUserNewEmail.invalid && (updateUserNewEmail.touched || updateUserNewEmail.dirty)"
+                [class.is-valid] ="updateUserNewEmail.valid && (updateUserNewEmail.touched || updateUserNewEmail.dirty)"
+                >
+            </div>
+            <div class="input-group mb-3 pe-2">
+                <span class="input-group-text ms-2">Mevcut Şifre:</span>
+                <input 
+                type="password" 
+                class="form-control"            
+                aria-label="Mevcut Şifre"                
+                id="currentPassword"
+                name="currentPassword"
+                placeholder="Gerekli, boş bırakılamaz."
+                formControlName="currentPassword"
+                [class.is-invalid] ="updateUserCurrentPassword.invalid && (updateUserCurrentPassword.touched || updateUserCurrentPassword.dirty)"
+                [class.is-valid] ="updateUserCurrentPassword.valid && (updateUserCurrentPassword.touched || updateUserCurrentPassword.dirty)"
+                >
+            </div>
+            <div class="input-group mb-3 pe-2">
+                <span class="input-group-text ms-2">Yeni Şifre:</span>
+                <input 
+                type="password" 
+                class="form-control"            
+                aria-label="Yeni Şifre"                
+                id="newPassword"
+                name="newPassword"
+                placeholder="Gerekli, boş bırakılamaz."
+                formControlName="newPassword"
+                [class.is-invalid] ="updateUserNewPassword.invalid && (updateUserNewPassword.touched || updateUserNewPassword.dirty)"
+                [class.is-valid] ="updateUserNewPassword.valid && (updateUserNewPassword.touched || updateUserNewPassword.dirty)"
+                >    
+            </div>
+            <div class="text-end mb-2">
+            <button [disabled]="updateUserForm.invalid" class="btn btn-outline-light ms-2" type="button" (click)="updateUser()">Kaydet</button>
+            <button class="btn btn-outline-light mx-2" type="button" (click)="cancelUpdate()">İptal</button>
+            </div> 
+        </form>
+    </div>
+    <div class="mt-2 p-1">
+       <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Hesabımı Sil</button>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><b>Hesap Silme Onayı</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Hesabınız, sahip olduğunuz yetkiler ve kütüphaneniz sistemden tamamen silinecektir.
+          <b>Bu işlem geri alınamaz ve yeniden kayıt olsanız dahi kütüphanenize ve yetkilerinize tekrar ulaşılamaz.</b>
+          Silme işlemini tamamlamak istediğinizden emin misiniz?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteMyAccount()">Hesabımı Sil</button>
+        </div>
+      </div>
+    </div>
+  </div>

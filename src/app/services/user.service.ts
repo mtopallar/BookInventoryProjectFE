@@ -9,7 +9,9 @@ import { environment } from 'src/environments/environment';
 import { ListResponseModel } from '../models/listResponseModel';
 import { UserWithDetailsAndRolesDto } from '../models/userWithDetailsAndRolesDto';
 import { BaseResponseModel } from '../models/baseResponseModel';
-import { DeleteForUserDto } from '../models/deleteFourUserDto';
+import { DeleteForUserDto } from '../models/deleteForUserDto';
+import { UserForUpdateDto } from '../models/userForUpdateDto';
+import { SingleResponseModel } from '../models/singleResponseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +45,10 @@ export class UserService {
     return this.httpClient.get<ListResponseModel<UserWithDetailsAndRolesDto>>(environment.apiUrl+"users/getalluserdetailswithrolesview")
   }
 
+  getUserDetailsWithRolesByUserIdDto(userId:number):Observable<SingleResponseModel<UserWithDetailsAndRolesDto>>{
+    return this.httpClient.get<SingleResponseModel<UserWithDetailsAndRolesDto>>(environment.apiUrl+"users/getuserdetailswithrolesbyuserid", {params: new HttpParams().set("userId",userId)})
+  }
+
   deleteForAdmin(userId:number):Observable<BaseResponseModel>{
     return this.httpClient.post<BaseResponseModel>(environment.apiUrl+"users/deleteforadmin",userId)
   }
@@ -50,6 +56,10 @@ export class UserService {
   //kullanıcının kendini silmesi için gerekecek.
   deleteForUser(deleteForUserDto:DeleteForUserDto):Observable<BaseResponseModel>{
     return this.httpClient.post<BaseResponseModel>(environment.apiUrl+"users/deleteforuser",deleteForUserDto)
+  }
+
+  updateUser(userForUpdateDto:UserForUpdateDto):Observable<BaseResponseModel>{
+    return this.httpClient.post<BaseResponseModel>(environment.apiUrl+"users/update",userForUpdateDto)
   }
   
 }

@@ -4,3 +4,5 @@ export interface UserDetailsDto{
     email:string;
     userRoleNames:string[]
 }
+
+// Tokendan gelen datayı karşılayan model.
