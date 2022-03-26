@@ -8,7 +8,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Mail adresi yazınız"
+              placeholder="Mail adresi yazınız..."
               [(ngModel)]="userMailForSearch"
               id="name"
               aria-label="İsim ile ara"
@@ -20,7 +20,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Ad - Soyad yazınız"
+              placeholder="Ad - Soyad yazınız..."
               [(ngModel)]="userNameLastNameForSearch"
               id="name"
               aria-label="İsim ile ara"  
@@ -71,7 +71,7 @@
                 </div>
             </div>
         </div>
-        <table *ngIf="loaded" class="table table-striped table-hover text-center">
+        <table *ngIf="loaded && (userWithDetailsAndRolesDto | userSearchForAdmin :userMailForSearch :userNameLastNameForSearch).length > 0  " class="table table-striped table-hover text-center">
             <thead>
                 <tr>
                     <th>#</th>
@@ -83,7 +83,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let detailDto of userWithDetailsAndRolesDto; index as i">
+                <tr *ngFor="let detailDto of userWithDetailsAndRolesDto | userSearchForAdmin :userMailForSearch :userNameLastNameForSearch; index as i">
                     <td>{{i+1}}</td>
                     <td>{{detailDto.firstName}}</td>
                     <td>{{detailDto.lastName}}</td>
@@ -99,6 +99,11 @@
                 </tr>
             </tbody>
         </table>
+
+        <div class="text text-danger fw-bold border border-1 border-danger my-2 p-2" *ngIf="(userWithDetailsAndRolesDto | userSearchForAdmin :userMailForSearch :userNameLastNameForSearch).length === 0 && loaded">
+            Aradığınız kriterde kullanıcı bulunmamaktadır.
+          </div>
+
     </div>
 </div>
 
