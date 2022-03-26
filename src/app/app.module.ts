@@ -24,6 +24,7 @@ import { BookDtoSearchPipe } from './pipes/bookDto-search.pipe';
 import { BookComponent } from './components/book/book.component';
 import { UserBookSearchPipe } from './pipes/user-book-search.pipe';
 import { OperationclaimsComponent } from './components/operationclaims/operationclaims.component';
+import { UserAdminComponent } from './components/user-admin/user-admin.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { OperationclaimsComponent } from './components/operationclaims/operation
     BookDtoSearchPipe,
     BookComponent,
     UserBookSearchPipe,
-    OperationclaimsComponent
+    OperationclaimsComponent,
+    UserAdminComponent
   ],
   imports: [
     BrowserModule,

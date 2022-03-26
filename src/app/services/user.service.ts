@@ -1,10 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserDetailsDto } from '../models/userDetailsDto';
 import { LocalStorageHelperService } from './local-storage-helper.service';
 import jwt_decode from "jwt-decode";
 import { TokenPayloadModel } from '../models/tokenPayloadModel';
+import { environment } from 'src/environments/environment';
+import { ListResponseModel } from '../models/listResponseModel';
+import { UserWithDetailsAndRolesDto } from '../models/userWithDetailsAndRolesDto';
+import { BaseResponseModel } from '../models/baseResponseModel';
+import { DeleteForUserDto } from '../models/deleteFourUserDto';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +38,20 @@ export class UserService {
     }    
     
   }
+
+  getAllUsersWithUserAndRoleDetailsDto():Observable<ListResponseModel<UserWithDetailsAndRolesDto>>{
+    return this.httpClient.get<ListResponseModel<UserWithDetailsAndRolesDto>>(environment.apiUrl+"users/getalluserdetailswithrolesview")
+  }
+
+  deleteForAdmin(userId:number):Observable<BaseResponseModel>{
+    return this.httpClient.post<BaseResponseModel>(environment.apiUrl+"users/deleteforadmin",userId)
+  }
+
+  //kullanıcının kendini silmesi için gerekecek.
+  deleteForUser(deleteForUserDto:DeleteForUserDto):Observable<BaseResponseModel>{
+    return this.httpClient.post<BaseResponseModel>(environment.apiUrl+"users/deleteforuser",deleteForUserDto)
+  }
+  
 }
 //params from object örnek kullanımı
 

@@ -5,22 +5,22 @@
             <div class="col-4 mx-auto">
                 <p class="display-6 text-center">Yeni Rol Ekle</p>
                 <p class="border-bottom border-1"></p> 
-            <div class="addClass border border-1 p-3">
+                <div class="addClass border border-1 p-3">
                 <p class="display-6 fw-normal text-center">Eklenecek Rol:</p>
-                <form>
-                    <div class="col input-group mb-3">
-                        <label class="input-group-text">Rol Adı:</label>
-                        <select class="form-select" id="roleSelect" [disabled]="noActiveRoleInSystem">
+                    <form>
+                        <div class="col input-group mb-3">
+                            <label class="input-group-text">Rol Adı:</label>
+                            <select class="form-select" id="roleSelect" [disabled]="noActiveRoleInSystem">
                             <option *ngFor="let role of predefinedRoles">{{role.name}}</option>
-                        </select>                        
-                      </div>
-                      <div class="text-end">
-                        <button class="btn btn-outline-light" type="submit" (click)="addRoleToSystem()" [disabled]="noActiveRoleInSystem"
-                        >Sisteme Ekle</button>
-                      </div>
-                </form>
+                            </select>                        
+                        </div>
+                        <div class="text-end">
+                            <button class="btn btn-outline-light" type="submit" (click)="addRoleToSystem()" [disabled]="noActiveRoleInSystem"
+                            >Sisteme Ekle</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
             <div class="col-7 mx-auto">
                 <p class="display-6 text-center">Sistemdeki Roller</p>
                 <p class="border-bottom border-1"></p>
