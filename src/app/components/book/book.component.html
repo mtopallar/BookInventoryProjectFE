@@ -207,7 +207,8 @@
             <button class="btn btn-outline-light" type="button" (click)="addBook()" 
             [disabled]="addAuthorFullName.value==='Seçiniz...' || addPublisherName.value==='Seçiniz...' || addGenreName.value === 'Seçiniz...' || addName.invalid || addIsbn.invalid"           
             >Kaydet</button>
-          <button class="btn btn-outline-light ms-2" type="button" (click)="resetAddForm()">İptal</button>    
+          <button class="btn btn-outline-light ms-2" type="button" (click)="resetAddForm()"
+          [disabled]="addName.untouched && addIsbn.untouched && addAuthorFullName.value === 'Seçiniz...' && addPublisherName.value === 'Seçiniz...' &&  addGenreName.value === 'Seçiniz...'">İptal</button>    
           </div>
         </div>
       </form>

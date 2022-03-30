@@ -12,7 +12,7 @@
                 aria-label="Kullanıcı Adı"                
                 id="firstName"
                 name="firstName"
-                placeholder="Gerekli, en az 3 karakter."
+                placeholder="Adınızı yazınız."
                 formControlName="firstName"
                 [class.is-invalid] ="updateUserFirstName.invalid && (updateUserFirstName.touched || updateUserFirstName.dirty)"
                 [class.is-valid] ="updateUserFirstName.valid && (updateUserFirstName.touched || updateUserFirstName.dirty)"
@@ -26,7 +26,7 @@
                 aria-label="Kullanıcı Soyadı"                
                 id="lastName"
                 name="lastName"
-                placeholder="Gerekli, en az 2 karakter."
+                placeholder="Sayadınızı yazınız."
                 formControlName="lastName"
                 [class.is-invalid] ="updateUserLastName.invalid && (updateUserLastName.touched || updateUserLastName.dirty)"
                 [class.is-valid] ="updateUserLastName.valid && (updateUserLastName.touched || updateUserLastName.dirty)"
@@ -40,7 +40,7 @@
                 aria-label="Yeni Email"                
                 id="newEmail"
                 name="newEmail"
-                placeholder="Gerekli, mail formatında veri."
+                placeholder="Mail adresinizi yazınız."
                 formControlName="newEmail"
                 [class.is-invalid] ="updateUserNewEmail.invalid && (updateUserNewEmail.touched || updateUserNewEmail.dirty)"
                 [class.is-valid] ="updateUserNewEmail.valid && (updateUserNewEmail.touched || updateUserNewEmail.dirty)"
@@ -54,7 +54,7 @@
                 aria-label="Mevcut Şifre"                
                 id="currentPassword"
                 name="currentPassword"
-                placeholder="Gerekli, boş bırakılamaz."
+                placeholder="Mevcut şifrenizi yazınız."
                 formControlName="currentPassword"
                 [class.is-invalid] ="updateUserCurrentPassword.invalid && (updateUserCurrentPassword.touched || updateUserCurrentPassword.dirty)"
                 [class.is-valid] ="updateUserCurrentPassword.valid && (updateUserCurrentPassword.touched || updateUserCurrentPassword.dirty)"
@@ -68,7 +68,7 @@
                 aria-label="Yeni Şifre"                
                 id="newPassword"
                 name="newPassword"
-                placeholder="Gerekli, boş bırakılamaz."
+                placeholder="Yeni şifrenizi yazınız."
                 formControlName="newPassword"
                 [class.is-invalid] ="updateUserNewPassword.invalid && (updateUserNewPassword.touched || updateUserNewPassword.dirty)"
                 [class.is-valid] ="updateUserNewPassword.valid && (updateUserNewPassword.touched || updateUserNewPassword.dirty)"
@@ -81,15 +81,37 @@
         </form>
     </div>
     <div class="mt-2 p-1">
-       <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Hesabımı Sil</button>
+       <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteMyAccountModal">Hesabımı Sil</button>
     </div>
 </div>
+<div class="text text-center mt-2">
+  <div class="text small text-success">
+    Ad, Soyad ve Mail bilgilerinizi değiştirmek istemiyorsanız gelen verileri değiştirmeden şifre kısmına geçebilirsiniz. <br>
+    Parolanızı değiştirmek istemezseniz, 'Yeni Şifre' alanına mevcut şifrenizi girebilirsiniz.
+  </div>
+  <div *ngIf="updateUserFirstName.hasError('pattern') || updateUserFirstName.hasError('required') || updateUserFirstName.hasError('minlength') " class="text small text-danger">
+    *Ad: Boş bırakılamaz, boşlukla başlayamaz veya bitemez, izin verilenler dışında özel karakter içeremez ve en az 3 karakter içermelidir.
+  </div>
+  <div *ngIf="updateUserLastName.hasError('pattern') || updateUserLastName.hasError('required') || updateUserLastName.hasError('minlength') " class="text small text-danger">
+    *Soyad: Boş bırakılamaz, boşlukla başlayamaz veya bitemez, izin verilenler dışında özel karakter içeremez ve en az 2 karakter içermelidir.
+  </div>
+  <div *ngIf="updateUserNewEmail.hasError('pattern') || updateUserNewEmail.hasError('required')" class="text small text-danger">
+    *Mail: Boş bırakılamaz, boşlukla başlayamaz / bitemez, geçerli bir mail adresi yazmalısınız.
+  </div>  
+  <div *ngIf="updateUserCurrentPassword.hasError('pattern') || updateUserCurrentPassword.hasError('required') && (updateUserCurrentPassword.touched || updateUserCurrentPassword.dirty)" class="text small text-danger">
+    *Mevcut Şifre: Boş bırakılamaz, boşlukla başlayamaz / bitemez.
+  </div>
+  <div *ngIf="updateUserNewPassword.hasError('pattern') || updateUserNewPassword.hasError('required') && (updateUserNewPassword.touched || updateUserNewPassword.dirty)" class="text small text-danger">
+    *Yeni Şifre: Boş bırakılamaz, boşlukla başlayamaz / bitemez.
+  </div>
+</div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="confirmDeleteMyAccountModal" tabindex="-1" aria-labelledby="confirmDeleteMyAccountModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"><b>Hesap Silme Onayı</b></h5>
+          <h5 class="modal-title" id="confirmDeleteMyAccountModalLabel"><b>Hesap Silme Onayı</b></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -99,7 +121,37 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteMyAccount()">Hesabımı Sil</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#confirmYourPasswordForDeleteMyAccountModal">Hesabımı Sil</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="confirmYourPasswordForDeleteMyAccountModal" tabindex="-1" aria-labelledby="confirmYourPasswordForDeleteMyAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmYourPasswordForDeleteMyAccountModalLabel"><b>Hesap Silme Onayı</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Hesabınızı silebilmek için parolanızı girip hesabımı sil butonuna basınız.
+          <div class="input-group my-3">
+            <span class="input-group-text ms-2">Şifreniz:</span>
+            <input 
+            type="password" 
+            class="form-control"            
+            aria-label="Parola Onay"                
+            id="parolaOnay"
+            name="parolaOnay"
+            placeholder="Parolanızı yazınız."  
+            [(ngModel)] = "confirmPasswordText"          
+            >    
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelConfirmPassword()">İptal</button>
+          <button [disabled]="confirmPasswordText.trim().length == 0" type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteMyAccount()">Hesabımı Sil</button>
         </div>
       </div>
     </div>

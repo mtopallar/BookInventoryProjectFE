@@ -29,11 +29,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expiration');
-    this.authService.isAuthenticatedFlag();
-    this.userService.authenticatedUserDetails.next(null)
-    this.router.navigate(['/login']);
+    this.authService.logOut()
   }
   activeClassChanger() {
     this.router.events.subscribe((event: Event) => {

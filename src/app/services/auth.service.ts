@@ -7,6 +7,8 @@ import { AccessTokenModel } from '../models/accessTokenModel';
 import { environment } from 'src/environments/environment';
 import { RegisterModel } from '../models/registerModel';
 import { LocalStorageHelperService } from './local-storage-helper.service';
+import { UserService } from './user.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,12 @@ import { LocalStorageHelperService } from './local-storage-helper.service';
 export class AuthService {
 
   public isUserLoggedIn:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
-  constructor(private httpClient:HttpClient, private localStorageHelperService:LocalStorageHelperService) { }
+  constructor(
+        private httpClient:HttpClient, 
+        private localStorageHelperService:LocalStorageHelperService,
+        private userService:UserService,
+        private router:Router
+      ) { }
 
   login(loginModel:LoginModel):Observable<SingleResponseModel<AccessTokenModel>>{
     return this.httpClient.post<SingleResponseModel<AccessTokenModel>>(environment.apiUrl+"auth/login",loginModel)
@@ -22,6 +29,14 @@ export class AuthService {
 
   register(registerModel:RegisterModel):Observable<SingleResponseModel<AccessTokenModel>>{
     return this.httpClient.post<SingleResponseModel<AccessTokenModel>>(environment.apiUrl+"auth/register",registerModel)
+  }
+
+  logOut(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiration');
+    this.isAuthenticatedFlag()
+    this.userService.authenticatedUserDetails.next(null)
+    this.router.navigate(['/login']);
   }
 
   isAuthenticatedFlag(){    
