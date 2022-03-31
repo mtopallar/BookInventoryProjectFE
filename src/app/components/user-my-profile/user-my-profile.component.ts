@@ -8,6 +8,7 @@ import { UserForUpdateDto } from 'src/app/models/userForUpdateDto';
 import { ProjectRegexes } from 'src/app/projectValidationTools/regexes/projectRegexes';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserForDeleteDto } from 'src/app/models/userForDeleteDto';
 
 @Component({
   selector: 'app-user-my-profile',
@@ -67,11 +68,17 @@ export class UserMyProfileComponent implements OnInit {
    }
   }
 
-  deleteMyAccount(){
-    console.log("sildim.")
-    console.log(this.confirmPasswordText)
-    //this.cancelConfirmPassword() ama doğru zamanda.
-    //login e gönder ( aslında zaten kendiliğinden gider)
+  deleteMyAccount(){    
+    let userToDelete:UserForDeleteDto = {} as UserForDeleteDto
+    userToDelete.userId = this.currentUserUserWithDetailsAndRolesDto.userId
+    userToDelete.currentPassword = this.confirmPasswordText.trim()
+    this.userService.deleteForUser(userToDelete).subscribe(response=>{
+      this.toastrService.success(response.message,"Başarılı")
+      this.authService.logOut()
+    },responseError=>{
+      this.toastrService.error(responseError.error.message,"Hata")
+      this.cancelConfirmPassword()
+    })
   }
 
   cancelConfirmPassword(){

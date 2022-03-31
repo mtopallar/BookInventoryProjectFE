@@ -92,7 +92,7 @@
                     <td>
                         <button class="btn btn-outline-success btn-sm me-1" (click)="setAddRole(detailDto)">Rol Ele</button>
                         <button class="btn btn-outline-danger btn-sm me-1" (click)="getUserOperaionClaimWithIdAndName(detailDto)">Rol Sil</button>
-                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteUserModal"
                         (click)="setCurrentUser(detailDto)"
                         >Kullanıcıyı Sil</button>
                     </td>
@@ -107,11 +107,11 @@
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"><b>Silme Onayı</b></h5>
+          <h5 class="modal-title" id="deleteUserModalLabel"><b>Silme Onayı</b></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
