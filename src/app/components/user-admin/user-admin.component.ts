@@ -8,6 +8,7 @@ import { UserOperationClaimDto } from 'src/app/models/userOperationClaimDto';
 import { OperationClaim } from 'src/app/models/operationClaim';
 import { OperationClaimsService } from 'src/app/services/operation-claims.service';
 import { UserOperationClaim } from 'src/app/models/userOperationClaim'
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-user-admin',
@@ -32,7 +33,8 @@ export class UserAdminComponent implements OnInit {
                private userService:UserService, 
                private userOperationClaimService:UserOperationClaimService,
                private toastrService:ToastrService,
-               private operationClaimsService:OperationClaimsService
+               private operationClaimsService:OperationClaimsService,
+               private authService:AuthService
              ) { }
 
   ngOnInit(): void {
@@ -54,8 +56,13 @@ export class UserAdminComponent implements OnInit {
     userOperationClaimToAdd.operationClaimId = parseInt(selectedRoleId.value);
     userOperationClaimToAdd.userId = currentUserId;    
     this.userOperationClaimService.add(userOperationClaimToAdd).subscribe(response=>{
-      this.toastrService.success(response.message,"Başarılı")
-      this.getUsersDetailWithRoles()
+      if (this.userService.authenticatedUserDetails.getValue().userId == currentUserId) {
+        this.toastrService.success("Yetki hesabınıza başarıyla eklendi. Yetkinin etkin olabilmesi için lütfen sisteme yeniden giriş yapınız.","Başarılı")
+        this.authService.logOut()
+      }else{
+        this.toastrService.success(response.message,"Başarılı")
+        this.getUsersDetailWithRoles()
+      }      
     },errorResponse=>{
       this.toastrService.error(errorResponse.error.message,"Hata")
     })
@@ -66,9 +73,14 @@ export class UserAdminComponent implements OnInit {
     let selectedUserOperationClaimId = document.getElementById("roleSelectForDelete") as HTMLInputElement
     userOperaitonClaimToDelete.id = parseInt(selectedUserOperationClaimId.value)
     this.userOperationClaimService.delete(userOperaitonClaimToDelete).subscribe(response=>{
-      this.toastrService.success(response.message,"Başarılı")
-      this.getUsersDetailWithRoles()
-      this.getUserOperaionClaimWithIdAndName(this.currentUser)
+      if (this.userService.authenticatedUserDetails.getValue().userId == this.currentUser.userId) {
+        this.toastrService.success("Yetki hesabınızdan başarıyla silindi. Sistemi kullanabilmek için lütfen tekrar giriş yapınız.","Başarılı")
+        this.authService.logOut()
+      }else{
+        this.toastrService.success(response.message,"Başarılı")
+        this.getUsersDetailWithRoles()
+        this.getUserOperaionClaimWithIdAndName(this.currentUser)
+      }      
     },errorResponse=>{
       this.toastrService.error(errorResponse.error.message,"Hata")
     })

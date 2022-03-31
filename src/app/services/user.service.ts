@@ -61,6 +61,21 @@ export class UserService {
   updateUser(userForUpdateDto:UserForUpdateDto):Observable<BaseResponseModel>{
     return this.httpClient.post<BaseResponseModel>(environment.apiUrl+"users/update",userForUpdateDto)
   }
+
+  hasUserThisRole(...roleToSearch:string[]):boolean{
+    let flag:boolean = false;
+    if (this.authenticatedUserDetails!==null) {      
+      roleToSearch.forEach(element => {
+        if (this.authenticatedUserDetails.getValue().userRoleNames.includes(element)) {
+          flag = true
+        }                   
+      });
+    }    
+   if (flag) {
+     return true;     
+   }
+   return false;
+  }
   
 }
 //params from object örnek kullanımı

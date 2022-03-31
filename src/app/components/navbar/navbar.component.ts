@@ -14,12 +14,30 @@ export class NavbarComponent implements OnInit {
   classDropdown: string = 'nav-link dropdown-toggle';
 
   public userName:string = "";
+  public canUserSeeAdminPanel:boolean = false;
+  public canUserSeeAuthorPanel:boolean = false;
+  public canUserSeeGenrePanel:boolean = false;
+  public canUserSeePublisherPanel:boolean = false;
+  public canUserSeeBookPanel:boolean = false;
+  public canUserSeeRolePanel:boolean = false;
+  public canUserSeeUserPanel:boolean = false;
 
   constructor(private authService: AuthService, private router: Router, private userService:UserService) {}
 
   ngOnInit(): void {
     this.activeClassChanger()
     this.getUserName()
+    this.canUserSee()
+  }
+
+  canUserSee(){
+    this.canUserSeeAdminPanel = this.userService.hasUserThisRole("admin","publisher.admin","genre.admin","book.admin","author.admin","user.admin")
+    this.canUserSeeAuthorPanel = this.userService.hasUserThisRole("admin","author.admin")
+    this.canUserSeeGenrePanel = this.userService.hasUserThisRole("admin","genre.admin")
+    this.canUserSeePublisherPanel = this.userService.hasUserThisRole("admin","publisher.admin")
+    this.canUserSeeBookPanel = this.userService.hasUserThisRole("admin","book.admin")
+    this.canUserSeeRolePanel = this.userService.hasUserThisRole("admin")
+    this.canUserSeeUserPanel = this.userService.hasUserThisRole("admin","user.admin")        
   }
 
   getUserName(){

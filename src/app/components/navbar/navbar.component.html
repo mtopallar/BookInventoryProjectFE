@@ -13,17 +13,17 @@
 
 
         <!-- Kütüphanem ile Dropdownlink arası -->
-        <li class="nav-item dropdown">
-          <a [class]="classDropdown" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <li *ngIf="canUserSeeAdminPanel" class="nav-item dropdown">
+          <a [class]="classDropdown" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
             Yönetim Paneli
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" routerLink="/authors">Yazar Yönetimi</a></li>
-            <li><a class="dropdown-item" routerLink="/genres">Tür Yönetimi</a></li>
-            <li><a class="dropdown-item" routerLink="/publishers">Yayınevi Yönetimi</a></li>
-            <li><a class="dropdown-item" routerLink="/books">Kitap Yönetimi</a></li>
-            <li><a class="dropdown-item" routerLink="/operationclaims">Rol Yönetimi</a></li>
-            <li><a class="dropdown-item" routerLink="/useradmin">Kullanıcı Yönetimi</a></li>
+            <li *ngIf="canUserSeeAuthorPanel"><a class="dropdown-item" routerLink="/authors">Yazar Yönetimi</a></li>
+            <li *ngIf="canUserSeeGenrePanel"><a class="dropdown-item" routerLink="/genres">Tür Yönetimi</a></li>
+            <li *ngIf="canUserSeePublisherPanel"><a class="dropdown-item" routerLink="/publishers">Yayınevi Yönetimi</a></li>
+            <li *ngIf="canUserSeeBookPanel"><a class="dropdown-item" routerLink="/books">Kitap Yönetimi</a></li>
+            <li *ngIf="canUserSeeRolePanel"><a class="dropdown-item" routerLink="/operationclaims">Rol Yönetimi</a></li>
+            <li *ngIf="canUserSeeUserPanel"><a class="dropdown-item" routerLink="/useradmin">Kullanıcı Yönetimi</a></li>
           </ul>
         </li>
       </ul>
