@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { BaseResponseModel } from '../models/baseResponseModel';
 import { ListResponseModel } from '../models/listResponseModel';
-import { UserOperationClaim } from '../models/userOperationClaim';
+import { UserOperationClaimWithAttemptingUserIdDto } from '../models/userOperationClaimWithAttemptingUserIdDto';
 import { UserOperationClaimDto } from '../models/userOperationClaimDto';
 
 @Injectable({
@@ -18,12 +18,12 @@ export class UserOperationClaimService {
     return this.httClient.get<ListResponseModel<UserOperationClaimDto>>(environment.apiUrl+"useroperationclaims/getauthenticateduserclaims", {params: new HttpParams().set("userId",userId)})
   }
 
-  add(userOperationClaim:UserOperationClaim):Observable<BaseResponseModel>{
-    return this.httClient.post<BaseResponseModel>(environment.apiUrl+"useroperationclaims/add",userOperationClaim)
+  add(userOperationClaimWithAttemptingUserIdDto:UserOperationClaimWithAttemptingUserIdDto):Observable<BaseResponseModel>{
+    return this.httClient.post<BaseResponseModel>(environment.apiUrl+"useroperationclaims/add",userOperationClaimWithAttemptingUserIdDto)
   }
 
-  delete(userOperationClaim:UserOperationClaim):Observable<BaseResponseModel>{
-    return this.httClient.post<BaseResponseModel>(environment.apiUrl+"useroperationclaims/delete",userOperationClaim)
+  delete(userOperationClaimWithAttemptingUserIdDto:UserOperationClaimWithAttemptingUserIdDto):Observable<BaseResponseModel>{
+    return this.httClient.post<BaseResponseModel>(environment.apiUrl+"useroperationclaims/delete",userOperationClaimWithAttemptingUserIdDto)
   }
   
 }

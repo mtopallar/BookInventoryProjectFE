@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UserOperationClaimDto } from 'src/app/models/userOperationClaimDto';
 import { OperationClaim } from 'src/app/models/operationClaim';
 import { OperationClaimsService } from 'src/app/services/operation-claims.service';
-import { UserOperationClaim } from 'src/app/models/userOperationClaim'
+import { UserOperationClaimWithAttemptingUserIdDto } from 'src/app/models/userOperationClaimWithAttemptingUserIdDto'
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -28,6 +28,7 @@ export class UserAdminComponent implements OnInit {
   public loaded:boolean = false;
   public isItAddRole:boolean = false;
   public isItDeleteRole:boolean = false;
+  public authorizedUserId:number;
 
   constructor(private windowSizeService:WindowSizeService,
                private userService:UserService, 
@@ -41,6 +42,11 @@ export class UserAdminComponent implements OnInit {
     this.divColSetter()
     this.getUsersDetailWithRoles()
     this.getRolesInSystem()
+    this.getAuthorizedUserIdAsAttemptingUser()
+  }
+
+  getAuthorizedUserIdAsAttemptingUser(){
+    this.authorizedUserId = this.userService.authenticatedUserDetails.getValue().userId
   }
   
   getRolesInSystem(){
@@ -52,11 +58,12 @@ export class UserAdminComponent implements OnInit {
   addRoleToUser(){
     let selectedRoleId = document.getElementById("roleSelectForAdd") as HTMLInputElement
     let currentUserId:number = this.currentUser.userId;
-    let userOperationClaimToAdd:UserOperationClaim = {} as UserOperationClaim
-    userOperationClaimToAdd.operationClaimId = parseInt(selectedRoleId.value);
-    userOperationClaimToAdd.userId = currentUserId;    
-    this.userOperationClaimService.add(userOperationClaimToAdd).subscribe(response=>{
-      if (this.userService.authenticatedUserDetails.getValue().userId == currentUserId) {
+    let userOperationClaimToAddWithAttemptingUserId:UserOperationClaimWithAttemptingUserIdDto = {} as UserOperationClaimWithAttemptingUserIdDto
+    userOperationClaimToAddWithAttemptingUserId.operationClaimId = parseInt(selectedRoleId.value);
+    userOperationClaimToAddWithAttemptingUserId.userId = currentUserId;  
+    userOperationClaimToAddWithAttemptingUserId.attemptingUserId = this.authorizedUserId  
+    this.userOperationClaimService.add(userOperationClaimToAddWithAttemptingUserId).subscribe(response=>{
+      if (this.authorizedUserId == currentUserId) {
         this.toastrService.success("Yetki hesabınıza başarıyla eklendi. Yetkinin etkin olabilmesi için lütfen sisteme yeniden giriş yapınız.","Başarılı")
         this.authService.logOut()
       }else{
@@ -69,11 +76,12 @@ export class UserAdminComponent implements OnInit {
   }
     
   deleteRoleFromUser(){
-    let userOperaitonClaimToDelete:UserOperationClaim = {} as UserOperationClaim
+    let userOperationClaimToDeleteWithAttemptingUserId:UserOperationClaimWithAttemptingUserIdDto = {} as UserOperationClaimWithAttemptingUserIdDto
     let selectedUserOperationClaimId = document.getElementById("roleSelectForDelete") as HTMLInputElement
-    userOperaitonClaimToDelete.id = parseInt(selectedUserOperationClaimId.value)
-    this.userOperationClaimService.delete(userOperaitonClaimToDelete).subscribe(response=>{
-      if (this.userService.authenticatedUserDetails.getValue().userId == this.currentUser.userId) {
+    userOperationClaimToDeleteWithAttemptingUserId.id = parseInt(selectedUserOperationClaimId.value)
+    userOperationClaimToDeleteWithAttemptingUserId.attemptingUserId = this.authorizedUserId
+    this.userOperationClaimService.delete(userOperationClaimToDeleteWithAttemptingUserId).subscribe(response=>{
+      if (this.authorizedUserId == this.currentUser.userId) {
         this.toastrService.success("Yetki hesabınızdan başarıyla silindi. Sistemi kullanabilmek için lütfen tekrar giriş yapınız.","Başarılı")
         this.authService.logOut()
       }else{
@@ -89,6 +97,7 @@ export class UserAdminComponent implements OnInit {
   deleteUserForAdmin(){ 
     this.userService.deleteForAdmin(this.currentUser.userId).subscribe(response=>{
       this.toastrService.success(response.message,"Başarılı")
+      this.cancelAddOrDelete()
       this.getUsersDetailWithRoles()
     },errorResponse=>{
       this.toastrService.error(errorResponse.error.message,"Hata")
