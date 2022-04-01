@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { SearchPipe } from './pipes/search.pipe';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -27,13 +26,14 @@ import { OperationclaimsComponent } from './components/operationclaims/operation
 import { UserAdminComponent } from './components/user-admin/user-admin.component';
 import { UserSearchForAdminPipe } from './pipes/user-search-for-admin.pipe';
 import { UserMyProfileComponent } from './components/user-my-profile/user-my-profile.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    SearchPipe,
     RegisterComponent,
     LoginComponent,
     LibraryComponent,
@@ -50,7 +50,8 @@ import { UserMyProfileComponent } from './components/user-my-profile/user-my-pro
     OperationclaimsComponent,
     UserAdminComponent,
     UserSearchForAdminPipe,
-    UserMyProfileComponent
+    UserMyProfileComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
