@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 export class NavbarComponent implements OnInit {
   classLibrary: string = 'nav-link active';
   classUserLibrary: string = 'nav-link';
+  classWelcomeUser:string = 'nav-link';
   classDropdown: string = 'nav-link dropdown-toggle';
 
   public userName:string = "";
@@ -58,7 +59,11 @@ export class NavbarComponent implements OnInit {
         } else if (event.url == '/userlibrary') {
           this.activeClassResetter()
           this.classUserLibrary = 'nav-link active';          
-        } else {
+        } else if(event.url == '/myprofile'){
+          this.activeClassResetter()
+          this.classWelcomeUser = 'nav-link active';
+        }
+        else {
           this.activeClassResetter()
           this.classDropdown = 'nav-link dropdown-toggle active';
         }
@@ -69,6 +74,7 @@ export class NavbarComponent implements OnInit {
   activeClassResetter(){
     this.classLibrary = 'nav-link';
     this.classUserLibrary = 'nav-link';
+    this.classWelcomeUser = 'nav-link';
     this.classDropdown = 'nav-link dropdown-toggle';
   }
 }
