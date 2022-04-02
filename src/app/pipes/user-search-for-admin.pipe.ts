@@ -6,13 +6,17 @@ import { UserWithDetailsAndRolesDto } from '../models/userWithDetailsAndRolesDto
 })
 export class UserSearchForAdminPipe implements PipeTransform {
 
-  transform(value: UserWithDetailsAndRolesDto[], userMailForSearch ?:string, userNameLastNameForSearch ?:string): UserWithDetailsAndRolesDto[] {
+  transform(value: UserWithDetailsAndRolesDto[], userMailForSearch ?:string, userNameLastNameForSearch ?:string, searchByRoleText ?:string): UserWithDetailsAndRolesDto[] {
+    
     if (userMailForSearch) {
       return value.filter(u=>u.email.toLocaleLowerCase().indexOf(userMailForSearch.toLocaleLowerCase()) !== -1)
     }
     else if (userNameLastNameForSearch) {
       return value.filter(u=>(u.firstName.toLocaleLowerCase() + " " + u.lastName.toLocaleLowerCase()).indexOf(userNameLastNameForSearch.toLocaleLowerCase()) !== -1)
-    }    
+    }   
+    else if(searchByRoleText && searchByRoleText !== 'Seçiniz...'){
+      return value.filter(u=>u.userRoleNames.indexOf(searchByRoleText) !== -1)
+    } 
     return value;    
   }
 

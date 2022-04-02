@@ -21,10 +21,12 @@ export class UserAdminComponent implements OnInit {
   public classDiv2:string;
   public userMailForSearch:string = "";
   public userNameLastNameForSearch:string = "";
+  public searchByRoleText:string = "Seçiniz..."
   public userWithDetailsAndRolesDto: UserWithDetailsAndRolesDto[] = []
   public currentUser:UserWithDetailsAndRolesDto = {} as UserWithDetailsAndRolesDto;
   public userOperaitonClaimDto:UserOperationClaimDto[] = []
   public rolesInSystem:OperationClaim[] = []
+  public rolesInSystemForSearch:string[] = []
   public loaded:boolean = false;
   public isItAddRole:boolean = false;
   public isItDeleteRole:boolean = false;
@@ -52,7 +54,16 @@ export class UserAdminComponent implements OnInit {
   getRolesInSystem(){
     this.operationClaimsService.getRolesInSystem().subscribe(response=>{
       this.rolesInSystem = response.data
+      this.getRolesInSystemForSearch()
     })
+  }
+
+  getRolesInSystemForSearch(){
+    this.rolesInSystem.forEach(element => {
+      if (element.name != "user") {
+        this.rolesInSystemForSearch.push(element.name)
+      }
+    });
   }
 
   addRoleToUser(){
@@ -152,6 +163,12 @@ export class UserAdminComponent implements OnInit {
 
   scrollToTop() {
     window.scroll(0, 0);
+  }
+
+  clearSearchArea(){
+    this.userMailForSearch = ''
+    this.userNameLastNameForSearch = ''
+    this.searchByRoleText = 'Seçiniz...'
   }
 
 }

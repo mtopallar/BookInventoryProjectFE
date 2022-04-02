@@ -12,7 +12,7 @@
               [(ngModel)]="userMailForSearch"
               id="name"
               aria-label="İsim ile ara"
-              [disabled]="userNameLastNameForSearch != ''"                     
+              [disabled]="userNameLastNameForSearch != '' || searchByRoleText != 'Seçiniz...'"                     
             />
           </div>
           <div class="border border-1 border-dark-50 my-2 p-3">
@@ -24,8 +24,28 @@
               [(ngModel)]="userNameLastNameForSearch"
               id="name"
               aria-label="İsim ile ara"  
-              [disabled]="userMailForSearch != ''"                      
+              [disabled]="userMailForSearch != '' || searchByRoleText != 'Seçiniz...'"                      
             />
+          </div> 
+          <div class="border border-1 border-dark-50 my-2 p-3">
+            <h5>Yetkiye Göre Ara</h5>
+            <select 
+          class="form-select"
+          id="roleForSearch"
+          name="roleForSearch"           
+          aria-label="Yetkiye Göre Ara"
+          [(ngModel)]="searchByRoleText"
+          [disabled]="userMailForSearch != '' || userNameLastNameForSearch != '' "                    
+          >
+            <option *ngIf="searchByRoleText == 'Seçiniz...'" selected >{{searchByRoleText}}</option>
+            <option value="{{role}}" *ngFor="let role of rolesInSystemForSearch">{{role}}</option>            
+          </select>          
+          </div>
+          <div class="border border-1 border-dark-50 my-2 p-3">
+            <h5 class="text-center">Seçimi Temizle</h5>
+            <div class="col text-center">              
+                <button class="btn btn-outline-secondary btn-sm" (click)="clearSearchArea()" [disabled]="userMailForSearch == '' && userNameLastNameForSearch == '' && searchByRoleText == 'Seçiniz...'">Temizle</button>
+            </div>
           </div> 
     </div>
     <div [class]="classDiv2">
@@ -83,7 +103,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let detailDto of userWithDetailsAndRolesDto | userSearchForAdmin :userMailForSearch :userNameLastNameForSearch; index as i">
+                <tr *ngFor="let detailDto of userWithDetailsAndRolesDto | userSearchForAdmin :userMailForSearch :userNameLastNameForSearch : searchByRoleText; index as i">
                     <td>{{i+1}}</td>
                     <td>{{detailDto.firstName}}</td>
                     <td>{{detailDto.lastName}}</td>
@@ -99,11 +119,9 @@
                 </tr>
             </tbody>
         </table>
-
-        <div class="text text-danger fw-bold border border-1 border-danger my-2 p-2" *ngIf="(userWithDetailsAndRolesDto | userSearchForAdmin :userMailForSearch :userNameLastNameForSearch).length === 0 && loaded">
+        <div class="text text-danger fw-bold border border-1 border-danger my-2 p-2" *ngIf="(userWithDetailsAndRolesDto | userSearchForAdmin :userMailForSearch :userNameLastNameForSearch :searchByRoleText).length === 0 && loaded">
             Aradığınız kriterde kullanıcı bulunmamaktadır.
           </div>
-
     </div>
 </div>
 
