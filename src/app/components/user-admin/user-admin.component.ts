@@ -114,6 +114,9 @@ export class UserAdminComponent implements OnInit {
       this.toastrService.success(response.message,"Başarılı")
       this.cancelAddOrDelete()
       this.getUsersDetailWithRoles()
+      if (this.currentUser.userId == this.authorizedUserId) {
+        this.authService.logOut()
+      }
     },errorResponse=>{
       this.toastrService.error(errorResponse.error.message,"Hata")
     })
