@@ -12,6 +12,7 @@ import { BaseResponseModel } from '../models/baseResponseModel';
 import { UserForUpdateDto } from '../models/userForUpdateDto';
 import { SingleResponseModel } from '../models/singleResponseModel';
 import { UserForDeleteDto } from '../models/userForDeleteDto';
+import { DeleteForAdminWithAttemptingUserIdDto } from '../models/deleteFordminWithAttemptingUserIdDto';
 
 @Injectable({
   providedIn: 'root'
@@ -49,8 +50,8 @@ export class UserService {
     return this.httpClient.get<SingleResponseModel<UserWithDetailsAndRolesDto>>(environment.apiUrl+"users/getuserdetailswithrolesbyuserid", {params: new HttpParams().set("userId",userId)})
   }
 
-  deleteForAdmin(userId:number):Observable<BaseResponseModel>{
-    return this.httpClient.post<BaseResponseModel>(environment.apiUrl+"users/deleteforadmin",userId)
+  deleteForAdmin(deleteForAdminWithAttemptingUserIdDto:DeleteForAdminWithAttemptingUserIdDto):Observable<BaseResponseModel>{
+    return this.httpClient.post<BaseResponseModel>(environment.apiUrl+"users/deleteforadmin",deleteForAdminWithAttemptingUserIdDto)
   }
 
   

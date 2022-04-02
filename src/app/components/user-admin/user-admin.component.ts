@@ -9,6 +9,7 @@ import { OperationClaim } from 'src/app/models/operationClaim';
 import { OperationClaimsService } from 'src/app/services/operation-claims.service';
 import { UserOperationClaimWithAttemptingUserIdDto } from 'src/app/models/userOperationClaimWithAttemptingUserIdDto'
 import { AuthService } from 'src/app/services/auth.service';
+import { DeleteForAdminWithAttemptingUserIdDto } from 'src/app/models/deleteFordminWithAttemptingUserIdDto';
 
 @Component({
   selector: 'app-user-admin',
@@ -106,7 +107,10 @@ export class UserAdminComponent implements OnInit {
   }
 
   deleteUserForAdmin(){ 
-    this.userService.deleteForAdmin(this.currentUser.userId).subscribe(response=>{
+    let deleteForAdminWithAttemptingUserId:DeleteForAdminWithAttemptingUserIdDto = {} as DeleteForAdminWithAttemptingUserIdDto
+    deleteForAdminWithAttemptingUserId.userId = this.currentUser.userId
+    deleteForAdminWithAttemptingUserId.attemptingUserId = this.authorizedUserId
+    this.userService.deleteForAdmin(deleteForAdminWithAttemptingUserId).subscribe(response=>{
       this.toastrService.success(response.message,"Başarılı")
       this.cancelAddOrDelete()
       this.getUsersDetailWithRoles()

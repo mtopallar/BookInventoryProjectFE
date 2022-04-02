@@ -9,10 +9,6 @@
         <li class="nav-item">
           <a [class]="classUserLibrary" (click)="activeClassChanger()" routerLink="/userlibrary">Kütüphanem</a>
         </li>
-
-
-
-        <!-- Kütüphanem ile Dropdownlink arası -->
         <li *ngIf="canUserSeeAdminPanel" class="nav-item dropdown">
           <a [class]="classDropdown" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
             Yönetim Paneli
@@ -26,18 +22,17 @@
             <li *ngIf="canUserSeeUserPanel"><a class="dropdown-item" routerLink="/useradmin">Kullanıcı Yönetimi</a></li>
           </ul>
         </li>
-      </ul>
-  
+      </ul>  
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <a [class]="classWelcomeUser" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <span class="text small">Merhaba,</span> {{userName}} 
+          <a [class]="classWelcomeUser" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
+            <span class="text small">Merhaba,</span> {{userName}}
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
             <li><a class="dropdown-item" routerLink="/myprofile">Profilim</a></li>
             <li><a class="dropdown-item" (click)="logOut()">Çıkış</a></li>
           </ul>
-        </li>
+        </li>        
       </ul>
     </div>
   </nav>
