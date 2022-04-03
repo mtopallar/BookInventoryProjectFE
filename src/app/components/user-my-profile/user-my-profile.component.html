@@ -85,23 +85,23 @@
     </div>
 </div>
 <div class="text text-center mt-2">
-  <div class="text small text-success">
+  <div class="text small fw-bold text-success">
     Ad, Soyad ve Mail bilgilerinizi değiştirmek istemiyorsanız gelen verileri değiştirmeden şifre kısmına geçebilirsiniz. <br>
     Parolanızı değiştirmek istemezseniz, 'Yeni Şifre' alanına mevcut şifrenizi girebilirsiniz.
   </div>
-  <div *ngIf="updateUserFirstName.hasError('pattern') || updateUserFirstName.hasError('required') || updateUserFirstName.hasError('minlength') " class="text small text-danger">
+  <div *ngIf="updateUserFirstName.hasError('pattern') || updateUserFirstName.hasError('required') || updateUserFirstName.hasError('minlength') " class="text small fw-bold text-danger">
     *Ad: Boş bırakılamaz, boşlukla başlayamaz veya bitemez, izin verilenler dışında özel karakter içeremez ve en az 3 karakter içermelidir.
   </div>
-  <div *ngIf="updateUserLastName.hasError('pattern') || updateUserLastName.hasError('required') || updateUserLastName.hasError('minlength') " class="text small text-danger">
+  <div *ngIf="updateUserLastName.hasError('pattern') || updateUserLastName.hasError('required') || updateUserLastName.hasError('minlength') " class="text small fw-bold text-danger">
     *Soyad: Boş bırakılamaz, boşlukla başlayamaz veya bitemez, izin verilenler dışında özel karakter içeremez ve en az 2 karakter içermelidir.
   </div>
-  <div *ngIf="updateUserNewEmail.hasError('pattern') || updateUserNewEmail.hasError('required')" class="text small text-danger">
+  <div *ngIf="updateUserNewEmail.hasError('pattern') || updateUserNewEmail.hasError('required')" class="text small fw-bold text-danger">
     *Mail: Boş bırakılamaz, boşlukla başlayamaz veya bitemez, geçerli bir mail adresi yazmalısınız.
   </div>  
-  <div *ngIf="updateUserCurrentPassword.hasError('pattern') || updateUserCurrentPassword.hasError('required') && (updateUserCurrentPassword.touched || updateUserCurrentPassword.dirty)" class="text small text-danger">
+  <div *ngIf="updateUserCurrentPassword.hasError('pattern') || updateUserCurrentPassword.hasError('required') && (updateUserCurrentPassword.touched || updateUserCurrentPassword.dirty)" class="text small fw-bold text-danger">
     *Mevcut Şifre: En az 5 karakterden oluşmalıdır. Büyük harf, küçük harf ve rakam içermelidir. Türkçe karakter ve boşluk içeremez.
   </div>
-  <div *ngIf="updateUserNewPassword.hasError('pattern') || updateUserNewPassword.hasError('required') && (updateUserNewPassword.touched || updateUserNewPassword.dirty)" class="text small text-danger">
+  <div *ngIf="updateUserNewPassword.hasError('pattern') || updateUserNewPassword.hasError('required') && (updateUserNewPassword.touched || updateUserNewPassword.dirty)" class="text small fw-bold text-danger">
     *Yeni Şifre: En az 5 karakterden oluşmalıdır. Büyük harf, küçük harf ve rakam içermelidir. Türkçe karakter ve boşluk içeremez.
   </div>
 </div>
