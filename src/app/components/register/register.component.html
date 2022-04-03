@@ -97,8 +97,8 @@
         <div *ngIf="password.hasError('required')" class="invalid-feedback position-static text-end mt-0">
           Parola boş bırakılamaz.
         </div> 
-        <div *ngIf="password.hasError('noAnyWhiteSpaces')" class="invalid-feedback position-static text-end mt-0">
-          Parola boşluk içeremez.
+        <div *ngIf="password.hasError('pattern')" class="invalid-feedback position-static text-end mt-0">
+          En az 5 karakterden oluşmalıdır. <br>Büyük harf, küçük harf ve rakam içermelidir.<br>Türkçe karakter ve boşluk içeremez.
         </div>                   
       </div>      
       <button [disabled]="registerForm.invalid || registerError" (click)="register()" [class]= "buttonClass" type="submit">

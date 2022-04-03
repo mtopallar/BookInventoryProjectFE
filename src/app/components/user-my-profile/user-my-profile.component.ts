@@ -47,8 +47,8 @@ export class UserMyProfileComponent implements OnInit {
   createUpdateUserForm(){
     this.updateUserForm = this.formBuilder.group({
       newEmail:[this.currentUserUserWithDetailsAndRolesDto.email,[Validators.required, Validators.pattern(ProjectRegexes.email)]],
-      currentPassword:['',[Validators.required,Validators.pattern(ProjectRegexes.onlyOneWhiteSpaceBetweenWords)]],
-      newPassword:['',[Validators.required,Validators.pattern(ProjectRegexes.onlyOneWhiteSpaceBetweenWords)]],
+      currentPassword:['',[Validators.required,Validators.pattern(ProjectRegexes.patternForPassword)]],
+      newPassword:['',[Validators.required,Validators.pattern(ProjectRegexes.patternForPassword)]],
       firstName:[this.currentUserUserWithDetailsAndRolesDto.firstName,[Validators.required,Validators.minLength(3),Validators.pattern(ProjectRegexes.onlyOneWhiteSpaceBetweenWords)]],
       lastName:[this.currentUserUserWithDetailsAndRolesDto.lastName,[Validators.required,Validators.minLength(2),Validators.pattern(ProjectRegexes.onlyOneWhiteSpaceBetweenWords)]]
     })

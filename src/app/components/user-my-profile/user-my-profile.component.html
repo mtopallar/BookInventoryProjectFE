@@ -96,13 +96,13 @@
     *Soyad: Boş bırakılamaz, boşlukla başlayamaz veya bitemez, izin verilenler dışında özel karakter içeremez ve en az 2 karakter içermelidir.
   </div>
   <div *ngIf="updateUserNewEmail.hasError('pattern') || updateUserNewEmail.hasError('required')" class="text small text-danger">
-    *Mail: Boş bırakılamaz, boşlukla başlayamaz / bitemez, geçerli bir mail adresi yazmalısınız.
+    *Mail: Boş bırakılamaz, boşlukla başlayamaz veya bitemez, geçerli bir mail adresi yazmalısınız.
   </div>  
   <div *ngIf="updateUserCurrentPassword.hasError('pattern') || updateUserCurrentPassword.hasError('required') && (updateUserCurrentPassword.touched || updateUserCurrentPassword.dirty)" class="text small text-danger">
-    *Mevcut Şifre: Boş bırakılamaz, boşlukla başlayamaz / bitemez.
+    *Mevcut Şifre: Boş bırakılamaz, boşluk içeremez. En az 5 karakterden oluşmalı, büyük harf ve rakam içermeli.
   </div>
   <div *ngIf="updateUserNewPassword.hasError('pattern') || updateUserNewPassword.hasError('required') && (updateUserNewPassword.touched || updateUserNewPassword.dirty)" class="text small text-danger">
-    *Yeni Şifre: Boş bırakılamaz, boşlukla başlayamaz / bitemez.
+    *Yeni Şifre: Boş bırakılamaz, boşluk içeremez. En az 5 karakterden oluşmalı, büyük harf ve rakam içermeli.
   </div>
 </div>
 

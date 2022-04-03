@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProjectRegexes } from 'src/app/projectValidationTools/regexes/projectRegexes';
-import { WhiteSpacesValidator } from 'src/app/projectValidationTools/customValidators/whiteSpacesValidator';
 import { LocalStorageHelperService } from 'src/app/services/local-storage-helper.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -35,7 +34,7 @@ export class LoginComponent implements OnInit {
   createLoginForm(){
     this.loginForm = this.formBuilder.group({
       email: ["",[Validators.required, Validators.pattern(ProjectRegexes.email)]],
-      password: ["",[Validators.required, WhiteSpacesValidator.noAnyWhiteSpaces]]
+      password: ["",[Validators.required, Validators.pattern(ProjectRegexes.patternForPassword)]]
     })
   }
     

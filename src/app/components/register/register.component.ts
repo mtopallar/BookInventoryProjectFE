@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { WhiteSpacesValidator } from 'src/app/projectValidationTools/customValidators/whiteSpacesValidator';
 import { ProjectRegexes } from 'src/app/projectValidationTools/regexes/projectRegexes';
 import { AuthService } from 'src/app/services/auth.service';
 import { LocalStorageHelperService } from 'src/app/services/local-storage-helper.service';
@@ -31,7 +30,7 @@ export class RegisterComponent implements OnInit {
   createRegisterForm(){
     this.registerForm = this.formBuilder.group({
       email: ["",[Validators.required, Validators.pattern(ProjectRegexes.email)]],
-      password: ["",[Validators.required, WhiteSpacesValidator.noAnyWhiteSpaces]],
+      password: ["",[Validators.required, Validators.pattern(ProjectRegexes.patternForPassword)]],
       firstName: ["",[Validators.required,Validators.minLength(3),Validators.pattern(ProjectRegexes.onlyOneWhiteSpaceBetweenWords)]],
       lastName: ["",[Validators.required,Validators.minLength(2),Validators.pattern(ProjectRegexes.onlyOneWhiteSpaceBetweenWords)]],
     })
