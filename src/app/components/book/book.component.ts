@@ -79,7 +79,7 @@ export class BookComponent implements OnInit {
 
   createAddBookForm(){
     this.addBookForm = this.formBuilder.group({
-      name:["",[Validators.required,Validators.pattern(ProjectRegexes.onlyOneWhiteSpaceBetweenWords)]],
+      name:["",[Validators.required,Validators.pattern(ProjectRegexes.onlyOneWhiteSpaceBetweenWordsForBookName)]],
       isbn:["",[Validators.required,Validators.pattern(ProjectRegexes.isbn)]],
       publisherName:["Seçiniz...",[]],
       authorFullName:["Seçiniz...",[]],
