@@ -37,7 +37,7 @@
           En az 3 karakter olmalıdır.
         </div> 
         <div *ngIf="firstName.hasError('pattern')" class="invalid-feedback position-static text-end mt-0">
-          Sadece iki kelime arasında tek boşluk olabilir.<br>
+          Boşlukla başlayamaz veya bitemez.<br>
           İzin verilmeyen karakterler kullanılamaz.
         </div>           
       </div>
@@ -60,7 +60,7 @@
           En az 2 karakter olmalıdır.
         </div> 
         <div *ngIf="lastName.hasError('pattern')" class="invalid-feedback position-static text-end mt-0">
-          Sadece iki kelime arasında tek boşluk olabilir.<br>
+          Boşlukla başlayamaz veya bitemez.<br>
           İzin verilmeyen karakterler kullanılamaz.
         </div>           
       </div>
