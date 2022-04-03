@@ -99,10 +99,10 @@
     *Mail: Boş bırakılamaz, boşlukla başlayamaz veya bitemez, geçerli bir mail adresi yazmalısınız.
   </div>  
   <div *ngIf="updateUserCurrentPassword.hasError('pattern') || updateUserCurrentPassword.hasError('required') && (updateUserCurrentPassword.touched || updateUserCurrentPassword.dirty)" class="text small text-danger">
-    *Mevcut Şifre: Boş bırakılamaz, boşluk içeremez. En az 5 karakterden oluşmalı, büyük harf ve rakam içermeli.
+    *Mevcut Şifre: En az 5 karakterden oluşmalıdır. Büyük harf, küçük harf ve rakam içermelidir. Türkçe karakter ve boşluk içeremez.
   </div>
   <div *ngIf="updateUserNewPassword.hasError('pattern') || updateUserNewPassword.hasError('required') && (updateUserNewPassword.touched || updateUserNewPassword.dirty)" class="text small text-danger">
-    *Yeni Şifre: Boş bırakılamaz, boşluk içeremez. En az 5 karakterden oluşmalı, büyük harf ve rakam içermeli.
+    *Yeni Şifre: En az 5 karakterden oluşmalıdır. Büyük harf, küçük harf ve rakam içermelidir. Türkçe karakter ve boşluk içeremez.
   </div>
 </div>
 
