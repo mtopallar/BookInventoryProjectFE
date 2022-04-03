@@ -89,7 +89,7 @@ export class BookComponent implements OnInit {
 
   createUpdateBookForm(){
     this.updateBookForm = this.formBuilder.group({
-      name:[this.currentBookDto ? this.currentBookDto.name : '',[Validators.required,Validators.pattern(ProjectRegexes.onlyOneWhiteSpaceBetweenWords)]],
+      name:[this.currentBookDto ? this.currentBookDto.name : '',[Validators.required,Validators.pattern(ProjectRegexes.onlyOneWhiteSpaceBetweenWordsForBookName)]],
       isbn:[this.currentBookDto ? this.currentBookDto.isbn : '',[Validators.required,Validators.pattern(ProjectRegexes.isbn)]],
       publisherName:[this.currentBookDto ? this.currentBookDto.publisherName : '',[]],
       authorFullName:[this.currentBookDto ? this.currentBookDto.authorFullName : '',[]],
