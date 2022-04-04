@@ -1,3 +1,9 @@
 .updateClass{
     background-color: rgb(161, 124, 124);
 }
+
+.info{
+    height: 390px;
+    width: 500px;
+    border-radius: 3%;
+}
