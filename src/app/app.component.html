@@ -1,16 +1,16 @@
 <div *ngIf="loggedIn">  
-    <app-navbar></app-navbar>
-    <img [src]="imageSrc" alt="image" [height]="imageHeight" [width]="imageWidth" class="imageClass"/>
+  <app-navbar></app-navbar>
+  <img [src]="imageSrc" alt="image" [height]="imageHeight" [width]="imageWidth" class="imageClass"/>
 </div>
 <div *ngIf="routerOutlet" [class]="divCol"> 
-  <!-- burada if e istenirse && loggedIn de eklenebilir -->
-    <div>
-      <router-outlet></router-outlet>
-    </div>
+<!-- burada if e istenirse && loggedIn de eklenebilir -->
+  <div>
+    <router-outlet></router-outlet>
+  </div>
 </div>
-<div *ngIf="isItLogIn" class="col-6 mx-auto mx-auto my-5 px-5">
-  <app-login></app-login>
+<div *ngIf="isItLogIn" class="col-6 mx-auto my-5 px-5">
+<app-login></app-login>
 </div>
-<div *ngIf="isItRegister" class="col-6 mx-auto mx-auto my-5 px-5">
-  <app-register></app-register>
+<div *ngIf="isItRegister" class="col-6 mx-auto my-5 px-5">
+<app-register></app-register>
 </div>

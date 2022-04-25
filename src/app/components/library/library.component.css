@@ -2,6 +2,14 @@
     background-color: rgb(98, 141, 89);
 }
 
+@media(height <= 1920px)
+{
+    .searchBar{
+        overflow-y: auto;
+        max-height: 50vh;
+    }
+}
+
 .labelDisabled{
     background-color: darkgrey
 }

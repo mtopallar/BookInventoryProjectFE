@@ -78,7 +78,7 @@ export class AppComponent {
       this.imageSrc="assets/images/banner.png"
       this.imageHeight="210"
     }else{
-      this.divCol = "col-10 offset-1"
+      this.divCol = "col-12 px-4"
       this.imageSrc="assets/images/banner-long.png"
       this.imageHeight="190"
     }    

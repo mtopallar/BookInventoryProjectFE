@@ -63,9 +63,12 @@ export class NavbarComponent implements OnInit {
           this.activeClassResetter()
           this.classWelcomeUser = 'nav-link dropdown-toggle active';
         }
-        else {
+        else if(event.url =="/authors" || event.url =="/genres" || event.url =="/publishers" || event.url =="/books" || event.url =="/operationclaims" || event.url =="/useradmin") {
           this.activeClassResetter()
           this.classDropdown = 'nav-link dropdown-toggle active';
+        }
+        else{
+          this.activeClassResetter()
         }
       }
     });

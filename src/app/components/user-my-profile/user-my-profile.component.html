@@ -89,19 +89,19 @@
       Ad, Soyad ve Mail bilgilerinizi değiştirmek istemiyorsanız gelen verileri değiştirmeden şifre kısmına geçebilirsiniz. <br>
       Parolanızı değiştirmek istemezseniz, 'Yeni Şifre' alanına mevcut şifrenizi girebilirsiniz.
     </div>
-    <div class="text small fw-bold text-danger mb-1">
+    <div [class]="updateUserFirstName.valid ? 'text small fw-bold text-secondary mb-1' : 'text small fw-bold text-danger mb-1'">
       *<u>Ad:</u> Boş bırakılamaz, boşlukla başlayamaz veya bitemez, izin verilenler dışında özel karakter içeremez ve en az 3 karakter içermelidir.
     </div>
-    <div class="text small fw-bold text-danger mb-1">
+    <div [class]="updateUserLastName.valid ? 'text small fw-bold text-secondary mb-1' : 'text small fw-bold text-danger mb-1'">
       *<u>Soyad:</u> Boş bırakılamaz, boşlukla başlayamaz veya bitemez, izin verilenler dışında özel karakter içeremez ve en az 2 karakter içermelidir.
     </div>
-    <div class="text small fw-bold text-danger mb-1">
+    <div [class]="updateUserNewEmail.valid ? 'text small fw-bold text-secondary mb-1' : 'text small fw-bold text-danger mb-1'">
       *<u>Mail:</u> Boş bırakılamaz, boşlukla başlayamaz veya bitemez, geçerli bir mail adresi yazmalısınız.
     </div>  
-    <div class="text small fw-bold text-danger mb-1">
+    <div [class]="updateUserCurrentPassword.invalid && (updateUserCurrentPassword.touched || updateUserCurrentPassword.dirty) ? 'text small fw-bold text-danger mb-1' : 'text small fw-bold text-secondary mb-1'">
       *<u>Mevcut Şifre:</u> En az 5 karakterden oluşmalıdır. Büyük harf, küçük harf ve rakam içermelidir. Türkçe karakter ve boşluk içeremez.
     </div>
-    <div class="text small fw-bold text-danger mb-1">
+    <div [class]="updateUserNewPassword.invalid && (updateUserNewPassword.touched || updateUserNewPassword.dirty) ? 'text small fw-bold text-danger mb-1' : 'text small fw-bold text-secondary mb-1'">
       *<u>Yeni Şifre:</u> En az 5 karakterden oluşmalıdır. Büyük harf, küçük harf ve rakam içermelidir. Türkçe karakter ve boşluk içeremez.
     </div>
   
