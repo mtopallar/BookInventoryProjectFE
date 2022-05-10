@@ -91,7 +91,7 @@
                 </div>
             </div>
         </div>
-        <table *ngIf="loaded && (userWithDetailsAndRolesDto | userSearchForAdmin :userMailForSearch :userNameLastNameForSearch).length > 0  " class="table table-striped table-hover text-center">
+        <table *ngIf="loaded && (userWithDetailsAndRolesDto | userSearchForAdmin :userMailForSearch :userNameLastNameForSearch :searchByRoleText).length > 0  " class="table table-striped table-hover text-center">
             <thead>
                 <tr>
                     <th>#</th>
